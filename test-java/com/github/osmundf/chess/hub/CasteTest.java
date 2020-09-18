@@ -3,6 +3,8 @@ package com.github.osmundf.chess.hub;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
 
 class CasteTest {
 
@@ -31,5 +33,29 @@ class CasteTest {
         assertEquals(2, Caste.BISHOP.index());
         assertEquals(1, Caste.PAWN.index());
         assertEquals(0, Caste.NONE.index());
+    }
+
+    @Test
+    void testFromIndex() {
+        for (var caste : Caste.values()) {
+            var index = caste.index();
+            var test = Caste.fromIndex(index);
+            assertEquals(caste, test);
+        }
+    }
+
+    @Test
+    void testException() {
+        try {
+            Caste.fromIndex(-1);
+            fail("chess.caste.test.expected.runtime.exception.invalid.index");
+        }
+        catch (RuntimeException e) {
+            assertEquals(ChessException.class.getName(), e.getClass().getName());
+            assertEquals("chess.caste.invalid.index", e.getMessage());
+            var cause = e.getCause();
+            assertNotNull(cause);
+            assertEquals("index: -1", cause.getMessage());
+        }
     }
 }

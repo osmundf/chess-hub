@@ -76,7 +76,7 @@ public enum Caste {
                 return NONE;
             default: {
                 var cause = new ChessException("index: " + index);
-                throw new ChessException("chess.kind.invalid.index", cause);
+                throw new ChessException("chess.caste.invalid.index", cause);
             }
         }
     }
