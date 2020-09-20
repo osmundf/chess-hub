@@ -26,7 +26,7 @@ class SquareTest {
     void testException() {
         try {
             var square = newSquare('z', -10);
-            fail("created square: " + square.toString());
+            fail("chess.square.test.failed: " + square.toString());
         }
         catch (RuntimeException e) {
             var className = e.getClass().getName();
