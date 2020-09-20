@@ -13,7 +13,7 @@ class PieceTest {
         var squareArray = new Square[64];
         for (var file = 'a'; file <= 'h'; file++) {
             for (var rank = 1; rank <= 8; rank++) {
-                var square = Square.newSquare(file, rank);
+                var square = Square.squareFor(file, rank);
                 squareArray[square.index()] = square;
             }
         }
@@ -42,7 +42,7 @@ class PieceTest {
         var squareArray = new Square[64];
         for (var file = 'a'; file <= 'h'; file++) {
             for (var rank = 1; rank <= 8; rank++) {
-                var square = Square.newSquare(file, rank);
+                var square = Square.squareFor(file, rank);
                 squareArray[square.index()] = square;
             }
         }
@@ -70,7 +70,7 @@ class PieceTest {
         var squareArray = new Square[64];
         for (var file = 'a'; file <= 'h'; file++) {
             for (var rank = 1; rank <= 8; rank++) {
-                var square = Square.newSquare(file, rank);
+                var square = Square.squareFor(file, rank);
                 squareArray[square.index()] = square;
             }
         }
@@ -112,7 +112,7 @@ class PieceTest {
         var squareArray = new Square[64];
         for (var file = 'a'; file <= 'h'; file++) {
             for (var rank = 1; rank <= 8; rank++) {
-                var square = Square.newSquare(file, rank);
+                var square = Square.squareFor(file, rank);
                 squareArray[square.index()] = square;
             }
         }

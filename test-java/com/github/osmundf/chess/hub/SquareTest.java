@@ -2,9 +2,10 @@ package com.github.osmundf.chess.hub;
 
 import org.junit.jupiter.api.Test;
 
-import static com.github.osmundf.chess.hub.Square.newSquare;
+import static com.github.osmundf.chess.hub.Square.squareFor;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.fail;
 
 class SquareTest {
@@ -13,7 +14,7 @@ class SquareTest {
     void testRange() {
         for (var file = 'a'; file <= 'h'; file++) {
             for (int rank = 1; rank <= 8; rank++) {
-                var square = newSquare(file, rank);
+                var square = squareFor(file, rank);
                 var index = ((rank - 1) << 3) | (file - 'a');
                 assertEquals(file, square.file());
                 assertEquals(rank, square.rank());
@@ -23,9 +24,20 @@ class SquareTest {
     }
 
     @Test
+    void testSame() {
+        for (var file = 'a'; file <= 'h'; file++) {
+            for (int rank = 1; rank <= 8; rank++) {
+                var first = squareFor(file, rank);
+                var second = squareFor(file, rank);
+                assertSame(first, second);
+            }
+        }
+    }
+
+    @Test
     void testException() {
         try {
-            var square = newSquare('z', -10);
+            var square = squareFor('z', -10);
             fail("chess.square.test.failed: " + square.toString());
         }
         catch (RuntimeException e) {
