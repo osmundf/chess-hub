@@ -6,6 +6,7 @@ import static com.github.osmundf.chess.hub.Square.squareFor;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 class SquareTest {
@@ -30,6 +31,30 @@ class SquareTest {
                 var first = squareFor(file, rank);
                 var second = squareFor(file, rank);
                 assertSame(first, second);
+            }
+        }
+    }
+
+    @Test
+    void testValidTranslation() {
+        for (var file = 'a'; file <= 'h'; file++) {
+            for (int rank = 1; rank <= 8; rank++) {
+                var square = squareFor(file, rank);
+                var bottom = 1 - rank;
+                var top = 8 - rank;
+                var left = 'a' - file;
+                var right = 'h' - file;
+
+                for (var deltaFile = left; deltaFile <= right; deltaFile++) {
+                    for (var deltaRank = bottom; deltaRank <= top; deltaRank++) {
+                        var locate = square.translate(deltaFile, deltaRank);
+                        assertNotNull(locate);
+
+                        if (deltaFile == 0 && deltaRank == 0) {
+                            assertSame(square, locate);
+                        }
+                    }
+                }
             }
         }
     }

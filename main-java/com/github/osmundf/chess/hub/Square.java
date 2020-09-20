@@ -118,6 +118,24 @@ public enum Square {
         return (byte) ((index >> 3) + 1);
     }
 
+    /**
+     * Returns the board square at delta distance.
+     *
+     * @param deltaFile change in file
+     * @param deltaRank change in rank
+     * @return board square at delta distance
+     */
+    public Square translate(int deltaFile, int deltaRank) {
+        int column = (index & 0x7) + deltaFile;
+        int row = (index >> 3) + deltaRank;
+        if (0 <= column && column <= 7 && 0 <= row && row <= 7) {
+            return squareArray[row << 3 | column];
+        }
+        var causeMessage = "square: " + this + " deltaFile: " + deltaFile + " deltaRank: " + deltaRank;
+        var cause = new ChessException(causeMessage);
+        throw new ChessException("chess.square.resolve.delta.invalid", cause);
+    }
+
     /** Returns the index. */
     public byte index() {
         return index;
