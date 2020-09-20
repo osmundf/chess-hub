@@ -5,13 +5,13 @@ package com.github.osmundf.chess.hub;
  */
 public enum Caste {
 
-    BISHOP,
-    KING,
-    KNIGHT,
-    NONE,
-    PAWN,
-    QUEEN,
-    ROOK;
+    BISHOP((byte) 3),
+    KING((byte) 6),
+    KNIGHT((byte) 2),
+    NONE((byte) 0),
+    PAWN(((byte) 1)),
+    QUEEN((byte) 5),
+    ROOK((byte) 4);
 
     /**
      * Chess piece caste utility method.
@@ -42,6 +42,12 @@ public enum Caste {
         }
     }
 
+    private final byte index;
+
+    Caste(byte index) {
+        this.index = index;
+    }
+
     /** Returns piece material value. */
     public int value() {
         switch (this) {
@@ -62,22 +68,7 @@ public enum Caste {
     }
 
     /** Returns piece index. */
-    public int index() {
-        switch (this) {
-            case PAWN:
-                return 1;
-            case BISHOP:
-                return 2;
-            case KNIGHT:
-                return 3;
-            case ROOK:
-                return 4;
-            case QUEEN:
-                return 5;
-            case KING:
-                return 6;
-            default:
-                return 0;
-        }
+    public byte index() {
+        return index;
     }
 }
