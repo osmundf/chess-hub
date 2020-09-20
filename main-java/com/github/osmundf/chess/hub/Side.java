@@ -5,9 +5,15 @@ package com.github.osmundf.chess.hub;
  */
 public enum Side {
 
-    WHITE,
-    BLACK,
-    NO_SIDE;
+    WHITE((byte) 0x2),
+    BLACK((byte) 0x1),
+    NO_SIDE((byte) 0x0);
+
+    private final byte index;
+
+    Side(byte index) {
+        this.index = index;
+    }
 
     /** Returns true if side is white. */
     public boolean isWhite() {
@@ -28,17 +34,7 @@ public enum Side {
     }
 
     /** Returns index. */
-    public int index() {
-        switch (this) {
-            case WHITE:
-                return 0x2;
-            case BLACK:
-                return 0x1;
-            case NO_SIDE:
-                return 0x0;
-            default: {
-                throw new ChessException("chess.side.index.unmapped");
-            }
-        }
+    public byte index() {
+        return index;
     }
 }
