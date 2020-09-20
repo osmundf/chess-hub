@@ -13,6 +13,35 @@ public enum Caste {
     QUEEN,
     ROOK;
 
+    /**
+     * Chess piece caste utility method.
+     *
+     * @param index caste index
+     * @return Returns chess piece caste based on index value.
+     */
+    public static Caste casteFromIndex(int index) {
+        switch (index) {
+            case 6:
+                return KING;
+            case 5:
+                return QUEEN;
+            case 4:
+                return ROOK;
+            case 3:
+                return KNIGHT;
+            case 2:
+                return BISHOP;
+            case 1:
+                return PAWN;
+            case 0:
+                return NONE;
+            default: {
+                var cause = new ChessException("index: " + index);
+                throw new ChessException("chess.caste.invalid.index", cause);
+            }
+        }
+    }
+
     /** Returns piece material value. */
     public int value() {
         switch (this) {
@@ -49,35 +78,6 @@ public enum Caste {
                 return 6;
             default:
                 return 0;
-        }
-    }
-
-    /**
-     * Chess piece caste factory method.
-     *
-     * @param index caste index
-     * @return Returns chess piece caste based on index value.
-     */
-    public static Caste fromIndex(int index) {
-        switch (index) {
-            case 6:
-                return KING;
-            case 5:
-                return QUEEN;
-            case 4:
-                return ROOK;
-            case 3:
-                return KNIGHT;
-            case 2:
-                return BISHOP;
-            case 1:
-                return PAWN;
-            case 0:
-                return NONE;
-            default: {
-                var cause = new ChessException("index: " + index);
-                throw new ChessException("chess.caste.invalid.index", cause);
-            }
         }
     }
 }

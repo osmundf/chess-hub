@@ -39,7 +39,7 @@ class CasteTest {
     void testFromIndex() {
         for (var caste : Caste.values()) {
             var index = caste.index();
-            var test = Caste.fromIndex(index);
+            var test = Caste.casteFromIndex(index);
             assertEquals(caste, test);
         }
     }
@@ -47,7 +47,7 @@ class CasteTest {
     @Test
     void testException() {
         try {
-            Caste.fromIndex(-1);
+            Caste.casteFromIndex(-1);
             fail("chess.caste.test.expected.runtime.exception.invalid.index");
         }
         catch (RuntimeException e) {
