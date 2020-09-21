@@ -5,7 +5,7 @@ package com.github.osmundf.chess.hub;
  */
 public enum MoveType {
 
-    BASIC((byte) 0x0),
+    BASE((byte) 0x0),
     CAPTURE((byte) 0x1),
     CAPTURE_PROMOTION((byte) 0x5),
     CASTLE_LONG((byte) 0x7),
@@ -30,7 +30,7 @@ public enum MoveType {
     }
 
     private static final MoveType[] moveTypeArray = {
-        BASIC, CAPTURE, DOUBLE_PUSH, EN_PASSANT, PROMOTION, CAPTURE_PROMOTION, CASTLE_SHORT, CASTLE_LONG
+        BASE, CAPTURE, DOUBLE_PUSH, EN_PASSANT, PROMOTION, CAPTURE_PROMOTION, CASTLE_SHORT, CASTLE_LONG
     };
 
     private final byte index;
@@ -46,7 +46,7 @@ public enum MoveType {
 
     /** Returns true if move type is basic (non-capture), false otherwise. */
     public boolean isBasic() {
-        return (BASIC == this || DOUBLE_PUSH == this);
+        return (BASE == this || DOUBLE_PUSH == this);
     }
 
     /** Returns true if move type captures a piece, false otherwise. */

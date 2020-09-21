@@ -2,7 +2,7 @@ package com.github.osmundf.chess.hub;
 
 import org.junit.jupiter.api.Test;
 
-import static com.github.osmundf.chess.hub.MoveType.BASIC;
+import static com.github.osmundf.chess.hub.MoveType.BASE;
 import static com.github.osmundf.chess.hub.MoveType.CAPTURE;
 import static com.github.osmundf.chess.hub.MoveType.CAPTURE_PROMOTION;
 import static com.github.osmundf.chess.hub.MoveType.CASTLE_LONG;
@@ -41,10 +41,10 @@ class MoveTypeTest {
 
     @Test
     void testBasic() {
-        assertTrue(BASIC.isBasic());
-        assertFalse(BASIC.isPromotion());
-        assertFalse(BASIC.isCapture());
-        assertFalse(BASIC.isCastling());
+        assertTrue(BASE.isBasic());
+        assertFalse(BASE.isPromotion());
+        assertFalse(BASE.isCapture());
+        assertFalse(BASE.isCastling());
     }
 
     @Test
