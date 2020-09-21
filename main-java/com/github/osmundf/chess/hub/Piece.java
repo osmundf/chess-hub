@@ -5,6 +5,14 @@ package com.github.osmundf.chess.hub;
  */
 public class Piece {
 
+    /**
+     * Chess piece factory method.
+     *
+     * @param side   board side
+     * @param caste  piece caste
+     * @param square piece board square
+     * @return new instance of chess piece with side, caste, and square
+     */
     public static Piece newPiece(Side side, Caste caste, Square square) {
         if (side == null) {
             var cause = new ChessException("chess.side.null");
