@@ -82,7 +82,7 @@ class PieceTest {
             }
             for (var square : squareArray) {
                 try {
-                    var piece = pieceFor(null, caste, square);
+                    pieceFor(null, caste, square);
                     fail("piece.test.expected.runtime.exception.null.side");
                 }
                 catch (RuntimeException e) {
@@ -94,7 +94,7 @@ class PieceTest {
                 }
 
                 try {
-                    var piece = pieceFor(Side.NO_SIDE, caste, square);
+                    pieceFor(Side.NO_SIDE, caste, square);
                     fail("piece.test.expected.runtime.exception.no.side");
                 }
                 catch (RuntimeException e) {
@@ -124,7 +124,7 @@ class PieceTest {
             }
             for (var square : squareArray) {
                 try {
-                    var piece = pieceFor(side, null, square);
+                    pieceFor(side, null, square);
                     fail("piece.test.expected.runtime.exception.null.caste");
                 }
                 catch (RuntimeException e) {
@@ -136,7 +136,7 @@ class PieceTest {
                 }
 
                 try {
-                    var piece = pieceFor(side, Caste.NONE, square);
+                    pieceFor(side, Caste.NONE, square);
                     fail("piece.test.expected.runtime.exception.no.caste");
                 }
                 catch (RuntimeException e) {
@@ -161,7 +161,7 @@ class PieceTest {
                     continue;
                 }
                 try {
-                    var piece = pieceFor(side, caste, null);
+                    pieceFor(side, caste, null);
                     fail("piece.test.expected.runtime.exception.null.square");
                 }
                 catch (RuntimeException e) {
