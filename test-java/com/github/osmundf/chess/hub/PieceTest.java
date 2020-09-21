@@ -6,6 +6,7 @@ import static com.github.osmundf.chess.hub.Piece.pieceFor;
 import static com.github.osmundf.chess.hub.Square.squareFor;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.fail;
 
 class PieceTest {
@@ -176,6 +177,36 @@ class PieceTest {
     }
 
     @Test
+    void testEquals() {
+        for (var s1 : Side.values()) {
+            for (var c1 : Caste.values()) {
+                for (var t1 : Square.values()) {
+                    var first = new PiecePiggy(s1, c1, t1).asPiece();
+
+                    for (var s2 : Side.values()) {
+                        for (var c2 : Caste.values()) {
+                            for (var t2 : Square.values()) {
+                                var second = new PiecePiggy(s2, c2, t2).asPiece();
+
+                                if (first.equals(second)) {
+                                    assertSame(s1, s2);
+                                    assertSame(c1, c2);
+                                    assertSame(t1, t2);
+                                    second = null;
+                                }
+
+                                if (first.equals(second)) {
+                                    fail("equals on null");
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @Test
     void testToString() {
         var side = Side.WHITE;
         var caste = Caste.KING;
@@ -183,5 +214,15 @@ class PieceTest {
         var piece = Piece.pieceFor(side, caste, square);
         var expected = side + "." + caste + "." + square;
         assertEquals(expected, piece.toString());
+    }
+
+    private static class PiecePiggy extends Piece {
+        protected PiecePiggy(Side side, Caste caste, Square square) {
+            super(side, caste, square);
+        }
+
+        private Piece asPiece() {
+            return this;
+        }
     }
 }
