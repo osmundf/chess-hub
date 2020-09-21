@@ -5,7 +5,7 @@ package com.github.osmundf.chess.hub;
  */
 public class CastleState {
 
-    public static CastleState castleStateFromHash(byte hash) {
+    public static CastleState castleStateFor(byte hash) {
         boolean wck = (hash & 0x80) != 0x0;
         boolean wcq = (hash & 0x40) != 0x0;
         boolean wkr = (hash & 0x10) != 0x0;
