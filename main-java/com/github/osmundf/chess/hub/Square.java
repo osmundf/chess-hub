@@ -72,6 +72,17 @@ public enum Square {
 
     /**
      * Chess board square utility method.
+     */
+    public static Square squareFromIndex(byte index) {
+        if (index < 0 || 63 < index) {
+            Exception cause = new Exception("index: " + index);
+            throw new ChessException("chess.square.invalid.index", cause);
+        }
+        return squareArray[index];
+    }
+
+    /**
+     * Chess board square utility method.
      *
      * @param file chess board file
      * @param rank chess board rank
