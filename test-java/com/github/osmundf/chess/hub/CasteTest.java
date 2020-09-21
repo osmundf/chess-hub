@@ -29,8 +29,8 @@ class CasteTest {
         assertEquals(6, Caste.KING.index());
         assertEquals(5, Caste.QUEEN.index());
         assertEquals(4, Caste.ROOK.index());
-        assertEquals(3, Caste.KNIGHT.index());
-        assertEquals(2, Caste.BISHOP.index());
+        assertEquals(3, Caste.BISHOP.index());
+        assertEquals(2, Caste.KNIGHT.index());
         assertEquals(1, Caste.PAWN.index());
         assertEquals(0, Caste.NONE.index());
     }
