@@ -17,7 +17,7 @@ public enum Caste {
      * Chess piece caste utility method.
      *
      * @param index caste index
-     * @return Returns chess piece caste based on index value.
+     * @return piece caste for index
      */
     public static Caste casteFromIndex(int index) {
         switch (index) {
@@ -44,11 +44,16 @@ public enum Caste {
 
     private final byte index;
 
+    /**
+     * Caste constructor (private).
+     *
+     * @param index caste index
+     */
     Caste(byte index) {
         this.index = index;
     }
 
-    /** Returns piece material value. */
+    /** Returns caste material value. */
     public int value() {
         switch (this) {
             case KING:
@@ -67,7 +72,7 @@ public enum Caste {
         }
     }
 
-    /** Returns piece index. */
+    /** Returns caste index. */
     public byte index() {
         return index;
     }
