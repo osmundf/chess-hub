@@ -36,13 +36,13 @@ public class Piece {
     private final Square square;
 
     /**
-     * Chess piece constructor (package-private).
+     * Chess piece constructor (protected).
      *
      * @param side   piece side
      * @param caste  piece caste
      * @param square piece square
      */
-    Piece(Side side, Caste caste, Square square) {
+    protected Piece(Side side, Caste caste, Square square) {
         this.side = side;
         this.caste = caste;
         this.square = square;
