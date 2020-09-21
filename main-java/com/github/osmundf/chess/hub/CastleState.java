@@ -63,11 +63,11 @@ public class CastleState {
     private final byte index;
 
     /**
-     * Chess castle state constructor (package-private).
+     * Chess castle state constructor (protected).
      *
      * @param index castle state index
      */
-    CastleState(byte index) {
+    protected CastleState(byte index) {
         // index: white[cc][kq] black[cc][kq]
         this.index = index;
     }
