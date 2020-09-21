@@ -11,16 +11,21 @@ public enum Side {
 
     private final byte index;
 
+    /**
+     * Side constructor (private).
+     *
+     * @param index side index
+     */
     Side(byte index) {
         this.index = index;
     }
 
-    /** Returns true if side is white. */
+    /** Returns true if side is white, false otherwise. */
     public boolean isWhite() {
         return WHITE == this;
     }
 
-    /** Returns is side is black. */
+    /** Returns true if side is black, false otherwise. */
     public boolean isBlack() {
         return BLACK == this;
     }
@@ -33,7 +38,7 @@ public enum Side {
         return WHITE == this ? BLACK : WHITE;
     }
 
-    /** Returns index. */
+    /** Returns side index. */
     public byte index() {
         return index;
     }
