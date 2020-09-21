@@ -92,6 +92,6 @@ public class Piece {
 
     @Override
     public String toString() {
-        return String.format("%s_%s(%s)", side, caste, square);
+        return String.format("%s.%s.%s", side, caste, square);
     }
 }

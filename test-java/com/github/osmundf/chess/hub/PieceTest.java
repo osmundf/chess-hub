@@ -174,4 +174,14 @@ class PieceTest {
             }
         }
     }
+
+    @Test
+    void testToString() {
+        var side = Side.WHITE;
+        var caste = Caste.KING;
+        var square = squareFor('e', 1);
+        var piece = Piece.pieceFor(side, caste, square);
+        var expected = side + "." + caste + "." + square;
+        assertEquals(expected, piece.toString());
+    }
 }
