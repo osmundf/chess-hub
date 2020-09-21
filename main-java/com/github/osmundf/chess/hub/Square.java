@@ -72,6 +72,9 @@ public enum Square {
 
     /**
      * Chess board square utility method.
+     *
+     * @param index square index
+     * @return board square for index
      */
     public static Square squareFromIndex(byte index) {
         if (index < 0 || 63 < index) {
@@ -111,7 +114,7 @@ public enum Square {
     private final byte index;
 
     /**
-     * Chess square constructor (package-private).
+     * Square constructor (package-private).
      *
      * @param index square index
      */
@@ -119,12 +122,12 @@ public enum Square {
         this.index = (byte) index;
     }
 
-    /** Returns the file. */
+    /** Returns square file. */
     public char file() {
         return (char) ('a' + (index & 0x7));
     }
 
-    /** Returns the rank. */
+    /** Returns square rank. */
     public byte rank() {
         return (byte) ((index >> 3) + 1);
     }
@@ -147,7 +150,7 @@ public enum Square {
         throw new ChessException("chess.square.resolve.delta.invalid", cause);
     }
 
-    /** Returns the index. */
+    /** Returns square index. */
     public byte index() {
         return index;
     }
