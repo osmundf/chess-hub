@@ -147,7 +147,7 @@ public enum Square {
         }
         var causeMessage = "square: " + this + " deltaFile: " + deltaFile + " deltaRank: " + deltaRank;
         var cause = new ChessException(causeMessage);
-        throw new ChessException("chess.square.resolve.delta.invalid", cause);
+        throw new ChessException("chess.square.translate.delta.invalid", cause);
     }
 
     /** Returns square index. */
