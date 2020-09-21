@@ -2,6 +2,8 @@ package com.github.osmundf.chess.hub;
 
 import org.junit.jupiter.api.Test;
 
+import static com.github.osmundf.chess.hub.Piece.pieceFor;
+import static com.github.osmundf.chess.hub.Square.squareFor;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -13,7 +15,7 @@ class PieceTest {
         var squareArray = new Square[64];
         for (var file = 'a'; file <= 'h'; file++) {
             for (var rank = 1; rank <= 8; rank++) {
-                var square = Square.squareFor(file, rank);
+                var square = squareFor(file, rank);
                 squareArray[square.index()] = square;
             }
         }
@@ -27,7 +29,7 @@ class PieceTest {
                     continue;
                 }
                 for (var square : squareArray) {
-                    var piece = Piece.newPiece(side, caste, square);
+                    var piece = pieceFor(side, caste, square);
 
                     assertEquals(piece.side(), side);
                     assertEquals(piece.caste(), caste);
@@ -42,7 +44,7 @@ class PieceTest {
         var squareArray = new Square[64];
         for (var file = 'a'; file <= 'h'; file++) {
             for (var rank = 1; rank <= 8; rank++) {
-                var square = Square.squareFor(file, rank);
+                var square = squareFor(file, rank);
                 squareArray[square.index()] = square;
             }
         }
@@ -56,7 +58,7 @@ class PieceTest {
                     continue;
                 }
                 for (var square : squareArray) {
-                    var piece = Piece.newPiece(side, caste, square);
+                    var piece = pieceFor(side, caste, square);
                     var expected = (side.index() << 9) + (caste.index() << 6) + square.index();
                     assertEquals(expected, piece.hashCode());
                 }
@@ -69,7 +71,7 @@ class PieceTest {
         var squareArray = new Square[64];
         for (var file = 'a'; file <= 'h'; file++) {
             for (var rank = 1; rank <= 8; rank++) {
-                var square = Square.squareFor(file, rank);
+                var square = squareFor(file, rank);
                 squareArray[square.index()] = square;
             }
         }
@@ -80,7 +82,7 @@ class PieceTest {
             }
             for (var square : squareArray) {
                 try {
-                    var piece = Piece.newPiece(null, caste, square);
+                    var piece = pieceFor(null, caste, square);
                     fail("piece.test.expected.runtime.exception.null.side");
                 }
                 catch (RuntimeException e) {
@@ -92,7 +94,7 @@ class PieceTest {
                 }
 
                 try {
-                    var piece = Piece.newPiece(Side.NO_SIDE, caste, square);
+                    var piece = pieceFor(Side.NO_SIDE, caste, square);
                     fail("piece.test.expected.runtime.exception.no.side");
                 }
                 catch (RuntimeException e) {
@@ -111,7 +113,7 @@ class PieceTest {
         var squareArray = new Square[64];
         for (var file = 'a'; file <= 'h'; file++) {
             for (var rank = 1; rank <= 8; rank++) {
-                var square = Square.squareFor(file, rank);
+                var square = squareFor(file, rank);
                 squareArray[square.index()] = square;
             }
         }
@@ -122,7 +124,7 @@ class PieceTest {
             }
             for (var square : squareArray) {
                 try {
-                    var piece = Piece.newPiece(side, null, square);
+                    var piece = pieceFor(side, null, square);
                     fail("piece.test.expected.runtime.exception.null.caste");
                 }
                 catch (RuntimeException e) {
@@ -134,7 +136,7 @@ class PieceTest {
                 }
 
                 try {
-                    var piece = Piece.newPiece(side, Caste.NONE, square);
+                    var piece = pieceFor(side, Caste.NONE, square);
                     fail("piece.test.expected.runtime.exception.no.caste");
                 }
                 catch (RuntimeException e) {
@@ -159,7 +161,7 @@ class PieceTest {
                     continue;
                 }
                 try {
-                    var piece = Piece.newPiece(side, caste, null);
+                    var piece = pieceFor(side, caste, null);
                     fail("piece.test.expected.runtime.exception.null.square");
                 }
                 catch (RuntimeException e) {

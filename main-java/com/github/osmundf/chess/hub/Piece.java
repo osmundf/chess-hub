@@ -13,7 +13,7 @@ public class Piece {
      * @param square piece board square
      * @return new instance of chess piece with side, caste, and square
      */
-    public static Piece newPiece(Side side, Caste caste, Square square) {
+    public static Piece pieceFor(Side side, Caste caste, Square square) {
         if (side == null) {
             var cause = new ChessException("chess.side.null");
             throw new ChessException("chess.piece.new.piece.null.argument", cause);
