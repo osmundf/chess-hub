@@ -58,7 +58,6 @@ class PieceTest {
                 for (var square : squareArray) {
                     var piece = Piece.newPiece(side, caste, square);
                     var expected = (side.index() << 9) + (caste.index() << 6) + square.index();
-                    assertEquals(expected, piece.index());
                     assertEquals(expected, piece.hashCode());
                 }
             }

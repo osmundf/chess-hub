@@ -71,26 +71,23 @@ public class Piece {
         return square;
     }
 
-    /** Returns chess piece index. */
-    public int index() {
-        // side[ss] caste[ccc] rank[rrr] file[fff]
-        int result = side.index() << 9;
-        result |= (caste.index() << 6);
-        result |= square.index();
-        return result;
-    }
-
     @Override
     public boolean equals(Object object) {
         if (!(object instanceof Piece)) {
             return false;
         }
-        return this == object || this.index() == ((Piece) object).index();
+        var other = (Piece) object;
+        return this == object || this.side == other.side && this.caste == other.caste && this.square == other.square;
     }
 
+    /** Returns chess piece hash. */
     @Override
     public int hashCode() {
-        return index();
+        // side[ss] caste[ccc] rank[rrr] file[fff]
+        int result = side.index() << 9;
+        result |= (caste.index() << 6);
+        result |= square.index();
+        return result;
     }
 
     @Override
