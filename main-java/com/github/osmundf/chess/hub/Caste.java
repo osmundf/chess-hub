@@ -24,10 +24,10 @@ public enum Caste {
             Exception cause = new Exception("index: " + index);
             throw new ChessException("chess.caste.invalid.index", cause);
         }
-        return array[index];
+        return casteArray[index];
     }
 
-    private static final Caste[] array = new Caste[] {
+    private static final Caste[] casteArray = new Caste[] {
         NONE, PAWN, KNIGHT, BISHOP, ROOK, QUEEN, KING
     };
 
