@@ -150,6 +150,46 @@ public enum Square {
         throw new ChessException("chess.square.translate.delta.invalid", cause);
     }
 
+    /**
+     * Translate a square up in rank.
+     *
+     * @param count square translation count
+     * @return a square up in rank
+     */
+    public Square up(int count) {
+        return translate(0, count);
+    }
+
+    /**
+     * Translate a square down in rank.
+     *
+     * @param count square translation count
+     * @return a square down in rank
+     */
+    public Square down(int count) {
+        return translate(0, -count);
+    }
+
+    /**
+     * Translate a square down in file.
+     *
+     * @param count square translation count
+     * @return a square down in file
+     */
+    public Square left(int count) {
+        return translate(-count, 0);
+    }
+
+    /**
+     * Translate a square up in file.
+     *
+     * @param count square translation count
+     * @return a square up in file
+     */
+    public Square right(int count) {
+        return translate(count, 0);
+    }
+
     /** Returns square index. */
     public byte index() {
         return index;

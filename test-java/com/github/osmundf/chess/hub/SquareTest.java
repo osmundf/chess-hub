@@ -74,6 +74,31 @@ class SquareTest {
     }
 
     @Test
+    void testSquareCardinal() {
+        for (var f1 = 'a'; f1 <= 'h'; f1++) {
+            for (var f2 = 'a'; f2 <= 'h'; f2++) {
+                for (var r1 = 1; r1 <= 8; r1++) {
+                    for (var r2 = 1; r2 <= 8; r2++) {
+                        var s1 = squareFor(f1, r1);
+                        var s2 = squareFor(f2, r2);
+                        var df = f2 - f1;
+                        var dr = r2 - r1;
+
+                        if (df == 0) {
+                            assertSame(s1.up(dr), s2);
+                            assertSame(s1.down(-dr), s2);
+                        }
+                        if (dr == 0) {
+                            assertSame(s1.left(-df), s2);
+                            assertSame(s1.right(df), s2);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @Test
     void testSquareForException() {
         try {
             var square = squareFor('z', -10);
