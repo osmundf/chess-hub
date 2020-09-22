@@ -86,6 +86,10 @@ public class CastleState {
             var cause = new ChessException("side: " + side);
             throw new ChessException("chess.castle.state.castle.king.side.failed", cause);
         }
+        if (!hasKingSideRight(side)) {
+            var cause = new ChessException("state: " + this);
+            throw new ChessException("chess.castle.state.castle.king.side.failed", cause);
+        }
         if (WHITE == side) {
             return new CastleState((byte) ((hash & 0x0f) | 0x80));
         }
@@ -103,6 +107,10 @@ public class CastleState {
     public CastleState castleQueenSide(Side side) {
         if (side == null || NO_SIDE == side) {
             var cause = new ChessException("side: " + side);
+            throw new ChessException("chess.castle.state.castle.queen.side.failed", cause);
+        }
+        if (!hasQueenSideRight(side)) {
+            var cause = new ChessException("state: " + this);
             throw new ChessException("chess.castle.state.castle.queen.side.failed", cause);
         }
         if (WHITE == side) {
