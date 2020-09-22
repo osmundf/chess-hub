@@ -379,6 +379,6 @@ public class CastleState {
 
     @Override
     public String toString() {
-        return super.toString();
+        return String.format("castleState(0x%02x)", hash);
     }
 }

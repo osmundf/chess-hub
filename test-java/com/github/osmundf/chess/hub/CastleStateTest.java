@@ -218,6 +218,30 @@ class CastleStateTest {
     }
 
     @Test
+    void testToString() {
+        for (var wc = 0x0; wc <= 0x2; wc++) {
+            for (var wr = 0x0; wr <= 0x3; wr++) {
+                if (wc != 0x0 && wr != 0x0) {
+                    continue;
+                }
+
+                for (var bc = 0x0; bc <= 0x2; bc++) {
+                    for (var br = 0x0; br <= 0x3; br++) {
+                        if (bc != 0x0 && br != 0x0) {
+                            continue;
+                        }
+
+                        var index = (byte) (wc << 6 | wr << 4 | bc << 2 | br);
+                        var state = castleStateFor(index);
+                        var expected = String.format("castleState(0x%02x)", index);
+                        assertEquals(expected, state.toString());
+                    }
+                }
+            }
+        }
+    }
+
+    @Test
     void testFromIndexException() {
         for (var wc = 0x0; wc <= 0x3; wc++) {
             for (var wr = 0x0; wr <= 0x3; wr++) {
