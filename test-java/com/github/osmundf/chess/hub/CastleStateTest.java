@@ -666,7 +666,7 @@ class CastleStateTest {
         }
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
-            assertEquals("chess.castle.state.restore.failed", e.getMessage());
+            assertEquals("chess.castle.state.restore.king.side.failed", e.getMessage());
             var cause = e.getCause();
             assertNotNull(cause);
             assertEquals("side: null", cause.getMessage());
@@ -678,7 +678,7 @@ class CastleStateTest {
         }
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
-            assertEquals("chess.castle.state.restore.failed", e.getMessage());
+            assertEquals("chess.castle.state.restore.queen.side.failed", e.getMessage());
             var cause = e.getCause();
             assertNotNull(cause);
             assertEquals("side: null", cause.getMessage());
@@ -690,7 +690,7 @@ class CastleStateTest {
         }
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
-            assertEquals("chess.castle.state.restore.failed", e.getMessage());
+            assertEquals("chess.castle.state.restore.both.failed", e.getMessage());
             var cause = e.getCause();
             assertNotNull(cause);
             assertEquals("side: null", cause.getMessage());
@@ -705,7 +705,7 @@ class CastleStateTest {
         }
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
-            assertEquals("chess.castle.state.restore.failed", e.getMessage());
+            assertEquals("chess.castle.state.restore.king.side.failed", e.getMessage());
             var cause = e.getCause();
             assertNotNull(cause);
             assertEquals("side: NO_SIDE", cause.getMessage());
@@ -717,7 +717,7 @@ class CastleStateTest {
         }
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
-            assertEquals("chess.castle.state.restore.failed", e.getMessage());
+            assertEquals("chess.castle.state.restore.queen.side.failed", e.getMessage());
             var cause = e.getCause();
             assertNotNull(cause);
             assertEquals("side: NO_SIDE", cause.getMessage());
@@ -729,7 +729,7 @@ class CastleStateTest {
         }
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
-            assertEquals("chess.castle.state.restore.failed", e.getMessage());
+            assertEquals("chess.castle.state.restore.both.failed", e.getMessage());
             var cause = e.getCause();
             assertNotNull(cause);
             assertEquals("side: NO_SIDE", cause.getMessage());

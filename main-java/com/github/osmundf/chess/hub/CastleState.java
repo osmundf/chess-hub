@@ -251,7 +251,7 @@ public class CastleState {
     public CastleState restoreBoth(Side side) {
         if (side == null || NO_SIDE == side) {
             var cause = new ChessException("side: " + side);
-            throw new ChessException("chess.castle.state.restore.failed", cause);
+            throw new ChessException("chess.castle.state.restore.both.failed", cause);
         }
         int result;
         if (WHITE == side) {
@@ -272,7 +272,7 @@ public class CastleState {
     public CastleState restoreKingSide(Side side) {
         if (side == null || NO_SIDE == side) {
             var cause = new ChessException("side: " + side);
-            throw new ChessException("chess.castle.state.restore.failed", cause);
+            throw new ChessException("chess.castle.state.restore.king.side.failed", cause);
         }
         int result;
         if (WHITE == side) {
@@ -293,7 +293,7 @@ public class CastleState {
     public CastleState restoreQueenSide(Side side) {
         if (side == null || NO_SIDE == side) {
             var cause = new ChessException("side: " + side);
-            throw new ChessException("chess.castle.state.restore.failed", cause);
+            throw new ChessException("chess.castle.state.restore.queen.side.failed", cause);
         }
         int result;
         if (WHITE == side) {
