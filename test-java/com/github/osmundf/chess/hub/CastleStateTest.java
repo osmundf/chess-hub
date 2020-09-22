@@ -282,12 +282,18 @@ class CastleStateTest {
     }
 
     @Test
-    void testRevokeException() {
-        var state = castleStateFor((byte) 0x00);
-
+    void testRevokeAfterCastlingException() {
         // revokeBoth()
         try {
-            state.revokeBoth(null);
+            castleStateFor((byte) 0x80).revokeBoth(WHITE);
+            fail("chess.castle.state.test.exception.expected");
+        }
+        catch (RuntimeException e) {
+            assertEquals(ChessException.class.getName(), e.getClass().getName());
+            assertEquals("chess.castle.state.revoke.both.failed", e.getMessage());
+        }
+        try {
+            castleStateFor((byte) 0x40).revokeBoth(WHITE);
             fail("chess.castle.state.test.exception.expected");
         }
         catch (RuntimeException e) {
@@ -295,8 +301,17 @@ class CastleStateTest {
             assertEquals("chess.castle.state.revoke.both.failed", e.getMessage());
         }
 
+        // revokeBoth()
         try {
-            state.revokeBoth(NO_SIDE);
+            castleStateFor((byte) 0x08).revokeBoth(BLACK);
+            fail("chess.castle.state.test.exception.expected");
+        }
+        catch (RuntimeException e) {
+            assertEquals(ChessException.class.getName(), e.getClass().getName());
+            assertEquals("chess.castle.state.revoke.both.failed", e.getMessage());
+        }
+        try {
+            castleStateFor((byte) 0x04).revokeBoth(BLACK);
             fail("chess.castle.state.test.exception.expected");
         }
         catch (RuntimeException e) {
@@ -306,7 +321,15 @@ class CastleStateTest {
 
         // revokeKingSide()
         try {
-            state.revokeKingSide(null);
+            castleStateFor((byte) 0x80).revokeKingSide(WHITE);
+            fail("chess.castle.state.test.exception.expected");
+        }
+        catch (RuntimeException e) {
+            assertEquals(ChessException.class.getName(), e.getClass().getName());
+            assertEquals("chess.castle.state.revoke.king.side.failed", e.getMessage());
+        }
+        try {
+            castleStateFor((byte) 0x40).revokeKingSide(WHITE);
             fail("chess.castle.state.test.exception.expected");
         }
         catch (RuntimeException e) {
@@ -314,8 +337,17 @@ class CastleStateTest {
             assertEquals("chess.castle.state.revoke.king.side.failed", e.getMessage());
         }
 
+        // revokeKingSide()
         try {
-            state.revokeKingSide(NO_SIDE);
+            castleStateFor((byte) 0x08).revokeKingSide(BLACK);
+            fail("chess.castle.state.test.exception.expected");
+        }
+        catch (RuntimeException e) {
+            assertEquals(ChessException.class.getName(), e.getClass().getName());
+            assertEquals("chess.castle.state.revoke.king.side.failed", e.getMessage());
+        }
+        try {
+            castleStateFor((byte) 0x04).revokeKingSide(BLACK);
             fail("chess.castle.state.test.exception.expected");
         }
         catch (RuntimeException e) {
@@ -325,7 +357,15 @@ class CastleStateTest {
 
         // revokeQueenSide()
         try {
-            state.revokeQueenSide(null);
+            castleStateFor((byte) 0x80).revokeQueenSide(WHITE);
+            fail("chess.castle.state.test.exception.expected");
+        }
+        catch (RuntimeException e) {
+            assertEquals(ChessException.class.getName(), e.getClass().getName());
+            assertEquals("chess.castle.state.revoke.queen.side.failed", e.getMessage());
+        }
+        try {
+            castleStateFor((byte) 0x40).revokeQueenSide(WHITE);
             fail("chess.castle.state.test.exception.expected");
         }
         catch (RuntimeException e) {
@@ -333,8 +373,17 @@ class CastleStateTest {
             assertEquals("chess.castle.state.revoke.queen.side.failed", e.getMessage());
         }
 
+        // revokeQueenSide()
         try {
-            state.revokeQueenSide(NO_SIDE);
+            castleStateFor((byte) 0x08).revokeQueenSide(BLACK);
+            fail("chess.castle.state.test.exception.expected");
+        }
+        catch (RuntimeException e) {
+            assertEquals(ChessException.class.getName(), e.getClass().getName());
+            assertEquals("chess.castle.state.revoke.queen.side.failed", e.getMessage());
+        }
+        try {
+            castleStateFor((byte) 0x04).revokeQueenSide(BLACK);
             fail("chess.castle.state.test.exception.expected");
         }
         catch (RuntimeException e) {
@@ -652,6 +701,94 @@ class CastleStateTest {
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
             assertEquals("chess.castle.state.castle.queen.side.failed", e.getMessage());
+            var cause = e.getCause();
+            assertNotNull(cause);
+            assertEquals("side: NO_SIDE", cause.getMessage());
+        }
+    }
+
+    @Test
+    void testRevokeNullSideException() {
+        var state = castleStateFor((byte) 0x00);
+
+        // revokeBoth()
+        try {
+            state.revokeBoth(null);
+            fail("chess.castle.state.test.exception.expected");
+        }
+        catch (RuntimeException e) {
+            assertEquals(ChessException.class.getName(), e.getClass().getName());
+            assertEquals("chess.castle.state.revoke.both.failed", e.getMessage());
+            var cause = e.getCause();
+            assertNotNull(cause);
+            assertEquals("side: null", cause.getMessage());
+        }
+
+        // revokeKingSide()
+        try {
+            state.revokeKingSide(null);
+            fail("chess.castle.state.test.exception.expected");
+        }
+        catch (RuntimeException e) {
+            assertEquals(ChessException.class.getName(), e.getClass().getName());
+            assertEquals("chess.castle.state.revoke.king.side.failed", e.getMessage());
+            var cause = e.getCause();
+            assertNotNull(cause);
+            assertEquals("side: null", cause.getMessage());
+        }
+
+        // revokeQueenSide()
+        try {
+            state.revokeQueenSide(null);
+            fail("chess.castle.state.test.exception.expected");
+        }
+        catch (RuntimeException e) {
+            assertEquals(ChessException.class.getName(), e.getClass().getName());
+            assertEquals("chess.castle.state.revoke.queen.side.failed", e.getMessage());
+            var cause = e.getCause();
+            assertNotNull(cause);
+            assertEquals("side: null", cause.getMessage());
+        }
+    }
+
+    @Test
+    void testRevokeNoSideException() {
+        var state = castleStateFor((byte) 0x00);
+
+        // revokeBoth()
+        try {
+            state.revokeBoth(NO_SIDE);
+            fail("chess.castle.state.test.exception.expected");
+        }
+        catch (RuntimeException e) {
+            assertEquals(ChessException.class.getName(), e.getClass().getName());
+            assertEquals("chess.castle.state.revoke.both.failed", e.getMessage());
+            var cause = e.getCause();
+            assertNotNull(cause);
+            assertEquals("side: NO_SIDE", cause.getMessage());
+        }
+
+        // revokeKingSide()
+        try {
+            state.revokeKingSide(NO_SIDE);
+            fail("chess.castle.state.test.exception.expected");
+        }
+        catch (RuntimeException e) {
+            assertEquals(ChessException.class.getName(), e.getClass().getName());
+            assertEquals("chess.castle.state.revoke.king.side.failed", e.getMessage());
+            var cause = e.getCause();
+            assertNotNull(cause);
+            assertEquals("side: NO_SIDE", cause.getMessage());
+        }
+
+        // revokeQueenSide()
+        try {
+            state.revokeQueenSide(NO_SIDE);
+            fail("chess.castle.state.test.exception.expected");
+        }
+        catch (RuntimeException e) {
+            assertEquals(ChessException.class.getName(), e.getClass().getName());
+            assertEquals("chess.castle.state.revoke.queen.side.failed", e.getMessage());
             var cause = e.getCause();
             assertNotNull(cause);
             assertEquals("side: NO_SIDE", cause.getMessage());
