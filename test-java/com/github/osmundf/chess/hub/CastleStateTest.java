@@ -87,7 +87,7 @@ class CastleStateTest {
 
         try {
             state.castleKingSide(null);
-            fail("chess.castle.state.test.exception.expected");
+            fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -96,7 +96,7 @@ class CastleStateTest {
 
         try {
             state.castleKingSide(NO_SIDE);
-            fail("chess.castle.state.test.exception.expected");
+            fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -105,7 +105,7 @@ class CastleStateTest {
 
         try {
             state.castleKingSide(WHITE);
-            fail("chess.castle.state.test.exception.expected");
+            fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -114,7 +114,7 @@ class CastleStateTest {
 
         try {
             state.castleKingSide(BLACK);
-            fail("chess.castle.state.test.exception.expected");
+            fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -128,7 +128,7 @@ class CastleStateTest {
 
         try {
             state.castleQueenSide(null);
-            fail("chess.castle.state.test.exception.expected");
+            fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -137,7 +137,7 @@ class CastleStateTest {
 
         try {
             state.castleQueenSide(NO_SIDE);
-            fail("chess.castle.state.test.exception.expected");
+            fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -146,7 +146,7 @@ class CastleStateTest {
 
         try {
             state.castleQueenSide(WHITE);
-            fail("chess.castle.state.test.exception.expected");
+            fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -155,7 +155,7 @@ class CastleStateTest {
 
         try {
             state.castleQueenSide(BLACK);
-            fail("chess.castle.state.test.exception.expected");
+            fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -170,7 +170,7 @@ class CastleStateTest {
         // hasCastled()
         try {
             state.hasCastled(null);
-            fail("chess.castle.state.test.exception.expected");
+            fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -179,7 +179,7 @@ class CastleStateTest {
 
         try {
             state.hasCastled(NO_SIDE);
-            fail("chess.castle.state.test.exception.expected");
+            fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -189,7 +189,7 @@ class CastleStateTest {
         // hasCastledKingSide()
         try {
             state.hasCastledKingSide(null);
-            fail("chess.castle.state.test.exception.expected");
+            fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -198,7 +198,7 @@ class CastleStateTest {
 
         try {
             state.hasCastledKingSide(NO_SIDE);
-            fail("chess.castle.state.test.exception.expected");
+            fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -208,7 +208,7 @@ class CastleStateTest {
         // hasCastledQueenSide()
         try {
             state.hasCastledQueenSide(null);
-            fail("chess.castle.state.test.exception.expected");
+            fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -217,7 +217,7 @@ class CastleStateTest {
 
         try {
             state.hasCastledQueenSide(NO_SIDE);
-            fail("chess.castle.state.test.exception.expected");
+            fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -286,7 +286,7 @@ class CastleStateTest {
         // revokeBoth()
         try {
             castleStateFor((byte) 0x80).revokeBoth(WHITE);
-            fail("chess.castle.state.test.exception.expected");
+            fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -294,7 +294,7 @@ class CastleStateTest {
         }
         try {
             castleStateFor((byte) 0x40).revokeBoth(WHITE);
-            fail("chess.castle.state.test.exception.expected");
+            fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -304,7 +304,7 @@ class CastleStateTest {
         // revokeBoth()
         try {
             castleStateFor((byte) 0x08).revokeBoth(BLACK);
-            fail("chess.castle.state.test.exception.expected");
+            fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -312,7 +312,7 @@ class CastleStateTest {
         }
         try {
             castleStateFor((byte) 0x04).revokeBoth(BLACK);
-            fail("chess.castle.state.test.exception.expected");
+            fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -322,7 +322,7 @@ class CastleStateTest {
         // revokeKingSide()
         try {
             castleStateFor((byte) 0x80).revokeKingSide(WHITE);
-            fail("chess.castle.state.test.exception.expected");
+            fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -330,7 +330,7 @@ class CastleStateTest {
         }
         try {
             castleStateFor((byte) 0x40).revokeKingSide(WHITE);
-            fail("chess.castle.state.test.exception.expected");
+            fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -340,7 +340,7 @@ class CastleStateTest {
         // revokeKingSide()
         try {
             castleStateFor((byte) 0x08).revokeKingSide(BLACK);
-            fail("chess.castle.state.test.exception.expected");
+            fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -348,7 +348,7 @@ class CastleStateTest {
         }
         try {
             castleStateFor((byte) 0x04).revokeKingSide(BLACK);
-            fail("chess.castle.state.test.exception.expected");
+            fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -358,7 +358,7 @@ class CastleStateTest {
         // revokeQueenSide()
         try {
             castleStateFor((byte) 0x80).revokeQueenSide(WHITE);
-            fail("chess.castle.state.test.exception.expected");
+            fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -366,7 +366,7 @@ class CastleStateTest {
         }
         try {
             castleStateFor((byte) 0x40).revokeQueenSide(WHITE);
-            fail("chess.castle.state.test.exception.expected");
+            fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -376,7 +376,7 @@ class CastleStateTest {
         // revokeQueenSide()
         try {
             castleStateFor((byte) 0x08).revokeQueenSide(BLACK);
-            fail("chess.castle.state.test.exception.expected");
+            fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -384,7 +384,7 @@ class CastleStateTest {
         }
         try {
             castleStateFor((byte) 0x04).revokeQueenSide(BLACK);
-            fail("chess.castle.state.test.exception.expected");
+            fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -494,7 +494,7 @@ class CastleStateTest {
                             second = null;
                         }
                         if (first.equals(second)) {
-                            fail("chess.castle.state.test.equals.failed.on.null");
+                            fail("chess.castle.state.test");
                         }
                     }
                 }
@@ -539,7 +539,7 @@ class CastleStateTest {
                         if (wc == 0x3 && wr != 0x00 || bc == 0x3 && br != 0x0) {
                             try {
                                 castleStateFor(index);
-                                fail("chess.castle.state.test.expected.exception");
+                                fail("chess.castle.state.test");
                             }
                             catch (RuntimeException e) {
                                 assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -554,7 +554,7 @@ class CastleStateTest {
                         if (wc == 0x3 && wr == 0x0 && bc == 0x3 && br == 0x0) {
                             try {
                                 castleStateFor(index);
-                                fail("chess.castle.state.test.expected.exception");
+                                fail("chess.castle.state.test");
                             }
                             catch (RuntimeException e) {
                                 assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -570,7 +570,7 @@ class CastleStateTest {
                         if (wc != 0x0 && wr != 0x0 && bc != 0x0 && br != 0x0) {
                             try {
                                 castleStateFor(index);
-                                fail("chess.castle.state.test.expected.exception");
+                                fail("chess.castle.state.test");
                             }
                             catch (RuntimeException e) {
                                 assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -586,7 +586,7 @@ class CastleStateTest {
                         if (wc != 0x0 && wr != 0x0) {
                             try {
                                 castleStateFor(index);
-                                fail("chess.castle.state.test.expected.exception");
+                                fail("chess.castle.state.test");
                             }
                             catch (RuntimeException e) {
                                 assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -602,7 +602,7 @@ class CastleStateTest {
                         if (bc != 0x0 && br != 0x0) {
                             try {
                                 castleStateFor(index);
-                                fail("chess.castle.state.test.expected.exception");
+                                fail("chess.castle.state.test");
                             }
                             catch (RuntimeException e) {
                                 assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -618,7 +618,7 @@ class CastleStateTest {
                         if (wc == 0x3 && wr == 0x0) {
                             try {
                                 castleStateFor(index);
-                                fail("chess.castle.state.test.expected.exception");
+                                fail("chess.castle.state.test");
                             }
                             catch (RuntimeException e) {
                                 assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -634,7 +634,7 @@ class CastleStateTest {
                         if (bc == 0x3 && br == 0x0) {
                             try {
                                 castleStateFor(index);
-                                fail("chess.castle.state.test.expected.exception");
+                                fail("chess.castle.state.test");
                             }
                             catch (RuntimeException e) {
                                 assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -657,7 +657,7 @@ class CastleStateTest {
     void testCastleNullSideException() {
         try {
             castleStateFor((byte) 0x00).castleKingSide(null);
-            fail("chess.castle.state.test.expected.exception");
+            fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -669,7 +669,7 @@ class CastleStateTest {
 
         try {
             castleStateFor((byte) 0x00).castleQueenSide(null);
-            fail("chess.castle.state.test.expected.exception");
+            fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -684,7 +684,7 @@ class CastleStateTest {
     void testCastleNoSideException() {
         try {
             castleStateFor((byte) 0x00).castleKingSide(NO_SIDE);
-            fail("chess.castle.state.test.expected.exception");
+            fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -696,7 +696,7 @@ class CastleStateTest {
 
         try {
             castleStateFor((byte) 0x00).castleQueenSide(NO_SIDE);
-            fail("chess.castle.state.test.expected.exception");
+            fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -714,7 +714,7 @@ class CastleStateTest {
         // hasAnyRight()
         try {
             state.hasAnyRight(null);
-            fail("chess.castle.state.test.exception.expected");
+            fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -727,7 +727,7 @@ class CastleStateTest {
         // hasKingSideRight()
         try {
             state.hasKingSideRight(null);
-            fail("chess.castle.state.test.exception.expected");
+            fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -740,7 +740,7 @@ class CastleStateTest {
         // hasQueenSideRight()
         try {
             state.hasQueenSideRight(null);
-            fail("chess.castle.state.test.exception.expected");
+            fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -758,7 +758,7 @@ class CastleStateTest {
         // hasAnyRight()
         try {
             state.hasAnyRight(NO_SIDE);
-            fail("chess.castle.state.test.exception.expected");
+            fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -771,7 +771,7 @@ class CastleStateTest {
         // hasKingSideRight()
         try {
             state.hasKingSideRight(NO_SIDE);
-            fail("chess.castle.state.test.exception.expected");
+            fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -784,7 +784,7 @@ class CastleStateTest {
         // hasQueenSideRight()
         try {
             state.hasQueenSideRight(NO_SIDE);
-            fail("chess.castle.state.test.exception.expected");
+            fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -802,7 +802,7 @@ class CastleStateTest {
         // revokeBoth()
         try {
             state.revokeBoth(null);
-            fail("chess.castle.state.test.exception.expected");
+            fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -815,7 +815,7 @@ class CastleStateTest {
         // revokeKingSide()
         try {
             state.revokeKingSide(null);
-            fail("chess.castle.state.test.exception.expected");
+            fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -828,7 +828,7 @@ class CastleStateTest {
         // revokeQueenSide()
         try {
             state.revokeQueenSide(null);
-            fail("chess.castle.state.test.exception.expected");
+            fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -846,7 +846,7 @@ class CastleStateTest {
         // revokeBoth()
         try {
             state.revokeBoth(NO_SIDE);
-            fail("chess.castle.state.test.exception.expected");
+            fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -859,7 +859,7 @@ class CastleStateTest {
         // revokeKingSide()
         try {
             state.revokeKingSide(NO_SIDE);
-            fail("chess.castle.state.test.exception.expected");
+            fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -872,7 +872,7 @@ class CastleStateTest {
         // revokeQueenSide()
         try {
             state.revokeQueenSide(NO_SIDE);
-            fail("chess.castle.state.test.exception.expected");
+            fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -887,7 +887,7 @@ class CastleStateTest {
     void testRestoreNullSideException() {
         try {
             castleStateFor((byte) 0x00).restoreKingSide(null);
-            fail("chess.castle.state.test.expected.exception");
+            fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -899,7 +899,7 @@ class CastleStateTest {
 
         try {
             castleStateFor((byte) 0x00).restoreQueenSide(null);
-            fail("chess.castle.state.test.expected.exception");
+            fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -911,7 +911,7 @@ class CastleStateTest {
 
         try {
             castleStateFor((byte) 0x00).restoreBoth(null);
-            fail("chess.castle.state.test.expected.exception");
+            fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -926,7 +926,7 @@ class CastleStateTest {
     void testRestoreNoSideException() {
         try {
             castleStateFor((byte) 0x00).restoreKingSide(NO_SIDE);
-            fail("chess.castle.state.test.expected.exception");
+            fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -938,7 +938,7 @@ class CastleStateTest {
 
         try {
             castleStateFor((byte) 0x00).restoreQueenSide(NO_SIDE);
-            fail("chess.castle.state.test.expected.exception");
+            fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -950,7 +950,7 @@ class CastleStateTest {
 
         try {
             castleStateFor((byte) 0x00).restoreBoth(NO_SIDE);
-            fail("chess.castle.state.test.expected.exception");
+            fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
