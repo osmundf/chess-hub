@@ -164,6 +164,68 @@ class CastleStateTest {
     }
 
     @Test
+    void testHasCastledException() {
+        var state = castleStateFor((byte) 0x0);
+
+        // hasCastled()
+        try {
+            state.hasCastled(null);
+            fail("chess.castle.state.test.exception.expected");
+        }
+        catch (RuntimeException e) {
+            assertEquals(ChessException.class.getName(), e.getClass().getName());
+            assertEquals("chess.castle.state.has.castled.failed", e.getMessage());
+        }
+
+        try {
+            state.hasCastled(NO_SIDE);
+            fail("chess.castle.state.test.exception.expected");
+        }
+        catch (RuntimeException e) {
+            assertEquals(ChessException.class.getName(), e.getClass().getName());
+            assertEquals("chess.castle.state.has.castled.failed", e.getMessage());
+        }
+
+        // hasCastledKingSide()
+        try {
+            state.hasCastledKingSide(null);
+            fail("chess.castle.state.test.exception.expected");
+        }
+        catch (RuntimeException e) {
+            assertEquals(ChessException.class.getName(), e.getClass().getName());
+            assertEquals("chess.castle.state.has.castled.king.side.failed", e.getMessage());
+        }
+
+        try {
+            state.hasCastledKingSide(NO_SIDE);
+            fail("chess.castle.state.test.exception.expected");
+        }
+        catch (RuntimeException e) {
+            assertEquals(ChessException.class.getName(), e.getClass().getName());
+            assertEquals("chess.castle.state.has.castled.king.side.failed", e.getMessage());
+        }
+
+        // hasCastledQueenSide()
+        try {
+            state.hasCastledQueenSide(null);
+            fail("chess.castle.state.test.exception.expected");
+        }
+        catch (RuntimeException e) {
+            assertEquals(ChessException.class.getName(), e.getClass().getName());
+            assertEquals("chess.castle.state.has.castled.queen.side.failed", e.getMessage());
+        }
+
+        try {
+            state.hasCastledQueenSide(NO_SIDE);
+            fail("chess.castle.state.test.exception.expected");
+        }
+        catch (RuntimeException e) {
+            assertEquals(ChessException.class.getName(), e.getClass().getName());
+            assertEquals("chess.castle.state.has.castled.queen.side.failed", e.getMessage());
+        }
+    }
+
+    @Test
     void testRevokeWhite() {
         var state = castleStateFor((byte) 0x30);
         var tk = state.revokeKingSide(WHITE);

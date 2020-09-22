@@ -144,7 +144,7 @@ public class CastleState {
     public boolean hasCastledKingSide(Side side) {
         if (side == null || NO_SIDE == side) {
             var cause = new ChessException("side: " + side);
-            throw new ChessException("chess.castle.has.castled.king.side.failed", cause);
+            throw new ChessException("chess.castle.state.has.castled.king.side.failed", cause);
         }
         if (side == WHITE) {
             return (hash & 0x80) != 0;
