@@ -47,12 +47,12 @@ class CasteTest {
     @Test
     void testException() {
         try {
-            Caste.casteFromIndex(-1);
-            fail("chess.caste.test.expected.runtime.exception.invalid.index");
+            var caste = Caste.casteFromIndex(-1);
+            fail("chess.caste.test.expected.chess.exception: " + caste);
         }
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
-            assertEquals("chess.caste.invalid.index", e.getMessage());
+            assertEquals("chess.caste.index.invalid", e.getMessage());
             var cause = e.getCause();
             assertNotNull(cause);
             assertEquals("index: -1", cause.getMessage());

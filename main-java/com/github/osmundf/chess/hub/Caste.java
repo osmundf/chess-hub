@@ -26,7 +26,7 @@ public enum Caste {
     public static Caste casteFromIndex(int index) {
         if (index < 0 || 6 < index) {
             Exception cause = new Exception("index: " + index);
-            throw new ChessException("chess.caste.invalid.index", cause);
+            throw new ChessException("chess.caste.index.invalid", cause);
         }
         return casteArray[index];
     }
