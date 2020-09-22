@@ -13,8 +13,10 @@ import static com.github.osmundf.chess.hub.MoveType.PROMOTION;
 import static com.github.osmundf.chess.hub.MoveType.moveTypeFromIndex;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 class MoveTypeTest {
 
@@ -36,7 +38,17 @@ class MoveTypeTest {
 
     @Test
     void testException() {
-
+        try {
+            var move = moveTypeFromIndex(-1);
+            fail("chess.move.type.test.expected.chess.exception: " + move);
+        }
+        catch (RuntimeException e) {
+            assertEquals(ChessException.class.getName(), e.getClass().getName());
+            assertEquals("chess.move.type.index.invalid", e.getMessage());
+            var cause = e.getCause();
+            assertNotNull(cause);
+            assertEquals("index: -1", cause.getMessage());
+        }
     }
 
     @Test

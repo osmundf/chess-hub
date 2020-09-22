@@ -27,7 +27,7 @@ public enum MoveType {
     public static MoveType moveTypeFromIndex(int index) {
         if (index < 0 || 7 < index) {
             Exception cause = new Exception("index: " + index);
-            throw new ChessException("chess.move.type.invalid.index", cause);
+            throw new ChessException("chess.move.type.index.invalid", cause);
         }
 
         return moveTypeArray[index];
