@@ -84,7 +84,7 @@ class PieceTest {
             for (var square : squareArray) {
                 try {
                     pieceFor(null, caste, square);
-                    fail("piece.test.expected.runtime.exception.null.side");
+                    fail("chess.piece.test.expected.chess.exception.null.side");
                 }
                 catch (RuntimeException e) {
                     assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -96,7 +96,7 @@ class PieceTest {
 
                 try {
                     pieceFor(Side.NO_SIDE, caste, square);
-                    fail("piece.test.expected.runtime.exception.no.side");
+                    fail("chess.piece.test.expected.chess.exception.no.side");
                 }
                 catch (RuntimeException e) {
                     assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -126,7 +126,7 @@ class PieceTest {
             for (var square : squareArray) {
                 try {
                     pieceFor(side, null, square);
-                    fail("piece.test.expected.runtime.exception.null.caste");
+                    fail("chess.piece.test.expected.chess.exception.null.caste");
                 }
                 catch (RuntimeException e) {
                     assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -138,7 +138,7 @@ class PieceTest {
 
                 try {
                     pieceFor(side, Caste.NONE, square);
-                    fail("piece.test.expected.runtime.exception.no.caste");
+                    fail("chess.piece.test.expected.chess.exception.no.caste");
                 }
                 catch (RuntimeException e) {
                     assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -163,7 +163,7 @@ class PieceTest {
                 }
                 try {
                     pieceFor(side, caste, null);
-                    fail("piece.test.expected.runtime.exception.null.square");
+                    fail("chess.piece.test.expected.chess.exception.null.square");
                 }
                 catch (RuntimeException e) {
                     assertEquals(ChessException.class.getName(), e.getClass().getName());
@@ -196,7 +196,7 @@ class PieceTest {
                                 }
 
                                 if (first.equals(second)) {
-                                    fail("equals on null");
+                                    fail("chess.piece.equals.on.null");
                                 }
                             }
                         }
