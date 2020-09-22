@@ -218,6 +218,36 @@ class CastleStateTest {
     }
 
     @Test
+    void testEquality() {
+        for (var wc = 0x0; wc <= 0x2; wc++) {
+            for (var wr = 0x0; wr <= 0x3; wr++) {
+                if (wc != 0x0 && wr != 0x0) {
+                    continue;
+                }
+
+                for (var bc = 0x0; bc <= 0x2; bc++) {
+                    for (var br = 0x0; br <= 0x3; br++) {
+                        if (bc != 0x0 && br != 0x0) {
+                            continue;
+                        }
+
+                        var index = (byte) (wc << 6 | wr << 4 | bc << 2 | br);
+                        var first = castleStateFor(index);
+                        var second = castleStateFor(index);
+
+                        if (first.equals(second)) {
+                            second = null;
+                        }
+                        if (first.equals(second)) {
+                            fail("chess.castle.state.equals.failed");
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @Test
     void testToString() {
         for (var wc = 0x0; wc <= 0x2; wc++) {
             for (var wr = 0x0; wr <= 0x3; wr++) {
