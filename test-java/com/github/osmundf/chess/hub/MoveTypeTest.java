@@ -89,7 +89,7 @@ class MoveTypeTest {
 
     @Test
     void testCastlingShort() {
-        assertFalse(CASTLE_SHORT.isBasic());
+        assertTrue(CASTLE_SHORT.isBasic());
         assertFalse(CASTLE_SHORT.isPromotion());
         assertFalse(CASTLE_SHORT.isCapture());
         assertTrue(CASTLE_SHORT.isCastling());
@@ -97,7 +97,7 @@ class MoveTypeTest {
 
     @Test
     void testCastlingLong() {
-        assertFalse(CASTLE_LONG.isBasic());
+        assertTrue(CASTLE_LONG.isBasic());
         assertFalse(CASTLE_LONG.isPromotion());
         assertFalse(CASTLE_LONG.isCapture());
         assertTrue(CASTLE_LONG.isCastling());

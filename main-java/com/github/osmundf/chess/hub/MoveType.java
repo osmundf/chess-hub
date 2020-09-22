@@ -44,9 +44,9 @@ public enum MoveType {
         this.index = index;
     }
 
-    /** Returns true if move type is basic (non-capture), false otherwise. */
+    /** Returns true if move type is basic (non-capture/non-promoting), false otherwise. */
     public boolean isBasic() {
-        return (BASE == this || DOUBLE_PUSH == this);
+        return (BASE == this || DOUBLE_PUSH == this || CASTLE_SHORT == this || CASTLE_LONG == this);
     }
 
     /** Returns true if move type captures a piece, false otherwise. */
