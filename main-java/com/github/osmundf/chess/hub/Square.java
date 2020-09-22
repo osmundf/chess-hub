@@ -90,7 +90,7 @@ public enum Square {
     public static Square squareFromIndex(byte index) {
         if (index < 0 || 63 < index) {
             Exception cause = new Exception("index: " + index);
-            throw new ChessException("chess.square.invalid.index", cause);
+            throw new ChessException("chess.square.index.invalid", cause);
         }
         return squareArray[index];
     }
@@ -105,7 +105,7 @@ public enum Square {
     public static Square squareFor(char file, int rank) {
         if (file < 'a' || 'h' < file || rank < 1 || 8 < rank) {
             Exception cause = new Exception("file: " + file + " rank: " + rank);
-            throw new ChessException("chess.square.invalid.coordinate", cause);
+            throw new ChessException("chess.square.coordinate.invalid", cause);
         }
         int index = ((rank - 1) << 3) | (file - 'a');
         return squareArray[index];

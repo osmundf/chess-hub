@@ -108,7 +108,7 @@ class SquareTest {
             var className = e.getClass().getName();
             var cause = e.getCause();
             assertEquals(ChessException.class.getName(), className);
-            assertEquals("chess.square.invalid.coordinate", e.getMessage());
+            assertEquals("chess.square.coordinate.invalid", e.getMessage());
             assertNotNull(cause);
             assertEquals("file: z rank: -10", cause.getMessage());
         }
@@ -124,7 +124,7 @@ class SquareTest {
             var className = e.getClass().getName();
             var cause = e.getCause();
             assertEquals(ChessException.class.getName(), className);
-            assertEquals("chess.square.invalid.index", e.getMessage());
+            assertEquals("chess.square.index.invalid", e.getMessage());
             assertNotNull(cause);
             assertEquals("index: -1", cause.getMessage());
         }
