@@ -360,7 +360,7 @@ public class CastleState {
         }
     }
 
-    /** Returns hash value. */
+    /** Returns castle state hash value. */
     @Override
     public int hashCode() {
         return hash;
