@@ -494,7 +494,7 @@ class CastleStateTest {
                             second = null;
                         }
                         if (first.equals(second)) {
-                            fail("chess.castle.state.equals.failed");
+                            fail("chess.castle.state.test.equals.failed.on.null");
                         }
                     }
                 }
