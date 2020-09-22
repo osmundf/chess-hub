@@ -2,6 +2,13 @@ package com.github.osmundf.chess.hub;
 
 import org.junit.jupiter.api.Test;
 
+import static com.github.osmundf.chess.hub.Caste.BISHOP;
+import static com.github.osmundf.chess.hub.Caste.KING;
+import static com.github.osmundf.chess.hub.Caste.KNIGHT;
+import static com.github.osmundf.chess.hub.Caste.NONE;
+import static com.github.osmundf.chess.hub.Caste.PAWN;
+import static com.github.osmundf.chess.hub.Caste.QUEEN;
+import static com.github.osmundf.chess.hub.Caste.ROOK;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -15,24 +22,24 @@ class CasteTest {
 
     @Test
     void testValue() {
-        assertEquals(300, Caste.KING.value());
-        assertEquals(9, Caste.QUEEN.value());
-        assertEquals(5, Caste.ROOK.value());
-        assertEquals(3, Caste.BISHOP.value());
-        assertEquals(3, Caste.KNIGHT.value());
-        assertEquals(1, Caste.PAWN.value());
-        assertEquals(0, Caste.NONE.value());
+        assertEquals(300, KING.value());
+        assertEquals(9, QUEEN.value());
+        assertEquals(5, ROOK.value());
+        assertEquals(3, BISHOP.value());
+        assertEquals(3, KNIGHT.value());
+        assertEquals(1, PAWN.value());
+        assertEquals(0, NONE.value());
     }
 
     @Test
     void testIndex() {
-        assertEquals(6, Caste.KING.index());
-        assertEquals(5, Caste.QUEEN.index());
-        assertEquals(4, Caste.ROOK.index());
-        assertEquals(3, Caste.BISHOP.index());
-        assertEquals(2, Caste.KNIGHT.index());
-        assertEquals(1, Caste.PAWN.index());
-        assertEquals(0, Caste.NONE.index());
+        assertEquals(6, KING.index());
+        assertEquals(5, QUEEN.index());
+        assertEquals(4, ROOK.index());
+        assertEquals(3, BISHOP.index());
+        assertEquals(2, KNIGHT.index());
+        assertEquals(1, PAWN.index());
+        assertEquals(0, NONE.index());
     }
 
     @Test

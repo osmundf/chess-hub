@@ -2,6 +2,9 @@ package com.github.osmundf.chess.hub;
 
 import org.junit.jupiter.api.Test;
 
+import static com.github.osmundf.chess.hub.Side.BLACK;
+import static com.github.osmundf.chess.hub.Side.NO_SIDE;
+import static com.github.osmundf.chess.hub.Side.WHITE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertSame;
@@ -16,28 +19,28 @@ class SideTest {
 
     @Test
     void testIndex() {
-        assertEquals(2, Side.WHITE.index());
-        assertEquals(1, Side.BLACK.index());
-        assertEquals(0, Side.NO_SIDE.index());
+        assertEquals(2, WHITE.index());
+        assertEquals(1, BLACK.index());
+        assertEquals(0, NO_SIDE.index());
     }
 
     @Test
     void testFlags() {
         for (var side : Side.values()) {
-            if (Side.NO_SIDE == side) {
+            if (NO_SIDE == side) {
                 assertFalse(side.isWhite());
                 assertFalse(side.isBlack());
                 assertSame(side, side.opposite());
             }
-            else if (Side.WHITE == side) {
+            else if (WHITE == side) {
                 assertTrue(side.isWhite());
                 assertFalse(side.isBlack());
-                assertSame(Side.BLACK, side.opposite());
+                assertSame(BLACK, side.opposite());
             }
-            else if (Side.BLACK == side) {
+            else if (BLACK == side) {
                 assertFalse(side.isWhite());
                 assertTrue(side.isBlack());
-                assertSame(Side.WHITE, side.opposite());
+                assertSame(WHITE, side.opposite());
             }
         }
     }

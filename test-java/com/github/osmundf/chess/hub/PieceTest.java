@@ -2,7 +2,11 @@ package com.github.osmundf.chess.hub;
 
 import org.junit.jupiter.api.Test;
 
+import static com.github.osmundf.chess.hub.Caste.KING;
+import static com.github.osmundf.chess.hub.Caste.NONE;
 import static com.github.osmundf.chess.hub.Piece.pieceFor;
+import static com.github.osmundf.chess.hub.Side.NO_SIDE;
+import static com.github.osmundf.chess.hub.Side.WHITE;
 import static com.github.osmundf.chess.hub.Square.squareFor;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -22,11 +26,11 @@ class PieceTest {
         }
 
         for (var side : Side.values()) {
-            if (Side.NO_SIDE == side) {
+            if (NO_SIDE == side) {
                 continue;
             }
             for (var caste : Caste.values()) {
-                if (Caste.NONE == caste) {
+                if (NONE == caste) {
                     continue;
                 }
                 for (var square : squareArray) {
@@ -51,11 +55,11 @@ class PieceTest {
         }
 
         for (var side : Side.values()) {
-            if (Side.NO_SIDE == side) {
+            if (NO_SIDE == side) {
                 continue;
             }
             for (var caste : Caste.values()) {
-                if (Caste.NONE == caste) {
+                if (NONE == caste) {
                     continue;
                 }
                 for (var square : squareArray) {
@@ -78,7 +82,7 @@ class PieceTest {
         }
 
         for (var caste : Caste.values()) {
-            if (Caste.NONE == caste) {
+            if (NONE == caste) {
                 continue;
             }
             for (var square : squareArray) {
@@ -95,7 +99,7 @@ class PieceTest {
                 }
 
                 try {
-                    pieceFor(Side.NO_SIDE, caste, square);
+                    pieceFor(NO_SIDE, caste, square);
                     fail("chess.piece.test.expected.chess.exception.no.side");
                 }
                 catch (RuntimeException e) {
@@ -120,7 +124,7 @@ class PieceTest {
         }
 
         for (var side : Side.values()) {
-            if (Side.NO_SIDE == side) {
+            if (NO_SIDE == side) {
                 continue;
             }
             for (var square : squareArray) {
@@ -137,7 +141,7 @@ class PieceTest {
                 }
 
                 try {
-                    pieceFor(side, Caste.NONE, square);
+                    pieceFor(side, NONE, square);
                     fail("chess.piece.test.expected.chess.exception.no.caste");
                 }
                 catch (RuntimeException e) {
@@ -154,11 +158,11 @@ class PieceTest {
     @Test
     void testNoSquareException() {
         for (var side : Side.values()) {
-            if (Side.NO_SIDE == side) {
+            if (NO_SIDE == side) {
                 continue;
             }
             for (var caste : Caste.values()) {
-                if (Caste.NONE == caste) {
+                if (NONE == caste) {
                     continue;
                 }
                 try {
@@ -208,10 +212,10 @@ class PieceTest {
 
     @Test
     void testToString() {
-        var side = Side.WHITE;
-        var caste = Caste.KING;
+        var side = WHITE;
+        var caste = KING;
         var square = squareFor('e', 1);
-        var piece = Piece.pieceFor(side, caste, square);
+        var piece = pieceFor(side, caste, square);
         var expected = side + "." + caste + "." + square;
         assertEquals(expected, piece.toString());
     }

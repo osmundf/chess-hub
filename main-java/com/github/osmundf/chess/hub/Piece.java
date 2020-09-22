@@ -1,5 +1,8 @@
 package com.github.osmundf.chess.hub;
 
+import static com.github.osmundf.chess.hub.Caste.NONE;
+import static com.github.osmundf.chess.hub.Side.NO_SIDE;
+
 /**
  * Chess piece.
  */
@@ -18,7 +21,7 @@ public class Piece {
             var cause = new ChessException("chess.side.null");
             throw new ChessException("chess.piece.new.piece.null.argument", cause);
         }
-        if (Side.NO_SIDE == side) {
+        if (NO_SIDE == side) {
             var cause = new ChessException("chess.side.none");
             throw new ChessException("chess.piece.new.piece.no.side", cause);
         }
@@ -26,7 +29,7 @@ public class Piece {
             var cause = new ChessException("chess.caste.null");
             throw new ChessException("chess.piece.new.piece.null.argument", cause);
         }
-        if (Caste.NONE == caste) {
+        if (NONE == caste) {
             var cause = new ChessException("chess.caste.none");
             throw new ChessException("chess.piece.new.piece.no.caste", cause);
         }
