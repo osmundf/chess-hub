@@ -14,6 +14,10 @@ public enum MoveType {
     EN_PASSANT((byte) 0x3),
     PROMOTION((byte) 0x4);
 
+    private static final MoveType[] moveTypeArray = {
+        BASE, CAPTURE, DOUBLE_PUSH, EN_PASSANT, PROMOTION, CAPTURE_PROMOTION, CASTLE_SHORT, CASTLE_LONG
+    };
+
     /**
      * Chess move type utility method.
      *
@@ -28,10 +32,6 @@ public enum MoveType {
 
         return moveTypeArray[index];
     }
-
-    private static final MoveType[] moveTypeArray = {
-        BASE, CAPTURE, DOUBLE_PUSH, EN_PASSANT, PROMOTION, CAPTURE_PROMOTION, CASTLE_SHORT, CASTLE_LONG
-    };
 
     private final byte index;
 

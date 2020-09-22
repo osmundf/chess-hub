@@ -71,15 +71,6 @@ public class Piece {
         return square;
     }
 
-    @Override
-    public boolean equals(Object object) {
-        if (!(object instanceof Piece)) {
-            return false;
-        }
-        var other = (Piece) object;
-        return this == object || this.side == other.side && this.caste == other.caste && this.square == other.square;
-    }
-
     /** Returns chess piece hash. */
     @Override
     public int hashCode() {
@@ -88,6 +79,15 @@ public class Piece {
         result |= (caste.index() << 6);
         result |= square.index();
         return result;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (!(object instanceof Piece)) {
+            return false;
+        }
+        var other = (Piece) object;
+        return this == object || this.side == other.side && this.caste == other.caste && this.square == other.square;
     }
 
     @Override

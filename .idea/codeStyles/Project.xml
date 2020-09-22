@@ -129,27 +129,7 @@
               <match>
                 <AND>
                   <FIELD>true</FIELD>
-                  <FINAL>true</FINAL>
-                  <STATIC>true</STATIC>
-                </AND>
-              </match>
-            </rule>
-          </section>
-          <section>
-            <rule>
-              <match>
-                <AND>
-                  <FIELD>true</FIELD>
-                  <STATIC>true</STATIC>
-                </AND>
-              </match>
-            </rule>
-          </section>
-          <section>
-            <rule>
-              <match>
-                <AND>
-                  <INITIALIZER_BLOCK>true</INITIALIZER_BLOCK>
+                  <PUBLIC>true</PUBLIC>
                   <STATIC>true</STATIC>
                 </AND>
               </match>
@@ -171,6 +151,27 @@
             <rule>
               <match>
                 <AND>
+                  <INITIALIZER_BLOCK>true</INITIALIZER_BLOCK>
+                  <STATIC>true</STATIC>
+                </AND>
+              </match>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <AND>
+                  <FIELD>true</FIELD>
+                  <PUBLIC>false</PUBLIC>
+                  <STATIC>true</STATIC>
+                </AND>
+              </match>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <AND>
                   <METHOD>true</METHOD>
                   <PRIVATE>false</PRIVATE>
                   <STATIC>true</STATIC>
@@ -183,7 +184,7 @@
               <match>
                 <AND>
                   <FIELD>true</FIELD>
-                  <FINAL>true</FINAL>
+                  <STATIC>false</STATIC>
                 </AND>
               </match>
             </rule>
@@ -191,14 +192,10 @@
           <section>
             <rule>
               <match>
-                <FIELD>true</FIELD>
-              </match>
-            </rule>
-          </section>
-          <section>
-            <rule>
-              <match>
-                <INITIALIZER_BLOCK>true</INITIALIZER_BLOCK>
+                <AND>
+                  <INITIALIZER_BLOCK>true</INITIALIZER_BLOCK>
+                  <STATIC>false</STATIC>
+                </AND>
               </match>
             </rule>
           </section>
@@ -223,6 +220,42 @@
                   <METHOD>true</METHOD>
                   <PRIVATE>true</PRIVATE>
                   <STATIC>true</STATIC>
+                </AND>
+              </match>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <AND>
+                  <METHOD>true</METHOD>
+                  <NAME>hashCode</NAME>
+                  <PUBLIC>true</PUBLIC>
+                  <STATIC>false</STATIC>
+                </AND>
+              </match>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <AND>
+                  <METHOD>true</METHOD>
+                  <NAME>equals</NAME>
+                  <PUBLIC>true</PUBLIC>
+                  <STATIC>false</STATIC>
+                </AND>
+              </match>
+            </rule>
+          </section>
+          <section>
+            <rule>
+              <match>
+                <AND>
+                  <METHOD>true</METHOD>
+                  <NAME>toString</NAME>
+                  <PUBLIC>true</PUBLIC>
+                  <STATIC>false</STATIC>
                 </AND>
               </match>
             </rule>

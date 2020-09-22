@@ -13,6 +13,10 @@ public enum Caste {
     QUEEN((byte) 5),
     ROOK((byte) 4);
 
+    private static final Caste[] casteArray = new Caste[] {
+        NONE, PAWN, KNIGHT, BISHOP, ROOK, QUEEN, KING
+    };
+
     /**
      * Chess piece caste utility method.
      *
@@ -26,10 +30,6 @@ public enum Caste {
         }
         return casteArray[index];
     }
-
-    private static final Caste[] casteArray = new Caste[] {
-        NONE, PAWN, KNIGHT, BISHOP, ROOK, QUEEN, KING
-    };
 
     private final byte index;
 
