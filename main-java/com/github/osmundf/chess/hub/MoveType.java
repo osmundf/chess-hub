@@ -2,6 +2,10 @@ package com.github.osmundf.chess.hub;
 
 /**
  * Chess move type.
+ *
+ * @author Osmund
+ * @version 1.0.0
+ * @since 1.0.0
  */
 public enum MoveType {
 
@@ -14,6 +18,7 @@ public enum MoveType {
     EN_PASSANT((byte) 0x3),
     PROMOTION((byte) 0x4);
 
+    /** Constant <code>moveTypeArray</code> */
     private static final MoveType[] moveTypeArray = {
         BASE, CAPTURE, DOUBLE_PUSH, EN_PASSANT, PROMOTION, CAPTURE_PROMOTION, CASTLE_SHORT, CASTLE_LONG
     };
@@ -44,27 +49,47 @@ public enum MoveType {
         this.index = index;
     }
 
-    /** Returns true if move type is basic (non-capture/non-promoting), false otherwise. */
+    /**
+     * Returns true if move type is basic (non-capture/non-promoting), false otherwise.
+     *
+     * @return a boolean.
+     */
     public boolean isBasic() {
         return (BASE == this || DOUBLE_PUSH == this || CASTLE_SHORT == this || CASTLE_LONG == this);
     }
 
-    /** Returns true if move type captures a piece, false otherwise. */
+    /**
+     * Returns true if move type captures a piece, false otherwise.
+     *
+     * @return a boolean.
+     */
     public boolean isCapture() {
         return (CAPTURE == this || CAPTURE_PROMOTION == this || EN_PASSANT == this);
     }
 
-    /** Returns true if move type is for castling, false otherwise. */
+    /**
+     * Returns true if move type is for castling, false otherwise.
+     *
+     * @return a boolean.
+     */
     public boolean isCastling() {
         return (CASTLE_SHORT == this || CASTLE_LONG == this);
     }
 
-    /** Returns true if move type is for promotion, false otherwise. */
+    /**
+     * Returns true if move type is for promotion, false otherwise.
+     *
+     * @return a boolean.
+     */
     public boolean isPromotion() {
         return (PROMOTION == this || CAPTURE_PROMOTION == this);
     }
 
-    /** Return move type index. */
+    /**
+     * Return move type index.
+     *
+     * @return move type index
+     */
     public byte index() {
         return index;
     }

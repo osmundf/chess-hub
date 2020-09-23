@@ -4,10 +4,20 @@ import static com.github.osmundf.chess.hub.Side.NO_SIDE;
 import static com.github.osmundf.chess.hub.Side.WHITE;
 
 /**
- * Chess game castle state.
+ * Chess castle state.
+ *
+ * @author Osmund
+ * @version 1.0.0
+ * @since 1.0.0
  */
 public class CastleState {
 
+    /**
+     * Chess castle state factory method.
+     *
+     * @param hash castle state hash
+     * @return new instance of castle state for hash
+     */
     public static CastleState castleStateFor(byte hash) {
         boolean wck = (hash & 0x80) != 0x0;
         boolean wcq = (hash & 0x40) != 0x0;
@@ -66,7 +76,7 @@ public class CastleState {
     private final byte hash;
 
     /**
-     * Chess castle state constructor (protected).
+     * Castle state constructor (protected).
      *
      * @param hash castle state hash
      */
@@ -99,7 +109,7 @@ public class CastleState {
     }
 
     /**
-     * Returns a new instance where side castled queen side.
+     * Returns new instance where side castled queen side.
      *
      * @param side side to castle queen-side
      * @return new instance where side castled queen-side
@@ -308,7 +318,7 @@ public class CastleState {
     /**
      * Returns if side has any right to castle.
      *
-     * @param side board side
+     * @param side side
      * @return true if side has any right to castle, false otherwise
      */
     public boolean hasAnyRight(Side side) {
@@ -327,7 +337,7 @@ public class CastleState {
     /**
      * Returns if side has right to castle king side.
      *
-     * @param side board side
+     * @param side side
      * @return true if side has right to castle king-side (short), false otherwise
      */
     public boolean hasKingSideRight(Side side) {
@@ -371,12 +381,13 @@ public class CastleState {
         }
     }
 
-    /** Returns castle state hash value. */
+    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         return hash;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean equals(Object object) {
         if (!(object instanceof CastleState)) {
@@ -385,6 +396,7 @@ public class CastleState {
         return this == object || this.hash == ((CastleState) object).hash;
     }
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         return String.format("castleState(0x%02x)", hash);

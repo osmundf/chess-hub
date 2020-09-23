@@ -20,6 +20,13 @@ import static com.github.osmundf.chess.hub.Side.WHITE;
 import static com.github.osmundf.chess.hub.Square.squareFromIndex;
 import static java.lang.String.format;
 
+/**
+ * Chess move hash.
+ *
+ * @author Osmund
+ * @version 1.0.0
+ * @since 1.0.0
+ */
 public class MoveHash {
 
     /**
@@ -50,10 +57,26 @@ public class MoveHash {
 
     protected final int hash;
 
+    /**
+     * Constructor for MoveHash (protected).
+     *
+     * @param hash move hash
+     */
     protected MoveHash(int hash) {
         this.hash = hash;
     }
 
+    /**
+     * Constructor for MoveHash (protected)
+     *
+     * @param m move type
+     * @param s move side
+     * @param p promotion/castle detail
+     * @param c capture/castle detail
+     * @param b piece caste
+     * @param f piece source square
+     * @param t piece target square
+     */
     protected MoveHash(MoveType m, Side s, Caste p, Caste c, Caste b, Square f, Square t) {
         var hash = m.index() << 22;
         hash |= s.isWhite() ? 1 << 21 : 0;
@@ -65,47 +88,75 @@ public class MoveHash {
         this.hash = hash;
     }
 
-    /** Returns move type. */
+    /**
+     * Returns move type.
+     *
+     * @return move type
+     */
     protected MoveType type() {
         return moveTypeFromIndex((hash >> 22) & 0x7);
     }
 
-    /** Returns board side. */
+    /**
+     * Returns move side.
+     *
+     * @return move side
+     */
     protected Side side() {
         return (hash & 0x200000) != 0x0 ? WHITE : BLACK;
     }
 
-    /** Returns promotion/special detail. */
+    /**
+     * Returns promotion/revocation detail.
+     *
+     * @return promotion/revocation detail
+     */
     protected Caste promotion() {
         return casteFromIndex((hash & 0x1c0000) >> 18);
     }
 
-    /** Returns capture/castle detail. */
+    /**
+     * Returns capture/castle detail.
+     *
+     * @return capture/castle detail
+     */
     protected Caste capture() {
         return casteFromIndex((hash & 0x38000) >> 15);
     }
 
-    /** Returns caste of moving piece. */
+    /**
+     * Returns caste of moving piece.
+     *
+     * @return caste of moving piece
+     */
     protected Caste base() {
         return casteFromIndex((hash & 0x7000) >> 12);
     }
 
-    /** Returns source/king square. */
+    /**
+     * Returns source/king square.
+     *
+     * @return source/king square
+     */
     protected Square from() {
         return squareFromIndex((byte) ((hash & 0xfc0) >> 6));
     }
 
-    /** Returns destination/rook square. */
+    /**
+     * Returns destination/rook square.
+     *
+     * @return destination/rook square
+     */
     protected Square to() {
         return squareFromIndex((byte) (hash & 0x3f));
     }
 
     /**
-     * Returns if move, excluding squares, has any error.
+     * Returns if move hash, excluding squares, has any error.
      *
      * @param type      move type
-     * @param promotion promotion/special flag
-     * @param capture   capture/castle flag
+     * @param promotion promotion/revocation detail
+     * @param capture   capture/castle detail
      * @param base      moving piece caste
      * @return chess exception of error, null otherwise
      */
@@ -275,11 +326,13 @@ public class MoveHash {
         return new ChessException("chess.move.hash.invalid.move", cause);
     }
 
+    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         return hash;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean equals(Object object) {
         if (!(object instanceof MoveHash)) {
@@ -289,6 +342,7 @@ public class MoveHash {
         return this == object || this.hash == other.hash;
     }
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         return format("MoveHash(0x%08x)", hash);

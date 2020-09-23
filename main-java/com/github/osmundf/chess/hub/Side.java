@@ -2,6 +2,9 @@ package com.github.osmundf.chess.hub;
 
 /**
  * Chess side.
+ *
+ * @author Osmund
+ * @version 1.0.0
  */
 public enum Side {
 
@@ -20,17 +23,29 @@ public enum Side {
         this.index = index;
     }
 
-    /** Returns true if side is white, false otherwise. */
+    /**
+     * Checks if side is for the white pieces.
+     *
+     * @return true if side is white, false otherwise
+     */
     public boolean isWhite() {
         return WHITE == this;
     }
 
-    /** Returns true if side is black, false otherwise. */
+    /**
+     * Checks if side is for the black pieces.
+     *
+     * @return true if side is black, false otherwise
+     */
     public boolean isBlack() {
         return BLACK == this;
     }
 
-    /** Returns opposite side. */
+    /**
+     * Returns opposite side.
+     *
+     * @return white for black, black for white, no-side otherwise
+     */
     public Side opposite() {
         if (NO_SIDE == this) {
             return NO_SIDE;
@@ -38,7 +53,11 @@ public enum Side {
         return WHITE == this ? BLACK : WHITE;
     }
 
-    /** Returns side index. */
+    /**
+     * Returns side index.
+     *
+     * @return side index
+     */
     public byte index() {
         return index;
     }

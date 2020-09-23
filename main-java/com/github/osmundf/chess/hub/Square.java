@@ -1,7 +1,11 @@
 package com.github.osmundf.chess.hub;
 
 /**
- * Chess board square.
+ * Chess square.
+ *
+ * @author Osmund
+ * @version 1.0.0
+ * @since 1.0.0
  */
 public enum Square {
 
@@ -70,6 +74,7 @@ public enum Square {
     H7((byte) 0x37),
     H8((byte) 0x3f);
 
+    /** Constant <code>squareArray</code> */
     private static final Square[] squareArray = new Square[] {
         A1, B1, C1, D1, E1, F1, G1, H1, //
         A2, B2, C2, D2, E2, F2, G2, H2, //
@@ -82,10 +87,10 @@ public enum Square {
     };
 
     /**
-     * Chess board square utility method.
+     * Chess square utility method.
      *
      * @param index square index
-     * @return board square for index
+     * @return square for index
      */
     public static Square squareFromIndex(byte index) {
         if (index < 0 || 63 < index) {
@@ -96,11 +101,11 @@ public enum Square {
     }
 
     /**
-     * Chess board square utility method.
+     * Chess square utility method.
      *
      * @param file chess board file
      * @param rank chess board rank
-     * @return board square
+     * @return square for file and rank
      */
     public static Square squareFor(char file, int rank) {
         if (file < 'a' || 'h' < file || rank < 1 || 8 < rank) {
@@ -122,12 +127,20 @@ public enum Square {
         this.index = index;
     }
 
-    /** Returns square file. */
+    /**
+     * Returns square file.
+     *
+     * @return a char.
+     */
     public char file() {
         return (char) ('a' + (index & 0x7));
     }
 
-    /** Returns square rank. */
+    /**
+     * Returns square rank.
+     *
+     * @return a byte.
+     */
     public byte rank() {
         return (byte) ((index >> 3) + 1);
     }
@@ -190,11 +203,16 @@ public enum Square {
         return translate(count, 0);
     }
 
-    /** Returns square index. */
+    /**
+     * Returns square index.
+     *
+     * @return square index
+     */
     public byte index() {
         return index;
     }
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         return file() + "" + rank();

@@ -1,7 +1,11 @@
 package com.github.osmundf.chess.hub;
 
 /**
- * Chess piece caste.
+ * Chess caste.
+ *
+ * @author Osmund
+ * @version 1.0.0
+ * @since 1.0.0
  */
 public enum Caste {
 
@@ -13,15 +17,16 @@ public enum Caste {
     QUEEN((byte) 5),
     ROOK((byte) 4);
 
+    /** Constant <code>casteArray</code> */
     private static final Caste[] casteArray = new Caste[] {
         NONE, PAWN, KNIGHT, BISHOP, ROOK, QUEEN, KING
     };
 
     /**
-     * Chess piece caste utility method.
+     * Chess caste utility method.
      *
      * @param index caste index
-     * @return piece caste for index
+     * @return caste for index
      */
     public static Caste casteFromIndex(int index) {
         if (index < 0 || 6 < index) {
@@ -42,7 +47,11 @@ public enum Caste {
         this.index = index;
     }
 
-    /** Returns caste material value. */
+    /**
+     * Returns caste material value.
+     *
+     * @return material value
+     */
     public int value() {
         switch (this) {
             case KING:
@@ -61,7 +70,11 @@ public enum Caste {
         }
     }
 
-    /** Returns caste index. */
+    /**
+     * Returns caste index.
+     *
+     * @return caste index
+     */
     public byte index() {
         return index;
     }

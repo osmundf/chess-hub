@@ -5,15 +5,19 @@ import static com.github.osmundf.chess.hub.Side.NO_SIDE;
 
 /**
  * Chess piece.
+ *
+ * @author Osmund
+ * @version 1.0.0
+ * @since 1.0.0
  */
 public class Piece {
 
     /**
      * Chess piece factory method.
      *
-     * @param side   board side
+     * @param side   piece side
      * @param caste  piece caste
-     * @param square piece board square
+     * @param square piece square
      * @return new instance of chess piece with side, caste, and square
      */
     public static Piece pieceFor(Side side, Caste caste, Square square) {
@@ -47,7 +51,7 @@ public class Piece {
     private final Square square;
 
     /**
-     * Chess piece constructor (protected).
+     * Piece constructor (protected).
      *
      * @param side   piece side
      * @param caste  piece caste
@@ -59,22 +63,34 @@ public class Piece {
         this.square = square;
     }
 
-    /** Returns the chess piece side. */
+    /**
+     * Returns the piece side.
+     *
+     * @return the piece side
+     */
     public Side side() {
         return side;
     }
 
-    /** Returns the chess piece caste. */
+    /**
+     * Returns the piece caste.
+     *
+     * @return the piece caste
+     */
     public Caste caste() {
         return caste;
     }
 
-    /** Returns the chess piece square. */
+    /**
+     * Returns the piece square.
+     *
+     * @return the piece square
+     */
     public Square square() {
         return square;
     }
 
-    /** Returns chess piece hash. */
+    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         // side[ss] caste[ccc] rank[rrr] file[fff]
@@ -84,6 +100,7 @@ public class Piece {
         return result;
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean equals(Object object) {
         if (!(object instanceof Piece)) {
@@ -93,6 +110,7 @@ public class Piece {
         return this == object || this.side == other.side && this.caste == other.caste && this.square == other.square;
     }
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         return String.format("%s.%s.%s", side, caste, square);
