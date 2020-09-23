@@ -1,5 +1,7 @@
 # IDE files
 /.idea/*.xml
+/.idea/libraries
+/.idea/shelf
 
 # Maven target
 /_target
