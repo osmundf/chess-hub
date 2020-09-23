@@ -7,9 +7,6 @@
 # Java compiled file
 *.class
 
-# Chess puzzles
-/main-resources/lichess
-
 # Log file
 *.log
 
