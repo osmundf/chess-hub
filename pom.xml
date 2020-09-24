@@ -37,8 +37,7 @@
         <maven-resources-plugin.version>3.2.0</maven-resources-plugin.version>
         <maven-site-plugin.version>3.9.1</maven-site-plugin.version>
         <maven-source-plugin.version>3.1.0</maven-source-plugin.version>
-        <!--<maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>-->
-        <maven-surefire-plugin.version>3.0.0-M4</maven-surefire-plugin.version>
+        <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
 
         <!-- > -->
         <surefire.printSummary>false</surefire.printSummary>
@@ -251,9 +250,10 @@
                         <configuration>
                             <argLine>
                                 <!-- main-java packages -->
+                                --add-opens&#32;osmundf.chess.hub/com.github.osmundf.chess.hub=ALL-UNNAMED
                                 <!-- test-java packages -->
                             </argLine>
-                            <forkCount>0</forkCount>
+                            <forkCount>1</forkCount>
                             <useSystemClassLoader>false</useSystemClassLoader>
                             <reuseForks>true</reuseForks>
                             <printSummary>${surefire.printSummary}</printSummary>
