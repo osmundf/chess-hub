@@ -182,8 +182,8 @@ public class MoveHash {
                     return new ChessException("chess.move.hash.invalid.en.passant.move", cause);
                 }
 
-                var format = "type: %s promotion: %s capture: %s";
-                var cause = new ChessException(format(format, type, promotion, capture));
+                var template = "type: %s promotion: %s capture: %s";
+                var cause = new ChessException(format(template, type, promotion, capture));
                 return new ChessException("chess.move.hash.invalid.pawn.move", cause);
             }
 
@@ -201,8 +201,8 @@ public class MoveHash {
             }
 
             // Invalid pawn move.
-            var format = "type: %s promotion: %s capture: %s";
-            var cause = new ChessException(format(format, type, promotion, capture));
+            var template = "type: %s promotion: %s capture: %s";
+            var cause = new ChessException(format(template, type, promotion, capture));
             return new ChessException("chess.move.hash.invalid.pawn.move", cause);
         }
 
@@ -217,8 +217,8 @@ public class MoveHash {
             }
 
             // Invalid knight move.
-            var format = "type: %s promotion: %s capture: %s";
-            var cause = new ChessException(format(format, type, promotion, capture));
+            var template = "type: %s promotion: %s capture: %s";
+            var cause = new ChessException(format(template, type, promotion, capture));
             return new ChessException("chess.move.hash.invalid.knight.move", cause);
         }
 
@@ -233,8 +233,8 @@ public class MoveHash {
             }
 
             // Invalid bishop move.
-            var format = "type: %s promotion: %s capture: %s";
-            var cause = new ChessException(format(format, type, promotion, capture));
+            var template = "type: %s promotion: %s capture: %s";
+            var cause = new ChessException(format(template, type, promotion, capture));
             return new ChessException("chess.move.hash.invalid.bishop.move", cause);
         }
 
@@ -249,8 +249,8 @@ public class MoveHash {
             }
 
             // Invalid queen move.
-            var format = "type: %s promotion: %s capture: %s";
-            var cause = new ChessException(format(format, type, promotion, capture));
+            var template = "type: %s promotion: %s capture: %s";
+            var cause = new ChessException(format(template, type, promotion, capture));
             return new ChessException("chess.move.hash.invalid.queen.move", cause);
         }
 
@@ -269,8 +269,8 @@ public class MoveHash {
             }
 
             // Invalid rook move.
-            var format = "type: %s promotion: %s capture: %s";
-            var cause = new ChessException(format(format, type, promotion, capture));
+            var template = "type: %s promotion: %s capture: %s";
+            var cause = new ChessException(format(template, type, promotion, capture));
             return new ChessException("chess.move.hash.invalid.rook.move", cause);
         }
 
@@ -291,8 +291,8 @@ public class MoveHash {
 
             // Check for invalid right revocation.
             if (NONE != promotion && KING != promotion && QUEEN != promotion && ROOK != promotion) {
-                var format = "type: %s promotion: %s capture: %s";
-                var cause = new ChessException(format(format, type, promotion, capture));
+                var template = "type: %s promotion: %s capture: %s";
+                var cause = new ChessException(format(template, type, promotion, capture));
                 return new ChessException("chess.move.hash.king.revocation.invalid", cause);
             }
 
@@ -304,8 +304,8 @@ public class MoveHash {
             }
 
             // Invalid king move.
-            var format = "type: %s promotion: %s capture: %s";
-            var cause = new ChessException(format(format, type, promotion, capture));
+            var template = "type: %s promotion: %s capture: %s";
+            var cause = new ChessException(format(template, type, promotion, capture));
             return new ChessException("chess.move.hash.invalid.king.move", cause);
         }
 
@@ -321,8 +321,8 @@ public class MoveHash {
         }
 
         // Invalid move.
-        var format = "type: %s promotion: %s capture: %s base: %s";
-        var cause = new ChessException(format(format, type, promotion, capture, base));
+        var template = "type: %s promotion: %s capture: %s base: %s";
+        var cause = new ChessException(format(template, type, promotion, capture, base));
         return new ChessException("chess.move.hash.invalid.move", cause);
     }
 

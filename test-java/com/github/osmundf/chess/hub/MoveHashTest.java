@@ -171,8 +171,8 @@ class MoveHashTest {
                         assertEquals(ChessException.class.getName(), e.getClass().getName());
                         assertEquals("chess.move.hash.invalid.double.push.move", e.getMessage());
                         assertNotNull(e.getCause());
-                        var format = "type: %s capture: %s";
-                        var causeMessage = format(format, type, NONE);
+                        var template = "type: %s capture: %s";
+                        var causeMessage = format(template, type, NONE);
                         assertEquals(causeMessage, e.getCause().getMessage());
                     }
                 }
@@ -197,8 +197,8 @@ class MoveHashTest {
                         assertEquals(ChessException.class.getName(), e.getClass().getName());
                         assertEquals("chess.move.hash.invalid.en.passant.move", e.getMessage());
                         assertNotNull(e.getCause());
-                        var format = "type: %s capture: %s";
-                        var causeMessage = format(format, type, PAWN);
+                        var template = "type: %s capture: %s";
+                        var causeMessage = format(template, type, PAWN);
                         assertEquals(causeMessage, e.getCause().getMessage());
                     }
                 }
@@ -218,8 +218,8 @@ class MoveHashTest {
                     assertEquals(ChessException.class.getName(), e.getClass().getName());
                     assertEquals("chess.move.hash.invalid.pawn.move", e.getMessage());
                     assertNotNull(e.getCause());
-                    var format = "type: %s promotion: %s capture: %s";
-                    var causeMessage = format(format, BASE, PAWN, KING);
+                    var template = "type: %s promotion: %s capture: %s";
+                    var causeMessage = format(template, BASE, PAWN, KING);
                     assertEquals(causeMessage, e.getCause().getMessage());
                 }
 
@@ -231,8 +231,8 @@ class MoveHashTest {
                     assertEquals(ChessException.class.getName(), e.getClass().getName());
                     assertEquals("chess.move.hash.invalid.promotion.move", e.getMessage());
                     assertNotNull(e.getCause());
-                    var format = "type: %s promotion: %s";
-                    var causeMessage = format(format, BASE, KING);
+                    var template = "type: %s promotion: %s";
+                    var causeMessage = format(template, BASE, KING);
                     assertEquals(causeMessage, e.getCause().getMessage());
                 }
 
@@ -244,8 +244,8 @@ class MoveHashTest {
                     assertEquals(ChessException.class.getName(), e.getClass().getName());
                     assertEquals("chess.move.hash.invalid.pawn.move", e.getMessage());
                     assertNotNull(e.getCause());
-                    var format = "type: %s promotion: %s capture: %s";
-                    var causeMessage = format(format, BASE, NONE, PAWN);
+                    var template = "type: %s promotion: %s capture: %s";
+                    var causeMessage = format(template, BASE, NONE, PAWN);
                     assertEquals(causeMessage, e.getCause().getMessage());
                 }
             }
@@ -264,8 +264,8 @@ class MoveHashTest {
                     assertEquals(ChessException.class.getName(), e.getClass().getName());
                     assertEquals("chess.move.hash.invalid.knight.move", e.getMessage());
                     assertNotNull(e.getCause());
-                    var format = "type: %s promotion: %s capture: %s";
-                    var causeMessage = format(format, CAPTURE, NONE, NONE);
+                    var template = "type: %s promotion: %s capture: %s";
+                    var causeMessage = format(template, CAPTURE, NONE, NONE);
                     assertEquals(causeMessage, e.getCause().getMessage());
                 }
             }
@@ -284,8 +284,8 @@ class MoveHashTest {
                     assertEquals(ChessException.class.getName(), e.getClass().getName());
                     assertEquals("chess.move.hash.invalid.bishop.move", e.getMessage());
                     assertNotNull(e.getCause());
-                    var format = "type: %s promotion: %s capture: %s";
-                    var causeMessage = format(format, CAPTURE, NONE, NONE);
+                    var template = "type: %s promotion: %s capture: %s";
+                    var causeMessage = format(template, CAPTURE, NONE, NONE);
                     assertEquals(causeMessage, e.getCause().getMessage());
                 }
             }
@@ -304,8 +304,8 @@ class MoveHashTest {
                     assertEquals(ChessException.class.getName(), e.getClass().getName());
                     assertEquals("chess.move.hash.invalid.queen.move", e.getMessage());
                     assertNotNull(e.getCause());
-                    var format = "type: %s promotion: %s capture: %s";
-                    var causeMessage = format(format, CAPTURE, NONE, NONE);
+                    var template = "type: %s promotion: %s capture: %s";
+                    var causeMessage = format(template, CAPTURE, NONE, NONE);
                     assertEquals(causeMessage, e.getCause().getMessage());
                 }
             }
@@ -324,8 +324,8 @@ class MoveHashTest {
                     assertEquals(ChessException.class.getName(), e.getClass().getName());
                     assertEquals("chess.move.hash.rook.revocation.invalid", e.getMessage());
                     assertNotNull(e.getCause());
-                    var format = "type: %s promotion: %s";
-                    var causeMessage = format(format, BASE, ROOK);
+                    var template = "type: %s promotion: %s";
+                    var causeMessage = format(template, BASE, ROOK);
                     assertEquals(causeMessage, e.getCause().getMessage());
                 }
 
@@ -337,8 +337,8 @@ class MoveHashTest {
                     assertEquals(ChessException.class.getName(), e.getClass().getName());
                     assertEquals("chess.move.hash.invalid.rook.move", e.getMessage());
                     assertNotNull(e.getCause());
-                    var format = "type: %s promotion: %s capture: %s";
-                    var causeMessage = format(format, CAPTURE, NONE, NONE);
+                    var template = "type: %s promotion: %s capture: %s";
+                    var causeMessage = format(template, CAPTURE, NONE, NONE);
                     assertEquals(causeMessage, e.getCause().getMessage());
                 }
             }
@@ -360,8 +360,8 @@ class MoveHashTest {
                     assertEquals(ChessException.class.getName(), e.getClass().getName());
                     assertEquals("chess.move.hash.castling.invalid", e.getMessage());
                     assertNotNull(e.getCause());
-                    var format = "type: %s capture: %s";
-                    var causeMessage = format(format, type, NONE);
+                    var template = "type: %s capture: %s";
+                    var causeMessage = format(template, type, NONE);
                     assertEquals(causeMessage, e.getCause().getMessage());
                 }
             }
@@ -380,8 +380,8 @@ class MoveHashTest {
                     assertEquals(ChessException.class.getName(), e.getClass().getName());
                     assertEquals("chess.move.hash.king.revocation.invalid", e.getMessage());
                     assertNotNull(e.getCause());
-                    var format = "type: %s promotion: %s capture: %s";
-                    var causeMessage = format(format, BASE, KNIGHT, NONE);
+                    var template = "type: %s promotion: %s capture: %s";
+                    var causeMessage = format(template, BASE, KNIGHT, NONE);
                     assertEquals(causeMessage, e.getCause().getMessage());
                 }
 
@@ -393,8 +393,8 @@ class MoveHashTest {
                     assertEquals(ChessException.class.getName(), e.getClass().getName());
                     assertEquals("chess.move.hash.king.revocation.invalid", e.getMessage());
                     assertNotNull(e.getCause());
-                    var format = "type: %s promotion: %s capture: %s";
-                    var causeMessage = format(format, BASE, BISHOP, NONE);
+                    var template = "type: %s promotion: %s capture: %s";
+                    var causeMessage = format(template, BASE, BISHOP, NONE);
                     assertEquals(causeMessage, e.getCause().getMessage());
                 }
 
@@ -406,8 +406,8 @@ class MoveHashTest {
                     assertEquals(ChessException.class.getName(), e.getClass().getName());
                     assertEquals("chess.move.hash.invalid.king.move", e.getMessage());
                     assertNotNull(e.getCause());
-                    var format = "type: %s promotion: %s capture: %s";
-                    var causeMessage = format(format, CAPTURE, NONE, NONE);
+                    var template = "type: %s promotion: %s capture: %s";
+                    var causeMessage = format(template, CAPTURE, NONE, NONE);
                     assertEquals(causeMessage, e.getCause().getMessage());
                 }
             }
@@ -426,8 +426,8 @@ class MoveHashTest {
                     assertEquals(ChessException.class.getName(), e.getClass().getName());
                     assertEquals("chess.move.hash.invalid.move", e.getMessage());
                     assertNotNull(e.getCause());
-                    var format = "type: %s promotion: %s capture: %s base: %s";
-                    var causeMessage = format(format, BASE, PAWN, NONE, NONE);
+                    var template = "type: %s promotion: %s capture: %s base: %s";
+                    var causeMessage = format(template, BASE, PAWN, NONE, NONE);
                     assertEquals(causeMessage, e.getCause().getMessage());
                 }
             }
