@@ -44,7 +44,7 @@ class CasteTest {
 
     @Test
     void testFromIndex() {
-        for (var caste : Caste.values()) {
+        for (final var caste : Caste.values()) {
             var index = caste.index();
             var test = Caste.casteFromIndex(index);
             assertEquals(caste, test);

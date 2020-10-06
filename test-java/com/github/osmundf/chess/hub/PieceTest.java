@@ -17,24 +17,24 @@ class PieceTest {
 
     @Test
     void testRange() {
-        var squareArray = new Square[64];
+        final var squareArray = new Square[64];
         for (var file = 'a'; file <= 'h'; file++) {
             for (var rank = 1; rank <= 8; rank++) {
-                var square = squareFor(file, rank);
+                final var square = squareFor(file, rank);
                 squareArray[square.index()] = square;
             }
         }
 
-        for (var side : Side.values()) {
+        for (final var side : Side.values()) {
             if (NO_SIDE == side) {
                 continue;
             }
-            for (var caste : Caste.values()) {
+            for (final var caste : Caste.values()) {
                 if (NONE == caste) {
                     continue;
                 }
-                for (var square : squareArray) {
-                    var piece = pieceFor(side, caste, square);
+                for (final var square : squareArray) {
+                    final var piece = pieceFor(side, caste, square);
 
                     assertEquals(piece.side(), side);
                     assertEquals(piece.caste(), caste);
@@ -46,25 +46,25 @@ class PieceTest {
 
     @Test
     void testIndex() {
-        var squareArray = new Square[64];
+        final var squareArray = new Square[64];
         for (var file = 'a'; file <= 'h'; file++) {
             for (var rank = 1; rank <= 8; rank++) {
-                var square = squareFor(file, rank);
+                final var square = squareFor(file, rank);
                 squareArray[square.index()] = square;
             }
         }
 
-        for (var side : Side.values()) {
+        for (final var side : Side.values()) {
             if (NO_SIDE == side) {
                 continue;
             }
-            for (var caste : Caste.values()) {
+            for (final var caste : Caste.values()) {
                 if (NONE == caste) {
                     continue;
                 }
-                for (var square : squareArray) {
-                    var piece = pieceFor(side, caste, square);
-                    var expected = (side.index() << 9) + (caste.index() << 6) + square.index();
+                for (final var square : squareArray) {
+                    final var piece = pieceFor(side, caste, square);
+                    final var expected = (side.index() << 9) + (caste.index() << 6) + square.index();
                     assertEquals(expected, piece.hashCode());
                 }
             }
@@ -73,19 +73,19 @@ class PieceTest {
 
     @Test
     void testNoSideException() {
-        var squareArray = new Square[64];
+        final var squareArray = new Square[64];
         for (var file = 'a'; file <= 'h'; file++) {
             for (var rank = 1; rank <= 8; rank++) {
-                var square = squareFor(file, rank);
+                final var square = squareFor(file, rank);
                 squareArray[square.index()] = square;
             }
         }
 
-        for (var caste : Caste.values()) {
+        for (final var caste : Caste.values()) {
             if (NONE == caste) {
                 continue;
             }
-            for (var square : squareArray) {
+            for (final var square : squareArray) {
                 try {
                     pieceFor(null, caste, square);
                     fail("chess.piece.test.expected.chess.exception.null.side");
@@ -93,7 +93,7 @@ class PieceTest {
                 catch (RuntimeException e) {
                     assertEquals(ChessException.class.getName(), e.getClass().getName());
                     assertEquals("chess.piece.new.piece.null.argument", e.getMessage());
-                    var cause = e.getCause();
+                    final var cause = e.getCause();
                     assertNotNull(cause);
                     assertEquals("chess.side.null", cause.getMessage());
                 }
@@ -105,7 +105,7 @@ class PieceTest {
                 catch (RuntimeException e) {
                     assertEquals(ChessException.class.getName(), e.getClass().getName());
                     assertEquals("chess.piece.new.piece.no.side", e.getMessage());
-                    var cause = e.getCause();
+                    final var cause = e.getCause();
                     assertNotNull(cause);
                     assertEquals("chess.side.none", cause.getMessage());
                 }
@@ -115,19 +115,19 @@ class PieceTest {
 
     @Test
     void testNoCasteException() {
-        var squareArray = new Square[64];
+        final var squareArray = new Square[64];
         for (var file = 'a'; file <= 'h'; file++) {
             for (var rank = 1; rank <= 8; rank++) {
-                var square = squareFor(file, rank);
+                final var square = squareFor(file, rank);
                 squareArray[square.index()] = square;
             }
         }
 
-        for (var side : Side.values()) {
+        for (final var side : Side.values()) {
             if (NO_SIDE == side) {
                 continue;
             }
-            for (var square : squareArray) {
+            for (final var square : squareArray) {
                 try {
                     pieceFor(side, null, square);
                     fail("chess.piece.test.expected.chess.exception.null.caste");
@@ -135,7 +135,7 @@ class PieceTest {
                 catch (RuntimeException e) {
                     assertEquals(ChessException.class.getName(), e.getClass().getName());
                     assertEquals("chess.piece.new.piece.null.argument", e.getMessage());
-                    var cause = e.getCause();
+                    final var cause = e.getCause();
                     assertNotNull(cause);
                     assertEquals("chess.caste.null", cause.getMessage());
                 }
@@ -147,7 +147,7 @@ class PieceTest {
                 catch (RuntimeException e) {
                     assertEquals(ChessException.class.getName(), e.getClass().getName());
                     assertEquals("chess.piece.new.piece.no.caste", e.getMessage());
-                    var cause = e.getCause();
+                    final var cause = e.getCause();
                     assertNotNull(cause);
                     assertEquals("chess.caste.none", cause.getMessage());
                 }
@@ -157,11 +157,11 @@ class PieceTest {
 
     @Test
     void testNoSquareException() {
-        for (var side : Side.values()) {
+        for (final var side : Side.values()) {
             if (NO_SIDE == side) {
                 continue;
             }
-            for (var caste : Caste.values()) {
+            for (final var caste : Caste.values()) {
                 if (NONE == caste) {
                     continue;
                 }
@@ -172,7 +172,7 @@ class PieceTest {
                 catch (RuntimeException e) {
                     assertEquals(ChessException.class.getName(), e.getClass().getName());
                     assertEquals("chess.piece.new.piece.null.argument", e.getMessage());
-                    var cause = e.getCause();
+                    final var cause = e.getCause();
                     assertNotNull(cause);
                     assertEquals("chess.square.null", cause.getMessage());
                 }
@@ -182,25 +182,25 @@ class PieceTest {
 
     @Test
     void testEquals() {
-        for (var s1 : Side.values()) {
-            for (var c1 : Caste.values()) {
-                for (var t1 : Square.values()) {
-                    var first = new PiecePiggy(s1, c1, t1).asPiece();
+        for (final var s1 : Side.values()) {
+            for (final var c1 : Caste.values()) {
+                for (final var t1 : Square.values()) {
+                    final var first = new PiecePiggy(s1, c1, t1).asPiece();
 
-                    for (var s2 : Side.values()) {
-                        for (var c2 : Caste.values()) {
-                            for (var t2 : Square.values()) {
-                                var second = new PiecePiggy(s2, c2, t2).asPiece();
+                    for (final var s2 : Side.values()) {
+                        for (final var c2 : Caste.values()) {
+                            for (final var t2 : Square.values()) {
+                                final var second = new PiecePiggy(s2, c2, t2).asPiece();
 
                                 if (first.equals(second)) {
                                     assertSame(s1, s2);
                                     assertSame(c1, c2);
                                     assertSame(t1, t2);
-                                    second = null;
                                 }
 
-                                if (first.equals(second)) {
-                                    fail("chess.piece.equals.on.null");
+                                //noinspection ConstantConditions
+                                if (first.equals(null)) {
+                                    fail("chess.piece.equal.on.null");
                                 }
                             }
                         }
@@ -212,11 +212,11 @@ class PieceTest {
 
     @Test
     void testToString() {
-        var side = WHITE;
-        var caste = KING;
-        var square = squareFor('e', 1);
-        var piece = pieceFor(side, caste, square);
-        var expected = side + "." + caste + "." + square;
+        final var side = WHITE;
+        final var caste = KING;
+        final var square = squareFor('e', 1);
+        final var piece = pieceFor(side, caste, square);
+        final var expected = side + "." + caste + "." + square;
         assertEquals(expected, piece.toString());
     }
 

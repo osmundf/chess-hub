@@ -18,30 +18,37 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.fail;
 
+/**
+ * MoveTest class.
+ *
+ * @author Osmund
+ * @version $Id: $Id
+ * @since 1.0.0
+ */
 public class MoveTest {
 
     @Test
     void testFromIndexBasic() {
-        var side = WHITE;
-        var from = squareFor('a', 1);
-        var to = squareFor('b', 2);
-        var piece = pieceFor(side, KING, from);
-        var actual = basicMove(piece, REVOKE_NONE, to);
-        var move = moveFor(actual.hashCode());
+        final var side = WHITE;
+        final var from = squareFor('a', 1);
+        final var to = squareFor('b', 2);
+        final var piece = pieceFor(side, KING, from);
+        final var actual = basicMove(piece, REVOKE_NONE, to);
+        final var move = moveFor(actual.hashCode());
         assertSame(side, move.side());
         assertEquals(actual, move);
     }
 
     @Test
     void testFromIndexCapture() {
-        var side = BLACK;
-        var from = squareFor('e', 1);
-        var to = squareFor('e', 2);
-        var piece = pieceFor(side, KING, from);
-        var captured = pieceFor(side.opposite(), PAWN, to);
-        var actual = captureMove(piece, captured);
-        var hash = actual.hashCode();
-        var move = moveFor(hash);
+        final var side = BLACK;
+        final var from = squareFor('e', 1);
+        final var to = squareFor('e', 2);
+        final var piece = pieceFor(side, KING, from);
+        final var captured = pieceFor(side.opposite(), PAWN, to);
+        final var actual = captureMove(piece, captured);
+        final var hash = actual.hashCode();
+        final var move = moveFor(hash);
         assertSame(side, move.side());
         assertEquals(actual, move);
     }
@@ -49,13 +56,13 @@ public class MoveTest {
     @Test
     @Disabled
     void testFromIndexDoublePush() {
-        var side = WHITE;
-        var from = squareFor('a', 2);
-        var to = squareFor('a', 4);
-        var piece = pieceFor(side, PAWN, from);
-        var actual = doublePush(piece);
-        var hash = actual.hashCode();
-        var move = moveFor(hash);
+        final var side = WHITE;
+        final var from = squareFor('a', 2);
+        final var to = squareFor('a', 4);
+        final var piece = pieceFor(side, PAWN, from);
+        final var actual = doublePush(piece);
+        final var hash = actual.hashCode();
+        final var move = moveFor(hash);
         assertSame(side, move.side());
         assertEquals(actual, move);
     }

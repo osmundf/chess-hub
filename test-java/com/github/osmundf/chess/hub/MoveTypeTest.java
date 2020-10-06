@@ -22,16 +22,16 @@ class MoveTypeTest {
 
     @Test
     void testIndex() {
-        for (var expected : MoveType.values()) {
-            var moveType = moveTypeFromIndex(expected.index());
+        for (final var expected : MoveType.values()) {
+            final var moveType = moveTypeFromIndex(expected.index());
             assertEquals(expected.index(), moveType.index());
         }
     }
 
     @Test
     void testSame() {
-        for (var expected : MoveType.values()) {
-            var moveType = moveTypeFromIndex(expected.index());
+        for (final var expected : MoveType.values()) {
+            final var moveType = moveTypeFromIndex(expected.index());
             assertSame(expected, moveType);
         }
     }
@@ -39,13 +39,13 @@ class MoveTypeTest {
     @Test
     void testException() {
         try {
-            var move = moveTypeFromIndex(-1);
+            final var move = moveTypeFromIndex(-1);
             fail("chess.move.type.test.expected.chess.exception: " + move);
         }
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
             assertEquals("chess.move.type.index.invalid", e.getMessage());
-            var cause = e.getCause();
+            final var cause = e.getCause();
             assertNotNull(cause);
             assertEquals("index: -1", cause.getMessage());
         }

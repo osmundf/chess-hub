@@ -28,8 +28,8 @@ class CastleStateTest {
                             continue;
                         }
 
-                        var index = (byte) (wc << 6 | wr << 4 | bc << 2 | br);
-                        var state = castleStateFor(index);
+                        final var index = (byte) (wc << 6 | wr << 4 | bc << 2 | br);
+                        final var state = castleStateFor(index);
                         assertEquals(index, state.hashCode());
                     }
                 }
@@ -39,9 +39,9 @@ class CastleStateTest {
 
     @Test
     void testCastlingWhite() {
-        var state = castleStateFor((byte) 0x30);
+        final var state = castleStateFor((byte) 0x30);
         {
-            var tk = state.castleKingSide(WHITE);
+            final var tk = state.castleKingSide(WHITE);
             assertTrue(tk.hasCastledKingSide(WHITE));
             assertFalse(tk.hasCastledQueenSide(WHITE));
             assertFalse(tk.hasAnyRight(WHITE));
@@ -50,7 +50,7 @@ class CastleStateTest {
             assertFalse(tk.hasCastled(BLACK));
         }
         {
-            var tq = state.castleQueenSide(WHITE);
+            final var tq = state.castleQueenSide(WHITE);
             assertFalse(tq.hasCastledKingSide(WHITE));
             assertTrue(tq.hasCastledQueenSide(WHITE));
             assertFalse(tq.hasAnyRight(WHITE));
@@ -61,9 +61,9 @@ class CastleStateTest {
 
     @Test
     void testCastlingBlack() {
-        var state = castleStateFor((byte) 0x3);
+        final var state = castleStateFor((byte) 0x3);
         {
-            var tk = state.castleKingSide(BLACK);
+            final var tk = state.castleKingSide(BLACK);
             assertTrue(tk.hasCastledKingSide(BLACK));
             assertFalse(tk.hasCastledQueenSide(BLACK));
             assertFalse(tk.hasAnyRight(BLACK));
@@ -72,7 +72,7 @@ class CastleStateTest {
             assertFalse(tk.hasCastled(WHITE));
         }
         {
-            var tq = state.castleQueenSide(BLACK);
+            final var tq = state.castleQueenSide(BLACK);
             assertFalse(tq.hasCastledKingSide(BLACK));
             assertTrue(tq.hasCastledQueenSide(BLACK));
             assertFalse(tq.hasAnyRight(BLACK));
@@ -83,7 +83,7 @@ class CastleStateTest {
 
     @Test
     void testCastleKingSideException() {
-        var state = castleStateFor((byte) 0x0);
+        final var state = castleStateFor((byte) 0x0);
 
         try {
             state.castleKingSide(null);
@@ -124,7 +124,7 @@ class CastleStateTest {
 
     @Test
     void testCastleQueenSideException() {
-        var state = castleStateFor((byte) 0x0);
+        final var state = castleStateFor((byte) 0x0);
 
         try {
             state.castleQueenSide(null);
@@ -165,7 +165,7 @@ class CastleStateTest {
 
     @Test
     void testHasCastledException() {
-        var state = castleStateFor((byte) 0x0);
+        final var state = castleStateFor((byte) 0x0);
 
         // hasCastled()
         try {
@@ -227,8 +227,8 @@ class CastleStateTest {
 
     @Test
     void testRevokeWhite() {
-        var state = castleStateFor((byte) 0x30);
-        var tk = state.revokeKingSide(WHITE);
+        final var state = castleStateFor((byte) 0x30);
+        final var tk = state.revokeKingSide(WHITE);
         assertFalse(tk.hasCastled(WHITE));
         assertFalse(tk.hasCastledKingSide(WHITE));
         assertFalse(tk.hasCastledQueenSide(WHITE));
@@ -236,7 +236,7 @@ class CastleStateTest {
         assertFalse(tk.hasKingSideRight(WHITE));
         assertTrue(tk.hasQueenSideRight(WHITE));
 
-        var tq = state.revokeQueenSide(WHITE);
+        final var tq = state.revokeQueenSide(WHITE);
         assertFalse(tq.hasCastled(WHITE));
         assertFalse(tq.hasCastledKingSide(WHITE));
         assertFalse(tq.hasCastledQueenSide(WHITE));
@@ -244,7 +244,7 @@ class CastleStateTest {
         assertTrue(tq.hasKingSideRight(WHITE));
         assertFalse(tq.hasQueenSideRight(WHITE));
 
-        var tb = state.revokeBoth(WHITE);
+        final var tb = state.revokeBoth(WHITE);
         assertFalse(tb.hasCastled(WHITE));
         assertFalse(tb.hasCastledKingSide(WHITE));
         assertFalse(tb.hasCastledQueenSide(WHITE));
@@ -255,8 +255,8 @@ class CastleStateTest {
 
     @Test
     void testRevokeBlack() {
-        var state = castleStateFor((byte) 0x03);
-        var tk = state.revokeKingSide(BLACK);
+        final var state = castleStateFor((byte) 0x03);
+        final var tk = state.revokeKingSide(BLACK);
         assertFalse(tk.hasCastled(BLACK));
         assertFalse(tk.hasCastledKingSide(BLACK));
         assertFalse(tk.hasCastledQueenSide(BLACK));
@@ -264,7 +264,7 @@ class CastleStateTest {
         assertFalse(tk.hasKingSideRight(BLACK));
         assertTrue(tk.hasQueenSideRight(BLACK));
 
-        var tq = state.revokeQueenSide(BLACK);
+        final var tq = state.revokeQueenSide(BLACK);
         assertFalse(tq.hasCastled(BLACK));
         assertFalse(tq.hasCastledKingSide(BLACK));
         assertFalse(tq.hasCastledQueenSide(BLACK));
@@ -272,7 +272,7 @@ class CastleStateTest {
         assertTrue(tq.hasKingSideRight(BLACK));
         assertFalse(tq.hasQueenSideRight(BLACK));
 
-        var tb = state.revokeBoth(BLACK);
+        final var tb = state.revokeBoth(BLACK);
         assertFalse(tb.hasCastled(BLACK));
         assertFalse(tb.hasCastledKingSide(BLACK));
         assertFalse(tb.hasCastledQueenSide(BLACK));
@@ -395,37 +395,37 @@ class CastleStateTest {
     @Test
     void testRestoreWhite() {
         {
-            var wck = castleStateFor((byte) 0x80);
+            final var wck = castleStateFor((byte) 0x80);
 
-            var kkr = wck.restoreKingSide(WHITE);
+            final var kkr = wck.restoreKingSide(WHITE);
             assertFalse(kkr.hasCastled(WHITE));
             assertTrue(kkr.hasKingSideRight(WHITE));
             assertFalse(kkr.hasQueenSideRight(WHITE));
 
-            var kqr = wck.restoreQueenSide(WHITE);
+            final var kqr = wck.restoreQueenSide(WHITE);
             assertFalse(kqr.hasCastled(WHITE));
             assertFalse(kqr.hasKingSideRight(WHITE));
             assertTrue(kqr.hasQueenSideRight(WHITE));
 
-            var kbr = wck.restoreBoth(WHITE);
+            final var kbr = wck.restoreBoth(WHITE);
             assertFalse(kbr.hasCastled(WHITE));
             assertTrue(kbr.hasKingSideRight(WHITE));
             assertTrue(kbr.hasQueenSideRight(WHITE));
         }
         {
-            var wcq = castleStateFor((byte) 0x40);
+            final var wcq = castleStateFor((byte) 0x40);
 
-            var qkr = wcq.restoreKingSide(WHITE);
+            final var qkr = wcq.restoreKingSide(WHITE);
             assertFalse(qkr.hasCastled(WHITE));
             assertTrue(qkr.hasKingSideRight(WHITE));
             assertFalse(qkr.hasQueenSideRight(WHITE));
 
-            var qqr = wcq.restoreQueenSide(WHITE);
+            final var qqr = wcq.restoreQueenSide(WHITE);
             assertFalse(qqr.hasCastled(WHITE));
             assertFalse(qqr.hasKingSideRight(WHITE));
             assertTrue(qqr.hasQueenSideRight(WHITE));
 
-            var qbr = wcq.restoreBoth(WHITE);
+            final var qbr = wcq.restoreBoth(WHITE);
             assertFalse(qbr.hasCastled(WHITE));
             assertTrue(qbr.hasKingSideRight(WHITE));
             assertTrue(qbr.hasQueenSideRight(WHITE));
@@ -435,37 +435,37 @@ class CastleStateTest {
     @Test
     void testRestoreBlack() {
         {
-            var bck = castleStateFor((byte) 0x8);
+            final var bck = castleStateFor((byte) 0x8);
 
-            var kkr = bck.restoreKingSide(BLACK);
+            final var kkr = bck.restoreKingSide(BLACK);
             assertFalse(kkr.hasCastled(BLACK));
             assertTrue(kkr.hasKingSideRight(BLACK));
             assertFalse(kkr.hasQueenSideRight(BLACK));
 
-            var kqr = bck.restoreQueenSide(BLACK);
+            final var kqr = bck.restoreQueenSide(BLACK);
             assertFalse(kqr.hasCastled(BLACK));
             assertFalse(kqr.hasKingSideRight(BLACK));
             assertTrue(kqr.hasQueenSideRight(BLACK));
 
-            var kbr = bck.restoreBoth(BLACK);
+            final var kbr = bck.restoreBoth(BLACK);
             assertFalse(kbr.hasCastled(BLACK));
             assertTrue(kbr.hasKingSideRight(BLACK));
             assertTrue(kbr.hasQueenSideRight(BLACK));
         }
         {
-            var bcq = castleStateFor((byte) 0x4);
+            final var bcq = castleStateFor((byte) 0x4);
 
-            var qkr = bcq.restoreKingSide(BLACK);
+            final var qkr = bcq.restoreKingSide(BLACK);
             assertFalse(qkr.hasCastled(BLACK));
             assertTrue(qkr.hasKingSideRight(BLACK));
             assertFalse(qkr.hasQueenSideRight(BLACK));
 
-            var qqr = bcq.restoreQueenSide(BLACK);
+            final var qqr = bcq.restoreQueenSide(BLACK);
             assertFalse(qqr.hasCastled(BLACK));
             assertFalse(qqr.hasKingSideRight(BLACK));
             assertTrue(qqr.hasQueenSideRight(BLACK));
 
-            var qbr = bcq.restoreBoth(BLACK);
+            final var qbr = bcq.restoreBoth(BLACK);
             assertFalse(qbr.hasCastled(BLACK));
             assertTrue(qbr.hasKingSideRight(BLACK));
             assertTrue(qbr.hasQueenSideRight(BLACK));
@@ -486,14 +486,10 @@ class CastleStateTest {
                             continue;
                         }
 
-                        var index = (byte) (wc << 6 | wr << 4 | bc << 2 | br);
-                        var first = castleStateFor(index);
-                        var second = castleStateFor(index);
-
-                        if (first.equals(second)) {
-                            second = null;
-                        }
-                        if (first.equals(second)) {
+                        final var index = (byte) (wc << 6 | wr << 4 | bc << 2 | br);
+                        final var state = castleStateFor(index);
+                        //noinspection ConstantConditions
+                        if (state.equals(null)) {
                             fail("chess.castle.state.test");
                         }
                     }
@@ -516,9 +512,9 @@ class CastleStateTest {
                             continue;
                         }
 
-                        var index = (byte) (wc << 6 | wr << 4 | bc << 2 | br);
-                        var state = castleStateFor(index);
-                        var expected = String.format("castleState(0x%02x)", index);
+                        final var index = (byte) (wc << 6 | wr << 4 | bc << 2 | br);
+                        final var state = castleStateFor(index);
+                        final var expected = String.format("castleState(0x%02x)", index);
                         assertEquals(expected, state.toString());
                     }
                 }
@@ -532,8 +528,8 @@ class CastleStateTest {
             for (var wr = 0x0; wr <= 0x3; wr++) {
                 for (var bc = 0x0; bc <= 0x3; bc++) {
                     for (var br = 0x0; br <= 0x3; br++) {
-                        var index = (byte) (wc << 6 | wr << 4 | bc << 2 | br);
-                        var hashString = String.format("0x%02x", index);
+                        final var index = (byte) (wc << 6 | wr << 4 | bc << 2 | br);
+                        final var hashString = String.format("0x%02x", index);
 
                         // Too many error (test shouldn't enforce which is cause is thrown.
                         if (wc == 0x3 && wr != 0x00 || bc == 0x3 && br != 0x0) {
@@ -544,7 +540,7 @@ class CastleStateTest {
                             catch (RuntimeException e) {
                                 assertEquals(ChessException.class.getName(), e.getClass().getName());
                                 assertEquals("chess.castle.state.hash.invalid", e.getMessage());
-                                var cause = e.getCause();
+                                final var cause = e.getCause();
                                 assertNotNull(cause);
                             }
                             continue;
@@ -559,7 +555,7 @@ class CastleStateTest {
                             catch (RuntimeException e) {
                                 assertEquals(ChessException.class.getName(), e.getClass().getName());
                                 assertEquals("chess.castle.state.hash.invalid", e.getMessage());
-                                var cause = e.getCause();
+                                final var cause = e.getCause();
                                 assertNotNull(cause);
                                 assertEquals("both.castled.both.sides: 0xcc", cause.getMessage());
                             }
@@ -575,7 +571,7 @@ class CastleStateTest {
                             catch (RuntimeException e) {
                                 assertEquals(ChessException.class.getName(), e.getClass().getName());
                                 assertEquals("chess.castle.state.hash.invalid", e.getMessage());
-                                var cause = e.getCause();
+                                final var cause = e.getCause();
                                 assertNotNull(cause);
                                 assertEquals("both.castled.retained.rights: " + hashString, cause.getMessage());
                             }
@@ -591,7 +587,7 @@ class CastleStateTest {
                             catch (RuntimeException e) {
                                 assertEquals(ChessException.class.getName(), e.getClass().getName());
                                 assertEquals("chess.castle.state.hash.invalid", e.getMessage());
-                                var cause = e.getCause();
+                                final var cause = e.getCause();
                                 assertNotNull(cause);
                                 assertEquals("white.castled.retained.rights: " + hashString, cause.getMessage());
                             }
@@ -607,7 +603,7 @@ class CastleStateTest {
                             catch (RuntimeException e) {
                                 assertEquals(ChessException.class.getName(), e.getClass().getName());
                                 assertEquals("chess.castle.state.hash.invalid", e.getMessage());
-                                var cause = e.getCause();
+                                final var cause = e.getCause();
                                 assertNotNull(cause);
                                 assertEquals("black.castled.retained.rights: " + hashString, cause.getMessage());
                             }
@@ -623,7 +619,7 @@ class CastleStateTest {
                             catch (RuntimeException e) {
                                 assertEquals(ChessException.class.getName(), e.getClass().getName());
                                 assertEquals("chess.castle.state.hash.invalid", e.getMessage());
-                                var cause = e.getCause();
+                                final var cause = e.getCause();
                                 assertNotNull(cause);
                                 assertEquals("white.castled.both.sides: " + hashString, cause.getMessage());
                             }
@@ -639,7 +635,7 @@ class CastleStateTest {
                             catch (RuntimeException e) {
                                 assertEquals(ChessException.class.getName(), e.getClass().getName());
                                 assertEquals("chess.castle.state.hash.invalid", e.getMessage());
-                                var cause = e.getCause();
+                                final var cause = e.getCause();
                                 assertNotNull(cause);
                                 assertEquals("black.castled.both.sides: " + hashString, cause.getMessage());
                             }
@@ -662,7 +658,7 @@ class CastleStateTest {
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
             assertEquals("chess.castle.state.castle.king.side.failed", e.getMessage());
-            var cause = e.getCause();
+            final var cause = e.getCause();
             assertNotNull(cause);
             assertEquals("side: null", cause.getMessage());
         }
@@ -674,7 +670,7 @@ class CastleStateTest {
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
             assertEquals("chess.castle.state.castle.queen.side.failed", e.getMessage());
-            var cause = e.getCause();
+            final var cause = e.getCause();
             assertNotNull(cause);
             assertEquals("side: null", cause.getMessage());
         }
@@ -689,7 +685,7 @@ class CastleStateTest {
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
             assertEquals("chess.castle.state.castle.king.side.failed", e.getMessage());
-            var cause = e.getCause();
+            final var cause = e.getCause();
             assertNotNull(cause);
             assertEquals("side: NO_SIDE", cause.getMessage());
         }
@@ -701,7 +697,7 @@ class CastleStateTest {
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
             assertEquals("chess.castle.state.castle.queen.side.failed", e.getMessage());
-            var cause = e.getCause();
+            final var cause = e.getCause();
             assertNotNull(cause);
             assertEquals("side: NO_SIDE", cause.getMessage());
         }
@@ -709,7 +705,7 @@ class CastleStateTest {
 
     @Test
     void testHasRightNullSideException() {
-        var state = castleStateFor((byte) 0x00);
+        final var state = castleStateFor((byte) 0x00);
 
         // hasAnyRight()
         try {
@@ -719,7 +715,7 @@ class CastleStateTest {
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
             assertEquals("chess.castle.state.has.any.right.failed", e.getMessage());
-            var cause = e.getCause();
+            final var cause = e.getCause();
             assertNotNull(cause);
             assertEquals("side: null", cause.getMessage());
         }
@@ -732,7 +728,7 @@ class CastleStateTest {
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
             assertEquals("chess.castle.state.has.king.side.right.failed", e.getMessage());
-            var cause = e.getCause();
+            final var cause = e.getCause();
             assertNotNull(cause);
             assertEquals("side: null", cause.getMessage());
         }
@@ -745,7 +741,7 @@ class CastleStateTest {
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
             assertEquals("chess.castle.state.has.queen.side.right.failed", e.getMessage());
-            var cause = e.getCause();
+            final var cause = e.getCause();
             assertNotNull(cause);
             assertEquals("side: null", cause.getMessage());
         }
@@ -753,7 +749,7 @@ class CastleStateTest {
 
     @Test
     void testHasRightNoSideException() {
-        var state = castleStateFor((byte) 0x00);
+        final var state = castleStateFor((byte) 0x00);
 
         // hasAnyRight()
         try {
@@ -763,7 +759,7 @@ class CastleStateTest {
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
             assertEquals("chess.castle.state.has.any.right.failed", e.getMessage());
-            var cause = e.getCause();
+            final var cause = e.getCause();
             assertNotNull(cause);
             assertEquals("side: NO_SIDE", cause.getMessage());
         }
@@ -776,7 +772,7 @@ class CastleStateTest {
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
             assertEquals("chess.castle.state.has.king.side.right.failed", e.getMessage());
-            var cause = e.getCause();
+            final var cause = e.getCause();
             assertNotNull(cause);
             assertEquals("side: NO_SIDE", cause.getMessage());
         }
@@ -789,7 +785,7 @@ class CastleStateTest {
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
             assertEquals("chess.castle.state.has.queen.side.right.failed", e.getMessage());
-            var cause = e.getCause();
+            final var cause = e.getCause();
             assertNotNull(cause);
             assertEquals("side: NO_SIDE", cause.getMessage());
         }
@@ -797,7 +793,7 @@ class CastleStateTest {
 
     @Test
     void testRevokeNullSideException() {
-        var state = castleStateFor((byte) 0x00);
+        final var state = castleStateFor((byte) 0x00);
 
         // revokeBoth()
         try {
@@ -807,7 +803,7 @@ class CastleStateTest {
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
             assertEquals("chess.castle.state.revoke.both.failed", e.getMessage());
-            var cause = e.getCause();
+            final var cause = e.getCause();
             assertNotNull(cause);
             assertEquals("side: null", cause.getMessage());
         }
@@ -820,7 +816,7 @@ class CastleStateTest {
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
             assertEquals("chess.castle.state.revoke.king.side.failed", e.getMessage());
-            var cause = e.getCause();
+            final var cause = e.getCause();
             assertNotNull(cause);
             assertEquals("side: null", cause.getMessage());
         }
@@ -833,7 +829,7 @@ class CastleStateTest {
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
             assertEquals("chess.castle.state.revoke.queen.side.failed", e.getMessage());
-            var cause = e.getCause();
+            final var cause = e.getCause();
             assertNotNull(cause);
             assertEquals("side: null", cause.getMessage());
         }
@@ -841,7 +837,7 @@ class CastleStateTest {
 
     @Test
     void testRevokeNoSideException() {
-        var state = castleStateFor((byte) 0x00);
+        final var state = castleStateFor((byte) 0x00);
 
         // revokeBoth()
         try {
@@ -851,7 +847,7 @@ class CastleStateTest {
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
             assertEquals("chess.castle.state.revoke.both.failed", e.getMessage());
-            var cause = e.getCause();
+            final var cause = e.getCause();
             assertNotNull(cause);
             assertEquals("side: NO_SIDE", cause.getMessage());
         }
@@ -864,7 +860,7 @@ class CastleStateTest {
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
             assertEquals("chess.castle.state.revoke.king.side.failed", e.getMessage());
-            var cause = e.getCause();
+            final var cause = e.getCause();
             assertNotNull(cause);
             assertEquals("side: NO_SIDE", cause.getMessage());
         }
@@ -877,7 +873,7 @@ class CastleStateTest {
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
             assertEquals("chess.castle.state.revoke.queen.side.failed", e.getMessage());
-            var cause = e.getCause();
+            final var cause = e.getCause();
             assertNotNull(cause);
             assertEquals("side: NO_SIDE", cause.getMessage());
         }
@@ -892,7 +888,7 @@ class CastleStateTest {
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
             assertEquals("chess.castle.state.restore.king.side.failed", e.getMessage());
-            var cause = e.getCause();
+            final var cause = e.getCause();
             assertNotNull(cause);
             assertEquals("side: null", cause.getMessage());
         }
@@ -904,7 +900,7 @@ class CastleStateTest {
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
             assertEquals("chess.castle.state.restore.queen.side.failed", e.getMessage());
-            var cause = e.getCause();
+            final var cause = e.getCause();
             assertNotNull(cause);
             assertEquals("side: null", cause.getMessage());
         }
@@ -916,7 +912,7 @@ class CastleStateTest {
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
             assertEquals("chess.castle.state.restore.both.failed", e.getMessage());
-            var cause = e.getCause();
+            final var cause = e.getCause();
             assertNotNull(cause);
             assertEquals("side: null", cause.getMessage());
         }
@@ -931,7 +927,7 @@ class CastleStateTest {
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
             assertEquals("chess.castle.state.restore.king.side.failed", e.getMessage());
-            var cause = e.getCause();
+            final var cause = e.getCause();
             assertNotNull(cause);
             assertEquals("side: NO_SIDE", cause.getMessage());
         }
@@ -943,7 +939,7 @@ class CastleStateTest {
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
             assertEquals("chess.castle.state.restore.queen.side.failed", e.getMessage());
-            var cause = e.getCause();
+            final var cause = e.getCause();
             assertNotNull(cause);
             assertEquals("side: NO_SIDE", cause.getMessage());
         }
@@ -955,7 +951,7 @@ class CastleStateTest {
         catch (RuntimeException e) {
             assertEquals(ChessException.class.getName(), e.getClass().getName());
             assertEquals("chess.castle.state.restore.both.failed", e.getMessage());
-            var cause = e.getCause();
+            final var cause = e.getCause();
             assertNotNull(cause);
             assertEquals("side: NO_SIDE", cause.getMessage());
         }

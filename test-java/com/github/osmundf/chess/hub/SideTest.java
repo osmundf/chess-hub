@@ -26,7 +26,7 @@ class SideTest {
 
     @Test
     void testFlags() {
-        for (var side : Side.values()) {
+        for (final var side : Side.values()) {
             if (NO_SIDE == side) {
                 assertFalse(side.isWhite());
                 assertFalse(side.isBlack());

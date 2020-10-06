@@ -14,9 +14,9 @@ class SquareTest {
     @Test
     void testCoordinateRange() {
         for (var file = 'a'; file <= 'h'; file++) {
-            for (int rank = 1; rank <= 8; rank++) {
-                var square = squareFor(file, rank);
-                var index = ((rank - 1) << 3) | (file - 'a');
+            for (var rank = 1; rank <= 8; rank++) {
+                final var square = squareFor(file, rank);
+                final var index = ((rank - 1) << 3) | (file - 'a');
                 assertEquals(file, square.file());
                 assertEquals(rank, square.rank());
                 assertEquals(index, square.index());
@@ -27,7 +27,7 @@ class SquareTest {
     @Test
     void testIndexRange() {
         for (var index = (byte) 0; index < 64; index++) {
-            var square = squareFromIndex(index);
+            final var square = squareFromIndex(index);
             assertEquals(index, square.index());
         }
     }
@@ -35,16 +35,16 @@ class SquareTest {
     @Test
     void testSame() {
         for (var file = 'a'; file <= 'h'; file++) {
-            for (int rank = 1; rank <= 8; rank++) {
-                var first = squareFor(file, rank);
-                var second = squareFor(file, rank);
+            for (var rank = 1; rank <= 8; rank++) {
+                final var first = squareFor(file, rank);
+                final var second = squareFor(file, rank);
                 assertSame(first, second);
             }
         }
 
         for (var index = 0; index < 64; index++) {
-            var first = squareFromIndex((byte) index);
-            var second = squareFromIndex((byte) index);
+            final var first = squareFromIndex((byte) index);
+            final var second = squareFromIndex((byte) index);
             assertSame(first, second);
         }
     }
@@ -52,16 +52,16 @@ class SquareTest {
     @Test
     void testValidTranslation() {
         for (var file = 'a'; file <= 'h'; file++) {
-            for (int rank = 1; rank <= 8; rank++) {
-                var square = squareFor(file, rank);
-                var bottom = 1 - rank;
-                var top = 8 - rank;
-                var left = 'a' - file;
-                var right = 'h' - file;
+            for (var rank = 1; rank <= 8; rank++) {
+                final var square = squareFor(file, rank);
+                final var bottom = 1 - rank;
+                final var top = 8 - rank;
+                final var left = 'a' - file;
+                final var right = 'h' - file;
 
                 for (var deltaFile = left; deltaFile <= right; deltaFile++) {
                     for (var deltaRank = bottom; deltaRank <= top; deltaRank++) {
-                        var locate = square.translate(deltaFile, deltaRank);
+                        final var locate = square.translate(deltaFile, deltaRank);
                         assertNotNull(locate);
 
                         if (deltaFile == 0 && deltaRank == 0) {
@@ -79,10 +79,10 @@ class SquareTest {
             for (var f2 = 'a'; f2 <= 'h'; f2++) {
                 for (var r1 = 1; r1 <= 8; r1++) {
                     for (var r2 = 1; r2 <= 8; r2++) {
-                        var s1 = squareFor(f1, r1);
-                        var s2 = squareFor(f2, r2);
-                        var df = f2 - f1;
-                        var dr = r2 - r1;
+                        final var s1 = squareFor(f1, r1);
+                        final var s2 = squareFor(f2, r2);
+                        final var df = f2 - f1;
+                        final var dr = r2 - r1;
 
                         if (df == 0) {
                             assertSame(s1.up(dr), s2);
@@ -101,12 +101,12 @@ class SquareTest {
     @Test
     void testSquareForException() {
         try {
-            var square = squareFor('z', -10);
+            final var square = squareFor('z', -10);
             fail("chess.square.test.failed: " + square.toString());
         }
         catch (RuntimeException e) {
-            var className = e.getClass().getName();
-            var cause = e.getCause();
+            final var className = e.getClass().getName();
+            final var cause = e.getCause();
             assertEquals(ChessException.class.getName(), className);
             assertEquals("chess.square.coordinate.invalid", e.getMessage());
             assertNotNull(cause);
@@ -117,12 +117,12 @@ class SquareTest {
     @Test
     void testFromIndexException() {
         try {
-            var square = squareFromIndex((byte) -1);
+            final var square = squareFromIndex((byte) -1);
             fail("chess.square.test.failed: " + square.toString());
         }
         catch (RuntimeException e) {
-            var className = e.getClass().getName();
-            var cause = e.getCause();
+            final var className = e.getClass().getName();
+            final var cause = e.getCause();
             assertEquals(ChessException.class.getName(), className);
             assertEquals("chess.square.index.invalid", e.getMessage());
             assertNotNull(cause);
@@ -133,12 +133,12 @@ class SquareTest {
     @Test
     void testTranslateException() {
         try {
-            var square = squareFromIndex((byte) 0).translate(-1, -1);
+            final var square = squareFromIndex((byte) 0).translate(-1, -1);
             fail("chess.square.test.failed: " + square.toString());
         }
         catch (RuntimeException e) {
-            var className = e.getClass().getName();
-            var cause = e.getCause();
+            final var className = e.getClass().getName();
+            final var cause = e.getCause();
             assertEquals(ChessException.class.getName(), className);
             assertEquals("chess.square.translate.delta.invalid", e.getMessage());
             assertNotNull(cause);
