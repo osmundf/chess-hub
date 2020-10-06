@@ -19,7 +19,7 @@
         <project.report.sourceEncoding>UTF-8</project.report.sourceEncoding>
 
         <!-- Settings: maven-compiler-plugin -->
-        <maven.compiler.main-jdk>11</maven.compiler.main-jdk>
+        <maven.compiler.main-jdk>8</maven.compiler.main-jdk>
         <maven.compiler.test-jdk>11</maven.compiler.test-jdk>
 
         <!-- Settings: maven-build -->

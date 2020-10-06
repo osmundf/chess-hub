@@ -158,8 +158,8 @@ public enum Square {
         if (0 <= column && column <= 7 && 0 <= row && row <= 7) {
             return squareArray[row << 3 | column];
         }
-        var causeMessage = "square: " + this + " deltaFile: " + deltaFile + " deltaRank: " + deltaRank;
-        var cause = new ChessException(causeMessage);
+        String causeMessage = "square: " + this + " deltaFile: " + deltaFile + " deltaRank: " + deltaRank;
+        ChessException cause = new ChessException(causeMessage);
         throw new ChessException("chess.square.translate.delta.invalid", cause);
     }
 

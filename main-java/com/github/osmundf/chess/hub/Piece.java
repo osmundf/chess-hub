@@ -22,23 +22,23 @@ public class Piece {
      */
     public static Piece pieceFor(Side side, Caste caste, Square square) {
         if (side == null) {
-            var cause = new ChessException("chess.side.null");
+            ChessException cause = new ChessException("chess.side.null");
             throw new ChessException("chess.piece.new.piece.null.argument", cause);
         }
         if (NO_SIDE == side) {
-            var cause = new ChessException("chess.side.none");
+            ChessException cause = new ChessException("chess.side.none");
             throw new ChessException("chess.piece.new.piece.no.side", cause);
         }
         if (caste == null) {
-            var cause = new ChessException("chess.caste.null");
+            ChessException cause = new ChessException("chess.caste.null");
             throw new ChessException("chess.piece.new.piece.null.argument", cause);
         }
         if (NONE == caste) {
-            var cause = new ChessException("chess.caste.none");
+            ChessException cause = new ChessException("chess.caste.none");
             throw new ChessException("chess.piece.new.piece.no.caste", cause);
         }
         if (square == null) {
-            var cause = new ChessException("chess.square.null");
+            ChessException cause = new ChessException("chess.square.null");
             throw new ChessException("chess.piece.new.piece.null.argument", cause);
         }
         return new Piece(side, caste, square);
@@ -106,7 +106,7 @@ public class Piece {
         if (!(object instanceof Piece)) {
             return false;
         }
-        var other = (Piece) object;
+        Piece other = (Piece) object;
         return this == object || this.side == other.side && this.caste == other.caste && this.square == other.square;
     }
 

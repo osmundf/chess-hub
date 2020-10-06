@@ -35,38 +35,38 @@ public class CastleState {
         boolean br = bkr | bqr;
 
         if (wc && wr && bc && br) {
-            var hashString = String.format("0x%02x", hash);
-            var cause = new ChessException("both.castled.retained.rights: " + hashString);
+            String hashString = String.format("0x%02x", hash);
+            ChessException cause = new ChessException("both.castled.retained.rights: " + hashString);
             throw new ChessException("chess.castle.state.hash.invalid", cause);
         }
 
         if (wc && wr) {
-            var hashString = String.format("0x%02x", hash);
-            var cause = new ChessException("white.castled.retained.rights: " + hashString);
+            String hashString = String.format("0x%02x", hash);
+            ChessException cause = new ChessException("white.castled.retained.rights: " + hashString);
             throw new ChessException("chess.castle.state.hash.invalid", cause);
         }
 
         if (bc && br) {
-            var hashString = String.format("0x%02x", hash);
-            var cause = new ChessException("black.castled.retained.rights: " + hashString);
+            String hashString = String.format("0x%02x", hash);
+            ChessException cause = new ChessException("black.castled.retained.rights: " + hashString);
             throw new ChessException("chess.castle.state.hash.invalid", cause);
         }
 
         if (wck && wcq && bck && bcq) {
-            var hashString = String.format("0x%02x", hash);
-            var cause = new ChessException("both.castled.both.sides: " + hashString);
+            String hashString = String.format("0x%02x", hash);
+            ChessException cause = new ChessException("both.castled.both.sides: " + hashString);
             throw new ChessException("chess.castle.state.hash.invalid", cause);
         }
 
         if (wck && wcq) {
-            var hashString = String.format("0x%02x", hash);
-            var cause = new ChessException("white.castled.both.sides: " + hashString);
+            String hashString = String.format("0x%02x", hash);
+            ChessException cause = new ChessException("white.castled.both.sides: " + hashString);
             throw new ChessException("chess.castle.state.hash.invalid", cause);
         }
 
         if (bck && bcq) {
-            var hashString = String.format("0x%02x", hash);
-            var cause = new ChessException("black.castled.both.sides: " + hashString);
+            String hashString = String.format("0x%02x", hash);
+            ChessException cause = new ChessException("black.castled.both.sides: " + hashString);
             throw new ChessException("chess.castle.state.hash.invalid", cause);
         }
 
@@ -93,11 +93,11 @@ public class CastleState {
      */
     public CastleState castleKingSide(Side side) {
         if (side == null || NO_SIDE == side) {
-            var cause = new ChessException("side: " + side);
+            ChessException cause = new ChessException("side: " + side);
             throw new ChessException("chess.castle.state.castle.king.side.failed", cause);
         }
         if (!hasKingSideRight(side)) {
-            var cause = new ChessException("state: " + this);
+            ChessException cause = new ChessException("state: " + this);
             throw new ChessException("chess.castle.state.castle.king.side.failed", cause);
         }
         if (WHITE == side) {
@@ -116,11 +116,11 @@ public class CastleState {
      */
     public CastleState castleQueenSide(Side side) {
         if (side == null || NO_SIDE == side) {
-            var cause = new ChessException("side: " + side);
+            ChessException cause = new ChessException("side: " + side);
             throw new ChessException("chess.castle.state.castle.queen.side.failed", cause);
         }
         if (!hasQueenSideRight(side)) {
-            var cause = new ChessException("state: " + this);
+            ChessException cause = new ChessException("state: " + this);
             throw new ChessException("chess.castle.state.castle.queen.side.failed", cause);
         }
         if (WHITE == side) {
@@ -139,7 +139,7 @@ public class CastleState {
      */
     public boolean hasCastled(Side side) {
         if (side == null || NO_SIDE == side) {
-            var cause = new ChessException("side: " + side);
+            ChessException cause = new ChessException("side: " + side);
             throw new ChessException("chess.castle.state.has.castled.failed", cause);
         }
         return quickHasCastled(side);
@@ -153,7 +153,7 @@ public class CastleState {
      */
     public boolean hasCastledKingSide(Side side) {
         if (side == null || NO_SIDE == side) {
-            var cause = new ChessException("side: " + side);
+            ChessException cause = new ChessException("side: " + side);
             throw new ChessException("chess.castle.state.has.castled.king.side.failed", cause);
         }
         if (side == WHITE) {
@@ -172,7 +172,7 @@ public class CastleState {
      */
     public boolean hasCastledQueenSide(Side side) {
         if (side == null || NO_SIDE == side) {
-            var cause = new ChessException("side: " + side);
+            ChessException cause = new ChessException("side: " + side);
             throw new ChessException("chess.castle.state.has.castled.queen.side.failed", cause);
         }
         if (WHITE == side) {
@@ -191,11 +191,11 @@ public class CastleState {
      */
     public CastleState revokeBoth(Side side) {
         if (side == null || side == NO_SIDE) {
-            var cause = new ChessException("side: " + side);
+            ChessException cause = new ChessException("side: " + side);
             throw new ChessException("chess.castle.state.revoke.both.failed", cause);
         }
         if (quickHasCastled(side)) {
-            var cause = new ChessException("side.is.castled: " + side);
+            ChessException cause = new ChessException("side.is.castled: " + side);
             throw new ChessException("chess.castle.state.revoke.both.failed", cause);
         }
         if (WHITE == side) {
@@ -214,11 +214,11 @@ public class CastleState {
      */
     public CastleState revokeKingSide(Side side) {
         if (side == null || side == NO_SIDE) {
-            var cause = new ChessException("side: " + side);
+            ChessException cause = new ChessException("side: " + side);
             throw new ChessException("chess.castle.state.revoke.king.side.failed", cause);
         }
         if (quickHasCastled(side)) {
-            var cause = new ChessException("side.is.castled");
+            ChessException cause = new ChessException("side.is.castled");
             throw new ChessException("chess.castle.state.revoke.king.side.failed", cause);
         }
         if (WHITE == side) {
@@ -237,11 +237,11 @@ public class CastleState {
      */
     public CastleState revokeQueenSide(Side side) {
         if (side == null || side == NO_SIDE) {
-            var cause = new ChessException("side: " + side);
+            ChessException cause = new ChessException("side: " + side);
             throw new ChessException("chess.castle.state.revoke.queen.side.failed", cause);
         }
         if (quickHasCastled(side)) {
-            var cause = new ChessException("side.is.castled: " + side);
+            ChessException cause = new ChessException("side.is.castled: " + side);
             throw new ChessException("chess.castle.state.revoke.queen.side.failed", cause);
         }
         if (WHITE == side) {
@@ -260,7 +260,7 @@ public class CastleState {
      */
     public CastleState restoreBoth(Side side) {
         if (side == null || NO_SIDE == side) {
-            var cause = new ChessException("side: " + side);
+            ChessException cause = new ChessException("side: " + side);
             throw new ChessException("chess.castle.state.restore.both.failed", cause);
         }
         int result;
@@ -281,7 +281,7 @@ public class CastleState {
      */
     public CastleState restoreKingSide(Side side) {
         if (side == null || NO_SIDE == side) {
-            var cause = new ChessException("side: " + side);
+            ChessException cause = new ChessException("side: " + side);
             throw new ChessException("chess.castle.state.restore.king.side.failed", cause);
         }
         int result;
@@ -302,7 +302,7 @@ public class CastleState {
      */
     public CastleState restoreQueenSide(Side side) {
         if (side == null || NO_SIDE == side) {
-            var cause = new ChessException("side: " + side);
+            ChessException cause = new ChessException("side: " + side);
             throw new ChessException("chess.castle.state.restore.queen.side.failed", cause);
         }
         int result;
@@ -323,7 +323,7 @@ public class CastleState {
      */
     public boolean hasAnyRight(Side side) {
         if (side == null || NO_SIDE == side) {
-            var cause = new ChessException("side: " + side);
+            ChessException cause = new ChessException("side: " + side);
             throw new ChessException("chess.castle.state.has.any.right.failed", cause);
         }
         if (WHITE == side) {
@@ -342,7 +342,7 @@ public class CastleState {
      */
     public boolean hasKingSideRight(Side side) {
         if (side == null || NO_SIDE == side) {
-            var cause = new ChessException("side: " + side);
+            ChessException cause = new ChessException("side: " + side);
             throw new ChessException("chess.castle.state.has.king.side.right.failed", cause);
         }
         if (WHITE == side) {
@@ -361,7 +361,7 @@ public class CastleState {
      */
     public boolean hasQueenSideRight(Side side) {
         if (side == null || NO_SIDE == side) {
-            var cause = new ChessException("side: " + side);
+            ChessException cause = new ChessException("side: " + side);
             throw new ChessException("chess.castle.state.has.queen.side.right.failed", cause);
         }
         if (WHITE == side) {
@@ -372,7 +372,7 @@ public class CastleState {
         }
     }
 
-    private boolean quickHasCastled(final Side side) {
+    private boolean quickHasCastled(Side side) {
         if (side == WHITE) {
             return (hash & 0xc0) != 0x0;
         }

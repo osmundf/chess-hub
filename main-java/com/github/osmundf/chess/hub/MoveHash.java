@@ -38,16 +38,16 @@ public class MoveHash {
     public static MoveHash moveHashFor(int hash) {
         // type[ttt] side[s] promotion[ppp] capture[ccc] base[bbb] from[rrr,fff] to[rrr,fff]
         if ((hash & 0xfe000000) != 0x0) {
-            var cause = new ChessException(format("hash: 0x%08x", hash));
+            ChessException cause = new ChessException(format("hash: 0x%08x", hash));
             throw new ChessException("chess.move.hash.hash.invalid", cause);
         }
 
-        var instance = new MoveHash(hash);
-        var type = instance.type();
-        var promotion = instance.promotion();
-        var capture = instance.capture();
-        var base = instance.base();
-        var error = instance.getError(type, promotion, capture, base);
+        MoveHash instance = new MoveHash(hash);
+        MoveType type = instance.type();
+        Caste promotion = instance.promotion();
+        Caste capture = instance.capture();
+        Caste base = instance.base();
+        ChessException error = instance.getError(type, promotion, capture, base);
 
         if (error != null) {
             throw error;
@@ -78,7 +78,7 @@ public class MoveHash {
      * @param t piece target square
      */
     protected MoveHash(MoveType m, Side s, Caste p, Caste c, Caste b, Square f, Square t) {
-        var hash = m.index() << 22;
+        int hash = m.index() << 22;
         hash |= s.isWhite() ? 1 << 21 : 0;
         hash |= p.index() << 18;
         hash |= c.index() << 15;
@@ -169,7 +169,7 @@ public class MoveHash {
                     if (DOUBLE_PUSH == type) {
                         return null;
                     }
-                    var cause = new ChessException("type: " + type + " capture: " + capture);
+                    ChessException cause = new ChessException("type: " + type + " capture: " + capture);
                     return new ChessException("chess.move.hash.invalid.double.push.move", cause);
                 }
 
@@ -178,18 +178,18 @@ public class MoveHash {
                     if (EN_PASSANT == type) {
                         return null;
                     }
-                    var cause = new ChessException("type: " + type + " capture: " + capture);
+                    ChessException cause = new ChessException("type: " + type + " capture: " + capture);
                     return new ChessException("chess.move.hash.invalid.en.passant.move", cause);
                 }
 
-                var template = "type: %s promotion: %s capture: %s";
-                var cause = new ChessException(format(template, type, promotion, capture));
+                String template = "type: %s promotion: %s capture: %s";
+                ChessException cause = new ChessException(format(template, type, promotion, capture));
                 return new ChessException("chess.move.hash.invalid.pawn.move", cause);
             }
 
             // Invalid pawn promotion.
             if (KING == promotion) {
-                var cause = new ChessException("type: " + type + " promotion: " + promotion);
+                ChessException cause = new ChessException("type: " + type + " promotion: " + promotion);
                 return new ChessException("chess.move.hash.invalid.promotion.move", cause);
             }
 
@@ -201,8 +201,8 @@ public class MoveHash {
             }
 
             // Invalid pawn move.
-            var template = "type: %s promotion: %s capture: %s";
-            var cause = new ChessException(format(template, type, promotion, capture));
+            String template = "type: %s promotion: %s capture: %s";
+            ChessException cause = new ChessException(format(template, type, promotion, capture));
             return new ChessException("chess.move.hash.invalid.pawn.move", cause);
         }
 
@@ -217,8 +217,8 @@ public class MoveHash {
             }
 
             // Invalid knight move.
-            var template = "type: %s promotion: %s capture: %s";
-            var cause = new ChessException(format(template, type, promotion, capture));
+            String template = "type: %s promotion: %s capture: %s";
+            ChessException cause = new ChessException(format(template, type, promotion, capture));
             return new ChessException("chess.move.hash.invalid.knight.move", cause);
         }
 
@@ -233,8 +233,8 @@ public class MoveHash {
             }
 
             // Invalid bishop move.
-            var template = "type: %s promotion: %s capture: %s";
-            var cause = new ChessException(format(template, type, promotion, capture));
+            String template = "type: %s promotion: %s capture: %s";
+            ChessException cause = new ChessException(format(template, type, promotion, capture));
             return new ChessException("chess.move.hash.invalid.bishop.move", cause);
         }
 
@@ -249,8 +249,8 @@ public class MoveHash {
             }
 
             // Invalid queen move.
-            var template = "type: %s promotion: %s capture: %s";
-            var cause = new ChessException(format(template, type, promotion, capture));
+            String template = "type: %s promotion: %s capture: %s";
+            ChessException cause = new ChessException(format(template, type, promotion, capture));
             return new ChessException("chess.move.hash.invalid.queen.move", cause);
         }
 
@@ -258,7 +258,7 @@ public class MoveHash {
         if (ROOK == base) {
             // Promotion field signals castling right revocation.
             if (NONE != promotion && KING != promotion && QUEEN != promotion) {
-                var cause = new ChessException("type: " + type + " promotion: " + promotion);
+                ChessException cause = new ChessException("type: " + type + " promotion: " + promotion);
                 return new ChessException("chess.move.hash.rook.revocation.invalid", cause);
             }
 
@@ -269,8 +269,8 @@ public class MoveHash {
             }
 
             // Invalid rook move.
-            var template = "type: %s promotion: %s capture: %s";
-            var cause = new ChessException(format(template, type, promotion, capture));
+            String template = "type: %s promotion: %s capture: %s";
+            ChessException cause = new ChessException(format(template, type, promotion, capture));
             return new ChessException("chess.move.hash.invalid.rook.move", cause);
         }
 
@@ -285,14 +285,14 @@ public class MoveHash {
                     }
                 }
 
-                var cause = new ChessException("type: " + type + " capture: " + capture);
+                ChessException cause = new ChessException("type: " + type + " capture: " + capture);
                 return new ChessException("chess.move.hash.castling.invalid", cause);
             }
 
             // Check for invalid right revocation.
             if (NONE != promotion && KING != promotion && QUEEN != promotion && ROOK != promotion) {
-                var template = "type: %s promotion: %s capture: %s";
-                var cause = new ChessException(format(template, type, promotion, capture));
+                String template = "type: %s promotion: %s capture: %s";
+                ChessException cause = new ChessException(format(template, type, promotion, capture));
                 return new ChessException("chess.move.hash.king.revocation.invalid", cause);
             }
 
@@ -304,8 +304,8 @@ public class MoveHash {
             }
 
             // Invalid king move.
-            var template = "type: %s promotion: %s capture: %s";
-            var cause = new ChessException(format(template, type, promotion, capture));
+            String template = "type: %s promotion: %s capture: %s";
+            ChessException cause = new ChessException(format(template, type, promotion, capture));
             return new ChessException("chess.move.hash.invalid.king.move", cause);
         }
 
@@ -321,8 +321,8 @@ public class MoveHash {
         }
 
         // Invalid move.
-        var template = "type: %s promotion: %s capture: %s base: %s";
-        var cause = new ChessException(format(template, type, promotion, capture, base));
+        String template = "type: %s promotion: %s capture: %s base: %s";
+        ChessException cause = new ChessException(format(template, type, promotion, capture, base));
         return new ChessException("chess.move.hash.invalid.move", cause);
     }
 
@@ -338,7 +338,7 @@ public class MoveHash {
         if (!(object instanceof MoveHash)) {
             return false;
         }
-        var other = (MoveHash) object;
+        MoveHash other = (MoveHash) object;
         return this == object || this.hash == other.hash;
     }
 
