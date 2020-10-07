@@ -15,6 +15,11 @@ import static com.github.osmundf.chess.hub.MoveType.CASTLE_SHORT;
 import static com.github.osmundf.chess.hub.MoveType.DOUBLE_PUSH;
 import static com.github.osmundf.chess.hub.MoveType.EN_PASSANT;
 import static com.github.osmundf.chess.hub.MoveType.moveTypeFromIndex;
+import static com.github.osmundf.chess.hub.Revocation.REVOKE_BOTH;
+import static com.github.osmundf.chess.hub.Revocation.REVOKE_KING_SIDE;
+import static com.github.osmundf.chess.hub.Revocation.REVOKE_NONE;
+import static com.github.osmundf.chess.hub.Revocation.REVOKE_QUEEN_SIDE;
+import static com.github.osmundf.chess.hub.Revocation.revocationFromIndex;
 import static com.github.osmundf.chess.hub.Side.BLACK;
 import static com.github.osmundf.chess.hub.Side.WHITE;
 import static com.github.osmundf.chess.hub.Square.squareFromIndex;
@@ -36,18 +41,19 @@ public class MoveHash {
      * @return new move instance
      */
     public static MoveHash moveHashFor(int hash) {
-        // type[ttt] side[s] promotion[ppp] capture[ccc] base[bbb] from[rrr,fff] to[rrr,fff]
-        if ((hash & 0xfe000000) != 0x0) {
+        // type[ttt] side[s] revocation[kk] promotion[ppp] capture[ccc] base[bbb] from[rrr,fff] to[rrr,fff]
+        if ((hash & 0xf8000000) != 0x0) {
             ChessException cause = new ChessException(format("hash: 0x%08x", hash));
-            throw new ChessException("chess.move.hash.hash.invalid", cause);
+            throw new ChessException("chess.move.hash.input.invalid", cause);
         }
 
         MoveHash instance = new MoveHash(hash);
         MoveType type = instance.type();
+        Revocation revocation = instance.revocation();
         Caste promotion = instance.promotion();
         Caste capture = instance.capture();
         Caste base = instance.base();
-        ChessException error = instance.getError(type, promotion, capture, base);
+        ChessException error = instance.getError(type, revocation, promotion, capture, base);
 
         if (error != null) {
             throw error;
@@ -71,15 +77,17 @@ public class MoveHash {
      *
      * @param m move type
      * @param s move side
+     * @param r castle right revocation
      * @param p promotion/castle detail
      * @param c capture/castle detail
      * @param b piece caste
      * @param f piece source square
      * @param t piece target square
      */
-    protected MoveHash(MoveType m, Side s, Caste p, Caste c, Caste b, Square f, Square t) {
-        int hash = m.index() << 22;
-        hash |= s.isWhite() ? 1 << 21 : 0;
+    protected MoveHash(MoveType m, Side s, Revocation r, Caste p, Caste c, Caste b, Square f, Square t) {
+        int hash = m.index() << 24;
+        hash |= s.isWhite() ? 1 << 23 : 0;
+        hash |= r.index() << 21;
         hash |= p.index() << 18;
         hash |= c.index() << 15;
         hash |= b.index() << 12;
@@ -94,7 +102,7 @@ public class MoveHash {
      * @return move type
      */
     protected MoveType type() {
-        return moveTypeFromIndex((hash >> 22) & 0x7);
+        return moveTypeFromIndex((hash >> 24) & 0x7);
     }
 
     /**
@@ -103,7 +111,16 @@ public class MoveHash {
      * @return move side
      */
     protected Side side() {
-        return (hash & 0x200000) != 0x0 ? WHITE : BLACK;
+        return (hash & 0x800000) != 0x0 ? WHITE : BLACK;
+    }
+
+    /**
+     * Returns revocation detail.
+     *
+     * @return revocation detail
+     */
+    protected Revocation revocation() {
+        return revocationFromIndex((hash >> 21) & 0x3);
     }
 
     /**
@@ -112,7 +129,7 @@ public class MoveHash {
      * @return promotion/revocation detail
      */
     protected Caste promotion() {
-        return casteFromIndex((hash & 0x1c0000) >> 18);
+        return casteFromIndex((hash >> 18) & 0x7);
     }
 
     /**
@@ -121,7 +138,7 @@ public class MoveHash {
      * @return capture/castle detail
      */
     protected Caste capture() {
-        return casteFromIndex((hash & 0x38000) >> 15);
+        return casteFromIndex((hash >> 15) & 0x7);
     }
 
     /**
@@ -130,7 +147,7 @@ public class MoveHash {
      * @return caste of moving piece
      */
     protected Caste base() {
-        return casteFromIndex((hash & 0x7000) >> 12);
+        return casteFromIndex((hash >> 12) & 0x7);
     }
 
     /**
@@ -139,7 +156,7 @@ public class MoveHash {
      * @return source/king square
      */
     protected Square from() {
-        return squareFromIndex((byte) ((hash & 0xfc0) >> 6));
+        return squareFromIndex((byte) ((hash >> 6) & 0x3f));
     }
 
     /**
@@ -160,7 +177,7 @@ public class MoveHash {
      * @param base      moving piece caste
      * @return chess exception of error, null otherwise
      */
-    protected ChessException getError(MoveType type, Caste promotion, Caste capture, Caste base) {
+    ChessException getError(MoveType type, Revocation revocation, Caste promotion, Caste capture, Caste base) {
         // Check valid pawn moves.
         if (PAWN == base) {
             if (PAWN == promotion) {
@@ -206,7 +223,7 @@ public class MoveHash {
             return new ChessException("chess.move.hash.invalid.pawn.move", cause);
         }
 
-        // Check valid king moves.
+        // Check valid knight moves.
         if (KNIGHT == base) {
             if (NONE == promotion) {
                 if (KING != capture && (NONE != capture) == type.isCapture()) {
@@ -279,21 +296,24 @@ public class MoveHash {
             // Check valid castling.
             if (PAWN == promotion) {
                 // Castling revoked at least one right.
-                if (KING == capture || QUEEN == capture || ROOK == capture) {
-                    if (type == CASTLE_LONG || type == CASTLE_SHORT) {
-                        return null;
+                if (REVOKE_BOTH == revocation || REVOKE_KING_SIDE == revocation || REVOKE_QUEEN_SIDE == revocation) {
+                    if (NONE == capture) {
+                        if (type == CASTLE_LONG || type == CASTLE_SHORT) {
+                            return null;
+                        }
                     }
                 }
 
-                ChessException cause = new ChessException("type: " + type + " capture: " + capture);
+                String template = "type: %s revocation: %s capture: %s";
+                ChessException cause = new ChessException(format(template, type, revocation, capture));
                 return new ChessException("chess.move.hash.castling.invalid", cause);
             }
 
-            // Check for invalid right revocation.
-            if (NONE != promotion && KING != promotion && QUEEN != promotion && ROOK != promotion) {
+            // Check for invalid promotion.
+            if (NONE != promotion) {
                 String template = "type: %s promotion: %s capture: %s";
                 ChessException cause = new ChessException(format(template, type, promotion, capture));
-                return new ChessException("chess.move.hash.king.revocation.invalid", cause);
+                return new ChessException("chess.move.hash.king.promotion.invalid", cause);
             }
 
             // Check valid move.
@@ -311,10 +331,12 @@ public class MoveHash {
 
         // Check valid null move.
         if (NONE == base) {
-            if (NONE == promotion) {
-                if (NONE == capture) {
-                    if (BASE == type) {
-                        return null;
+            if (REVOKE_NONE == revocation) {
+                if (NONE == promotion) {
+                    if (NONE == capture) {
+                        if (BASE == type) {
+                            return null;
+                        }
                     }
                 }
             }
@@ -342,7 +364,11 @@ public class MoveHash {
         return this == object || this.hash == other.hash;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * Returns the string representation for the {@link com.github.osmundf.chess.hub.MoveHash} by its hash code.
+     *
+     * @return representational string
+     */
     @Override
     public String toString() {
         return format("MoveHash(0x%08x)", hash);

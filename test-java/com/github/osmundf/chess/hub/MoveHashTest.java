@@ -16,6 +16,10 @@ import static com.github.osmundf.chess.hub.MoveType.CASTLE_LONG;
 import static com.github.osmundf.chess.hub.MoveType.CASTLE_SHORT;
 import static com.github.osmundf.chess.hub.MoveType.DOUBLE_PUSH;
 import static com.github.osmundf.chess.hub.MoveType.EN_PASSANT;
+import static com.github.osmundf.chess.hub.Revocation.REVOKE_BOTH;
+import static com.github.osmundf.chess.hub.Revocation.REVOKE_KING_SIDE;
+import static com.github.osmundf.chess.hub.Revocation.REVOKE_NONE;
+import static com.github.osmundf.chess.hub.Revocation.REVOKE_QUEEN_SIDE;
 import static com.github.osmundf.chess.hub.Side.BLACK;
 import static com.github.osmundf.chess.hub.Side.WHITE;
 import static com.github.osmundf.chess.hub.Square.squareFor;
@@ -31,31 +35,31 @@ class MoveHashTest {
     @Test
     void testRange() {
         // null move:
-        // type[000] side[s] promotion[000] capture[000] base[000] from[rrr,fff] to[rrr,fff]
+        // type[000] side[s] revocation[00] promotion[000] capture[000] base[000] from[rrr,fff] to[rrr,fff]
 
         // base/capture (pawn/knight/bishop/queen):
-        // type[ttt] side[s] promotion[000] capture[ccc] base[bbb] from[rrr,fff] to[rrr,fff]
-        // type[ttt] side[s] promotion[000] capture[ccc] base[bbb] from[rrr,fff] to[rrr,fff]
+        // type[ttt] side[s] revocation[00] promotion[000] capture[ccc] base[bbb] from[rrr,fff] to[rrr,fff]
+        // type[ttt] side[s] revocation[00] promotion[000] capture[ccc] base[bbb] from[rrr,fff] to[rrr,fff]
 
         // base/capture (king/rook):
-        // type[ttt] side[s] castle[ppp] capture[ccc] base[110] from[rrr,fff] to[rrr,fff]
-        // type[ttt] side[s] castle[ppp] capture[ccc] base[100] from[rrr,fff] to[rrr,fff]
+        // type[ttt] side[s] revocation[rr] promotion[000] capture[ccc] base[110] from[rrr,fff] to[rrr,fff]
+        // type[ttt] side[s] revocation[rr] promotion[000] capture[ccc] base[100] from[rrr,fff] to[rrr,fff]
 
         // castling (type: [castle_short,castle_long]):
-        // type[ttt] side[s] promotion[001] castle[ccc] base[110] king[xxx,xxx] rook[xxx,xxx]
+        // type[ttt] side[s] revocation[rr] promotion[001] castle[ccc] base[110] king[xxx,xxx] rook[xxx,xxx]
 
         // basic (double-push):
-        // type[ttt] side[s] promotion[001] capture[000] base[001] from[rrr,fff] to[rrr,fff]
+        // type[ttt] side[s] revocation[00] promotion[001] capture[000] base[001] from[rrr,fff] to[rrr,fff]
 
         // en-passant
-        // type[ttt] side[s] promotion[001] capture[001] base[001] from[rrr,fff] to[rrr,fff]
+        // type[ttt] side[s] revocation[00] promotion[001] capture[001] base[001] from[rrr,fff] to[rrr,fff]
 
         // promotion/capture-promotion:
-        // type[ttt] side[s] promotion[ppp] capture[ccc] base[001] from[rrr,fff] to[rrr,fff]
+        // type[ttt] side[s] revocation[00] promotion[ppp] capture[ccc] base[001] from[rrr,fff] to[rrr,fff]
 
-        final var anyRevocation = new Caste[] {ROOK, KING, QUEEN, NONE};
-        final var kingRevocation = new Caste[] {ROOK, KING, QUEEN};
-        final var rookRevocation = new Caste[] {KING, QUEEN, NONE};
+        final var anyRevocation = Revocation.values();
+        final var castlingRevocation = new Revocation[] {REVOKE_BOTH, REVOKE_KING_SIDE, REVOKE_QUEEN_SIDE};
+        final var rookRevocation = new Revocation[] {REVOKE_KING_SIDE, REVOKE_QUEEN_SIDE, REVOKE_NONE};
         final var boardSide = new Side[] {WHITE, BLACK};
         final var target = new Caste[] {PAWN, KNIGHT, BISHOP, ROOK, QUEEN};
 
@@ -63,21 +67,21 @@ class MoveHashTest {
             for (final var side : boardSide) {
                 // Base king move.
                 for (final var base : new Caste[] {KING}) {
-                    for (final var promotion : anyRevocation) {
-                        assertMove(type, side, promotion, NONE, base);
+                    for (final var revocation : anyRevocation) {
+                        assertMove(type, side, revocation, NONE, NONE, base);
                     }
                 }
 
                 // Base rook move.
                 for (final var base : new Caste[] {ROOK}) {
-                    for (final var promotion : rookRevocation) {
-                        assertMove(type, side, promotion, NONE, base);
+                    for (final var revocation : rookRevocation) {
+                        assertMove(type, side, revocation, NONE, NONE, base);
                     }
                 }
 
                 // Base pawn/knight/bishop/queen move.
                 for (final var base : new Caste[] {PAWN, KNIGHT, BISHOP, QUEEN}) {
-                    assertMove(type, side, NONE, NONE, base);
+                    assertMove(type, side, REVOKE_NONE, NONE, NONE, base);
                 }
             }
         }
@@ -86,7 +90,7 @@ class MoveHashTest {
             for (final var side : boardSide) {
                 // Pawn double push.
                 for (final var base : new Caste[] {PAWN}) {
-                    assertMove(type, side, PAWN, NONE, base);
+                    assertMove(type, side, REVOKE_NONE, PAWN, NONE, base);
                 }
             }
         }
@@ -95,7 +99,7 @@ class MoveHashTest {
             for (final var side : boardSide) {
                 // Pawn en passant.
                 for (final var base : new Caste[] {PAWN}) {
-                    assertMove(type, side, PAWN, PAWN, base);
+                    assertMove(type, side, REVOKE_NONE, PAWN, PAWN, base);
                 }
             }
         }
@@ -105,21 +109,21 @@ class MoveHashTest {
                 for (final var capture : target) {
                     // Capture with king move.
                     for (final var base : new Caste[] {KING}) {
-                        for (final var promotion : anyRevocation) {
-                            assertMove(type, side, promotion, capture, base);
+                        for (final var revocation : anyRevocation) {
+                            assertMove(type, side, revocation, NONE, capture, base);
                         }
                     }
 
                     // Capture with rook move.
                     for (final var base : new Caste[] {ROOK}) {
-                        for (final var promotion : rookRevocation) {
-                            assertMove(type, side, promotion, capture, base);
+                        for (final var revocation : anyRevocation) {
+                            assertMove(type, side, revocation, NONE, capture, base);
                         }
                     }
 
                     // Capture with pawn/knight/bishop/queen move.
                     for (final var base : new Caste[] {PAWN, KNIGHT, BISHOP, QUEEN}) {
-                        assertMove(type, side, NONE, capture, base);
+                        assertMove(type, side, REVOKE_NONE, NONE, capture, base);
                     }
                 }
             }
@@ -127,9 +131,9 @@ class MoveHashTest {
 
         for (final var type : new MoveType[] {CASTLE_SHORT, CASTLE_LONG}) {
             for (final var side : boardSide) {
-                for (final var capture : kingRevocation) {
+                for (final var revocation : castlingRevocation) {
                     // Castling.
-                    assertMove(type, side, PAWN, capture, KING);
+                    assertMove(type, side, revocation, PAWN, NONE, KING);
                 }
             }
         }
@@ -137,8 +141,8 @@ class MoveHashTest {
 
     @Test
     void testInvalidHash() {
-        for (var i = 0x1; i < 0x3f; i++) {
-            final var hash = i << 25;
+        for (var i = 0x1; i < 0x1f; i++) {
+            final var hash = i << 27;
             try {
                 final var moveHash = moveHashFor(hash);
                 fail("chess.move.hash.test.failed: " + moveHash.toString());
@@ -147,7 +151,7 @@ class MoveHashTest {
                 final var className = e.getClass().getName();
                 final var cause = e.getCause();
                 assertEquals(ChessException.class.getName(), className);
-                assertEquals("chess.move.hash.hash.invalid", e.getMessage());
+                assertEquals("chess.move.hash.input.invalid", e.getMessage());
                 assertNotNull(cause);
                 assertEquals(format("hash: 0x%08x", hash), cause.getMessage());
             }
@@ -162,7 +166,7 @@ class MoveHashTest {
             }
             for (final var side : new Side[] {WHITE, BLACK}) {
                 for (final var square : Square.values()) {
-                    final var hash = hashFor(type, side, PAWN, NONE, PAWN, square, square);
+                    final var hash = hashFor(type, side, REVOKE_NONE, PAWN, NONE, PAWN, square, square);
                     try {
                         moveHashFor(hash);
                         fail("chess.move.hash.test.invalid.double.push.move");
@@ -188,7 +192,7 @@ class MoveHashTest {
             }
             for (final var side : new Side[] {WHITE, BLACK}) {
                 for (final var square : Square.values()) {
-                    final var hash = hashFor(type, side, PAWN, PAWN, PAWN, square, square);
+                    final var hash = hashFor(type, side, REVOKE_NONE, PAWN, PAWN, PAWN, square, square);
                     try {
                         moveHashFor(hash);
                         fail("chess.move.hash.test.invalid.double.push.move");
@@ -211,7 +215,7 @@ class MoveHashTest {
         for (final var side : new Side[] {WHITE, BLACK}) {
             for (final var square : Square.values()) {
                 try {
-                    moveHashFor(hashFor(BASE, side, PAWN, KING, PAWN, square, square));
+                    moveHashFor(hashFor(BASE, side, REVOKE_NONE, PAWN, KING, PAWN, square, square));
                     fail("chess.move.hash.test.invalid.pawn.move");
                 }
                 catch (RuntimeException e) {
@@ -224,7 +228,7 @@ class MoveHashTest {
                 }
 
                 try {
-                    moveHashFor(hashFor(BASE, side, KING, NONE, PAWN, square, square));
+                    moveHashFor(hashFor(BASE, side, REVOKE_NONE, KING, NONE, PAWN, square, square));
                     fail("chess.move.hash.test.invalid.pawn.move");
                 }
                 catch (RuntimeException e) {
@@ -237,7 +241,7 @@ class MoveHashTest {
                 }
 
                 try {
-                    moveHashFor(hashFor(BASE, side, NONE, PAWN, PAWN, square, square));
+                    moveHashFor(hashFor(BASE, side, REVOKE_NONE, NONE, PAWN, PAWN, square, square));
                     fail("chess.move.hash.test.invalid.pawn.move");
                 }
                 catch (RuntimeException e) {
@@ -257,7 +261,7 @@ class MoveHashTest {
         for (final var side : new Side[] {WHITE, BLACK}) {
             for (final var square : Square.values()) {
                 try {
-                    moveHashFor(hashFor(CAPTURE, side, NONE, NONE, KNIGHT, square, square));
+                    moveHashFor(hashFor(CAPTURE, side, REVOKE_NONE, NONE, NONE, KNIGHT, square, square));
                     fail("chess.move.hash.test.invalid.knight.move");
                 }
                 catch (RuntimeException e) {
@@ -277,7 +281,7 @@ class MoveHashTest {
         for (final var side : new Side[] {WHITE, BLACK}) {
             for (final var square : Square.values()) {
                 try {
-                    moveHashFor(hashFor(CAPTURE, side, NONE, NONE, BISHOP, square, square));
+                    moveHashFor(hashFor(CAPTURE, side, REVOKE_NONE, NONE, NONE, BISHOP, square, square));
                     fail("chess.move.hash.test.invalid.bishop.move");
                 }
                 catch (RuntimeException e) {
@@ -297,7 +301,7 @@ class MoveHashTest {
         for (final var side : new Side[] {WHITE, BLACK}) {
             for (final var square : Square.values()) {
                 try {
-                    moveHashFor(hashFor(CAPTURE, side, NONE, NONE, QUEEN, square, square));
+                    moveHashFor(hashFor(CAPTURE, side, REVOKE_NONE, NONE, NONE, QUEEN, square, square));
                     fail("chess.move.hash.test.invalid.queen.move");
                 }
                 catch (RuntimeException e) {
@@ -317,7 +321,7 @@ class MoveHashTest {
         for (final var side : new Side[] {WHITE, BLACK}) {
             for (final var square : Square.values()) {
                 try {
-                    moveHashFor(hashFor(BASE, side, ROOK, NONE, ROOK, square, square));
+                    moveHashFor(hashFor(BASE, side, REVOKE_NONE, ROOK, NONE, ROOK, square, square));
                     fail("chess.move.hash.test.rook.revocation.invalid");
                 }
                 catch (RuntimeException e) {
@@ -330,7 +334,7 @@ class MoveHashTest {
                 }
 
                 try {
-                    moveHashFor(hashFor(CAPTURE, side, NONE, NONE, ROOK, square, square));
+                    moveHashFor(hashFor(CAPTURE, side, REVOKE_NONE, NONE, NONE, ROOK, square, square));
                     fail("chess.move.hash.test.invalid.rook.move");
                 }
                 catch (RuntimeException e) {
@@ -351,7 +355,7 @@ class MoveHashTest {
             for (final var side : new Side[] {WHITE, BLACK}) {
                 final var kingSquare = WHITE == side ? squareFor('e', 1) : squareFor('e', 8);
                 final var rookSquare = CASTLE_SHORT == type ? kingSquare.left(4) : kingSquare.right(3);
-                final var hash = hashFor(type, side, PAWN, NONE, KING, kingSquare, rookSquare);
+                final var hash = hashFor(type, side, REVOKE_NONE, PAWN, NONE, KING, kingSquare, rookSquare);
                 try {
                     moveHashFor(hash);
                     fail("chess.move.hash.test.invalid.castle.move");
@@ -360,8 +364,8 @@ class MoveHashTest {
                     assertEquals(ChessException.class.getName(), e.getClass().getName());
                     assertEquals("chess.move.hash.castling.invalid", e.getMessage());
                     assertNotNull(e.getCause());
-                    final var template = "type: %s capture: %s";
-                    final var causeMessage = format(template, type, NONE);
+                    final var template = "type: %s revocation: %s capture: %s";
+                    final var causeMessage = format(template, type, REVOKE_NONE, NONE);
                     assertEquals(causeMessage, e.getCause().getMessage());
                 }
             }
@@ -371,44 +375,38 @@ class MoveHashTest {
     @Test
     void testInvalidKingMove() {
         for (final var side : new Side[] {WHITE, BLACK}) {
-            for (final var square : Square.values()) {
-                try {
-                    moveHashFor(hashFor(BASE, side, KNIGHT, NONE, KING, square, square));
-                    fail("chess.move.hash.test.king.revocation.invalid");
-                }
-                catch (RuntimeException e) {
-                    assertEquals(ChessException.class.getName(), e.getClass().getName());
-                    assertEquals("chess.move.hash.king.revocation.invalid", e.getMessage());
-                    assertNotNull(e.getCause());
-                    final var template = "type: %s promotion: %s capture: %s";
-                    final var causeMessage = format(template, BASE, KNIGHT, NONE);
-                    assertEquals(causeMessage, e.getCause().getMessage());
-                }
+            for (final var revocation : Revocation.values()) {
+                for (final var square : Square.values()) {
+                    // Invalid promotion.
+                    for (final var promotion : Caste.values()) {
+                        if (NONE != promotion && PAWN != promotion) {
+                            try {
+                                moveHashFor(hashFor(BASE, side, revocation, promotion, NONE, KING, square, square));
+                                fail("chess.move.hash.test.king.promotion.invalid");
+                            }
+                            catch (RuntimeException e) {
+                                assertEquals(ChessException.class.getName(), e.getClass().getName());
+                                assertEquals("chess.move.hash.king.promotion.invalid", e.getMessage());
+                                assertNotNull(e.getCause());
+                                final var template = "type: %s promotion: %s capture: %s";
+                                final var causeMessage = format(template, BASE, promotion, NONE);
+                                assertEquals(causeMessage, e.getCause().getMessage());
+                            }
+                        }
+                    }
 
-                try {
-                    moveHashFor(hashFor(BASE, side, BISHOP, NONE, KING, square, square));
-                    fail("chess.move.hash.test.king.revocation.invalid");
-                }
-                catch (RuntimeException e) {
-                    assertEquals(ChessException.class.getName(), e.getClass().getName());
-                    assertEquals("chess.move.hash.king.revocation.invalid", e.getMessage());
-                    assertNotNull(e.getCause());
-                    final var template = "type: %s promotion: %s capture: %s";
-                    final var causeMessage = format(template, BASE, BISHOP, NONE);
-                    assertEquals(causeMessage, e.getCause().getMessage());
-                }
-
-                try {
-                    moveHashFor(hashFor(CAPTURE, side, NONE, NONE, KING, square, square));
-                    fail("chess.move.hash.test.invalid.king.move");
-                }
-                catch (RuntimeException e) {
-                    assertEquals(ChessException.class.getName(), e.getClass().getName());
-                    assertEquals("chess.move.hash.invalid.king.move", e.getMessage());
-                    assertNotNull(e.getCause());
-                    final var template = "type: %s promotion: %s capture: %s";
-                    final var causeMessage = format(template, CAPTURE, NONE, NONE);
-                    assertEquals(causeMessage, e.getCause().getMessage());
+                    try {
+                        moveHashFor(hashFor(CAPTURE, side, revocation, NONE, NONE, KING, square, square));
+                        fail("chess.move.hash.test.invalid.king.move");
+                    }
+                    catch (RuntimeException e) {
+                        assertEquals(ChessException.class.getName(), e.getClass().getName());
+                        assertEquals("chess.move.hash.invalid.king.move", e.getMessage());
+                        assertNotNull(e.getCause());
+                        final var template = "type: %s promotion: %s capture: %s";
+                        final var causeMessage = format(template, CAPTURE, NONE, NONE);
+                        assertEquals(causeMessage, e.getCause().getMessage());
+                    }
                 }
             }
         }
@@ -419,7 +417,7 @@ class MoveHashTest {
         for (final var side : new Side[] {WHITE, BLACK}) {
             for (final var square : Square.values()) {
                 try {
-                    moveHashFor(hashFor(BASE, side, PAWN, NONE, NONE, square, square));
+                    moveHashFor(hashFor(BASE, side, REVOKE_NONE, PAWN, NONE, NONE, square, square));
                     fail("chess.move.hash.test.invalid.move");
                 }
                 catch (RuntimeException e) {
@@ -435,7 +433,7 @@ class MoveHashTest {
     }
 
     @Test
-    void testHashCode() {
+    void testNullMove() {
         final var hash = 0x0;
         final var moveHash = moveHashFor(hash);
         assertEquals(hash, moveHash.hashCode());
@@ -460,9 +458,11 @@ class MoveHashTest {
         assertEquals("MoveHash(0x00000000)", moveHash.toString());
     }
 
-    private void assertMove(MoveType type, Side side, Caste promotion, Caste capture, Caste base) {
+    private void assertMove(MoveType type, Side side, Revocation revocation, Caste promotion, Caste capture,
+        Caste base)
+    {
         for (final var square : Square.values()) {
-            final var hash = hashFor(type, side, promotion, capture, base, square, square);
+            final var hash = hashFor(type, side, revocation, promotion, capture, base, square, square);
             final var moveHash = MoveHash.moveHashFor(hash);
             assertSame(type, moveHash.type());
             assertSame(side, moveHash.side());
@@ -474,15 +474,15 @@ class MoveHashTest {
         }
     }
 
-    private int hashFor(MoveType m, Side s, Caste p, Caste c, Caste b, Square f, Square t) {
-        return new MoveIndexer(m, s, p, c, b, f, t).hash;
+    private int hashFor(MoveType m, Side s, Revocation r, Caste p, Caste c, Caste b, Square f, Square t) {
+        return new MoveIndexer(m, s, r, p, c, b, f, t).hash;
     }
 
     private static class MoveIndexer extends MoveHash {
 
         /** Private constructor. */
-        private MoveIndexer(MoveType m, Side s, Caste p, Caste c, Caste b, Square f, Square t) {
-            super(m, s, p, c, b, f, t);
+        private MoveIndexer(MoveType m, Side s, Revocation r, Caste p, Caste c, Caste b, Square f, Square t) {
+            super(m, s, r, p, c, b, f, t);
         }
     }
 }

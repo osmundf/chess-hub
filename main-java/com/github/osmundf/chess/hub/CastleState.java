@@ -18,7 +18,7 @@ public class CastleState {
      * @param hash castle state hash
      * @return new instance of castle state for hash
      */
-    public static CastleState castleStateFor(byte hash) {
+    public static CastleState castleStateFromHash(byte hash) {
         boolean wck = (hash & 0x80) != 0x0;
         boolean wcq = (hash & 0x40) != 0x0;
         boolean wkr = (hash & 0x10) != 0x0;
@@ -372,6 +372,12 @@ public class CastleState {
         }
     }
 
+    /**
+     * Return if side has castle with bit manipulation.
+     *
+     * @param side side
+     * @return true if side has castled, false otherwise
+     */
     private boolean quickHasCastled(Side side) {
         if (side == WHITE) {
             return (hash & 0xc0) != 0x0;
@@ -396,7 +402,11 @@ public class CastleState {
         return this == object || this.hash == ((CastleState) object).hash;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * Returns the string representation for the {@link com.github.osmundf.chess.hub.CastleState} by its hash code.
+     *
+     * @return representational string
+     */
     @Override
     public String toString() {
         return String.format("castleState(0x%02x)", hash);

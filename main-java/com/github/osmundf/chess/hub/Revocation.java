@@ -1,10 +1,5 @@
 package com.github.osmundf.chess.hub;
 
-import static com.github.osmundf.chess.hub.Caste.KING;
-import static com.github.osmundf.chess.hub.Caste.NONE;
-import static com.github.osmundf.chess.hub.Caste.QUEEN;
-import static com.github.osmundf.chess.hub.Caste.ROOK;
-
 /**
  * Chess move castle revocation.
  *
@@ -12,12 +7,31 @@ import static com.github.osmundf.chess.hub.Caste.ROOK;
  * @version 1.0.0
  * @since 1.0.0
  */
-public enum CastleRevocation {
+public enum Revocation {
 
     REVOKE_BOTH((byte) 0x3),
     REVOKE_KING_SIDE((byte) 0x2),
     REVOKE_NONE((byte) 0x0),
     REVOKE_QUEEN_SIDE((byte) 0x1);
+
+    public static Revocation revocationFromIndex(int index) {
+        if (index == 0) {
+            return REVOKE_NONE;
+        }
+        else if (index == 1) {
+            return REVOKE_QUEEN_SIDE;
+        }
+        else if (index == 2) {
+            return REVOKE_KING_SIDE;
+        }
+        else if (index == 3) {
+            return REVOKE_BOTH;
+        }
+        else {
+            ChessException cause = new ChessException("index: " + index);
+            throw new ChessException("chess.revocation.index.invalid", cause);
+        }
+    }
 
     private final byte index;
 
@@ -26,7 +40,7 @@ public enum CastleRevocation {
      *
      * @param index castle revocation index
      */
-    CastleRevocation(byte index) {
+    Revocation(byte index) {
         this.index = index;
     }
 
@@ -46,25 +60,6 @@ public enum CastleRevocation {
      */
     public boolean isQueenSide() {
         return REVOKE_QUEEN_SIDE == this || REVOKE_BOTH == this;
-    }
-
-    /**
-     * Returns chess caste as representation for castle right revocation.
-     *
-     * @return chess caste for castle right revocation
-     */
-    public Caste asCaste() {
-        switch (this) {
-            case REVOKE_BOTH:
-                return ROOK;
-            case REVOKE_KING_SIDE:
-                return KING;
-            case REVOKE_QUEEN_SIDE:
-                return QUEEN;
-            default: {
-                return NONE;
-            }
-        }
     }
 
     /**
