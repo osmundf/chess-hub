@@ -211,10 +211,4 @@ public enum Square {
     public byte index() {
         return index;
     }
-
-    /** {@inheritDoc} */
-    @Override
-    public String toString() {
-        return file() + "" + rank();
-    }
 }

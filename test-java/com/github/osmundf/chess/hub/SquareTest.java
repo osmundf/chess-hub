@@ -142,7 +142,7 @@ class SquareTest {
             assertEquals(ChessException.class.getName(), className);
             assertEquals("chess.square.translate.delta.invalid", e.getMessage());
             assertNotNull(cause);
-            assertEquals("square: a1 deltaFile: -1 deltaRank: -1", cause.getMessage());
+            assertEquals("square: A1 deltaFile: -1 deltaRank: -1", cause.getMessage());
         }
     }
 }
