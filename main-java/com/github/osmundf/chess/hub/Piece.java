@@ -110,7 +110,11 @@ public class Piece {
         return this == object || this.side == other.side && this.caste == other.caste && this.square == other.square;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * Returns the string representation for the {@link com.github.osmundf.chess.hub.Piece} by its components.
+     *
+     * @return representational string
+     */
     @Override
     public String toString() {
         return String.format("%s.%s.%s", side, caste, square);
