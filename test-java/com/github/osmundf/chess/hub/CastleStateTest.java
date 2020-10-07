@@ -2,13 +2,14 @@ package com.github.osmundf.chess.hub;
 
 import org.junit.jupiter.api.Test;
 
-import static com.github.osmundf.chess.hub.CastleState.castleStateFromHash;
+import static com.github.osmundf.chess.hub.CastleState.castleStateFor;
 import static com.github.osmundf.chess.hub.Side.BLACK;
 import static com.github.osmundf.chess.hub.Side.NO_SIDE;
 import static com.github.osmundf.chess.hub.Side.WHITE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -28,9 +29,9 @@ class CastleStateTest {
                             continue;
                         }
 
-                        final var index = (byte) (wc << 6 | wr << 4 | bc << 2 | br);
-                        final var state = castleStateFromHash(index);
-                        assertEquals(index, state.hashCode());
+                        final var hash = (byte) (wc << 6 | wr << 4 | bc << 2 | br);
+                        final var state = castleStateFor(hash);
+                        assertEquals(hash, state.hashCode());
                     }
                 }
             }
@@ -39,7 +40,7 @@ class CastleStateTest {
 
     @Test
     void testCastlingWhite() {
-        final var state = castleStateFromHash((byte) 0x30);
+        final var state = castleStateFor((byte) 0x30);
         {
             final var tk = state.castleKingSide(WHITE);
             assertTrue(tk.hasCastledKingSide(WHITE));
@@ -61,7 +62,7 @@ class CastleStateTest {
 
     @Test
     void testCastlingBlack() {
-        final var state = castleStateFromHash((byte) 0x3);
+        final var state = castleStateFor((byte) 0x3);
         {
             final var tk = state.castleKingSide(BLACK);
             assertTrue(tk.hasCastledKingSide(BLACK));
@@ -83,7 +84,7 @@ class CastleStateTest {
 
     @Test
     void testCastleKingSideException() {
-        final var state = castleStateFromHash((byte) 0x0);
+        final var state = castleStateFor((byte) 0x0);
 
         try {
             state.castleKingSide(null);
@@ -124,7 +125,7 @@ class CastleStateTest {
 
     @Test
     void testCastleQueenSideException() {
-        final var state = castleStateFromHash((byte) 0x0);
+        final var state = castleStateFor((byte) 0x0);
 
         try {
             state.castleQueenSide(null);
@@ -165,7 +166,7 @@ class CastleStateTest {
 
     @Test
     void testHasCastledException() {
-        final var state = castleStateFromHash((byte) 0x0);
+        final var state = castleStateFor((byte) 0x0);
 
         // hasCastled()
         try {
@@ -227,7 +228,7 @@ class CastleStateTest {
 
     @Test
     void testRevokeWhite() {
-        final var state = castleStateFromHash((byte) 0x30);
+        final var state = castleStateFor((byte) 0x30);
         final var tk = state.revokeKingSide(WHITE);
         assertFalse(tk.hasCastled(WHITE));
         assertFalse(tk.hasCastledKingSide(WHITE));
@@ -255,7 +256,7 @@ class CastleStateTest {
 
     @Test
     void testRevokeBlack() {
-        final var state = castleStateFromHash((byte) 0x03);
+        final var state = castleStateFor((byte) 0x03);
         final var tk = state.revokeKingSide(BLACK);
         assertFalse(tk.hasCastled(BLACK));
         assertFalse(tk.hasCastledKingSide(BLACK));
@@ -285,7 +286,7 @@ class CastleStateTest {
     void testRevokeAfterCastlingException() {
         // revokeBoth()
         try {
-            castleStateFromHash((byte) 0x80).revokeBoth(WHITE);
+            castleStateFor((byte) 0x80).revokeBoth(WHITE);
             fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
@@ -293,7 +294,7 @@ class CastleStateTest {
             assertEquals("chess.castle.state.revoke.both.failed", e.getMessage());
         }
         try {
-            castleStateFromHash((byte) 0x40).revokeBoth(WHITE);
+            castleStateFor((byte) 0x40).revokeBoth(WHITE);
             fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
@@ -303,7 +304,7 @@ class CastleStateTest {
 
         // revokeBoth()
         try {
-            castleStateFromHash((byte) 0x08).revokeBoth(BLACK);
+            castleStateFor((byte) 0x08).revokeBoth(BLACK);
             fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
@@ -311,7 +312,7 @@ class CastleStateTest {
             assertEquals("chess.castle.state.revoke.both.failed", e.getMessage());
         }
         try {
-            castleStateFromHash((byte) 0x04).revokeBoth(BLACK);
+            castleStateFor((byte) 0x04).revokeBoth(BLACK);
             fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
@@ -321,7 +322,7 @@ class CastleStateTest {
 
         // revokeKingSide()
         try {
-            castleStateFromHash((byte) 0x80).revokeKingSide(WHITE);
+            castleStateFor((byte) 0x80).revokeKingSide(WHITE);
             fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
@@ -329,7 +330,7 @@ class CastleStateTest {
             assertEquals("chess.castle.state.revoke.king.side.failed", e.getMessage());
         }
         try {
-            castleStateFromHash((byte) 0x40).revokeKingSide(WHITE);
+            castleStateFor((byte) 0x40).revokeKingSide(WHITE);
             fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
@@ -339,7 +340,7 @@ class CastleStateTest {
 
         // revokeKingSide()
         try {
-            castleStateFromHash((byte) 0x08).revokeKingSide(BLACK);
+            castleStateFor((byte) 0x08).revokeKingSide(BLACK);
             fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
@@ -347,7 +348,7 @@ class CastleStateTest {
             assertEquals("chess.castle.state.revoke.king.side.failed", e.getMessage());
         }
         try {
-            castleStateFromHash((byte) 0x04).revokeKingSide(BLACK);
+            castleStateFor((byte) 0x04).revokeKingSide(BLACK);
             fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
@@ -357,7 +358,7 @@ class CastleStateTest {
 
         // revokeQueenSide()
         try {
-            castleStateFromHash((byte) 0x80).revokeQueenSide(WHITE);
+            castleStateFor((byte) 0x80).revokeQueenSide(WHITE);
             fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
@@ -365,7 +366,7 @@ class CastleStateTest {
             assertEquals("chess.castle.state.revoke.queen.side.failed", e.getMessage());
         }
         try {
-            castleStateFromHash((byte) 0x40).revokeQueenSide(WHITE);
+            castleStateFor((byte) 0x40).revokeQueenSide(WHITE);
             fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
@@ -375,7 +376,7 @@ class CastleStateTest {
 
         // revokeQueenSide()
         try {
-            castleStateFromHash((byte) 0x08).revokeQueenSide(BLACK);
+            castleStateFor((byte) 0x08).revokeQueenSide(BLACK);
             fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
@@ -383,7 +384,7 @@ class CastleStateTest {
             assertEquals("chess.castle.state.revoke.queen.side.failed", e.getMessage());
         }
         try {
-            castleStateFromHash((byte) 0x04).revokeQueenSide(BLACK);
+            castleStateFor((byte) 0x04).revokeQueenSide(BLACK);
             fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
@@ -395,7 +396,7 @@ class CastleStateTest {
     @Test
     void testRestoreWhite() {
         {
-            final var wck = castleStateFromHash((byte) 0x80);
+            final var wck = castleStateFor((byte) 0x80);
 
             final var kkr = wck.restoreKingSide(WHITE);
             assertFalse(kkr.hasCastled(WHITE));
@@ -413,7 +414,7 @@ class CastleStateTest {
             assertTrue(kbr.hasQueenSideRight(WHITE));
         }
         {
-            final var wcq = castleStateFromHash((byte) 0x40);
+            final var wcq = castleStateFor((byte) 0x40);
 
             final var qkr = wcq.restoreKingSide(WHITE);
             assertFalse(qkr.hasCastled(WHITE));
@@ -435,7 +436,7 @@ class CastleStateTest {
     @Test
     void testRestoreBlack() {
         {
-            final var bck = castleStateFromHash((byte) 0x8);
+            final var bck = castleStateFor((byte) 0x8);
 
             final var kkr = bck.restoreKingSide(BLACK);
             assertFalse(kkr.hasCastled(BLACK));
@@ -453,7 +454,7 @@ class CastleStateTest {
             assertTrue(kbr.hasQueenSideRight(BLACK));
         }
         {
-            final var bcq = castleStateFromHash((byte) 0x4);
+            final var bcq = castleStateFor((byte) 0x4);
 
             final var qkr = bcq.restoreKingSide(BLACK);
             assertFalse(qkr.hasCastled(BLACK));
@@ -486,8 +487,12 @@ class CastleStateTest {
                             continue;
                         }
 
-                        final var index = (byte) (wc << 6 | wr << 4 | bc << 2 | br);
-                        final var state = castleStateFromHash(index);
+                        final var hash = (byte) (wc << 6 | wr << 4 | bc << 2 | br);
+                        final var state = castleStateFor(hash);
+                        final var copy = castleStateFor(hash);
+                        assertNotSame(state, copy);
+                        assertEquals(state, copy);
+
                         //noinspection ConstantConditions
                         if (state.equals(null)) {
                             fail("chess.castle.state.test");
@@ -512,9 +517,9 @@ class CastleStateTest {
                             continue;
                         }
 
-                        final var index = (byte) (wc << 6 | wr << 4 | bc << 2 | br);
-                        final var state = castleStateFromHash(index);
-                        final var expected = String.format("castleState(0x%02x)", index);
+                        final var hash = (byte) (wc << 6 | wr << 4 | bc << 2 | br);
+                        final var state = castleStateFor(hash);
+                        final var expected = String.format("castleState(0x%02x)", hash);
                         assertEquals(expected, state.toString());
                     }
                 }
@@ -528,13 +533,13 @@ class CastleStateTest {
             for (var wr = 0x0; wr <= 0x3; wr++) {
                 for (var bc = 0x0; bc <= 0x3; bc++) {
                     for (var br = 0x0; br <= 0x3; br++) {
-                        final var index = (byte) (wc << 6 | wr << 4 | bc << 2 | br);
-                        final var hashString = String.format("0x%02x", index);
+                        final var hash = (byte) (wc << 6 | wr << 4 | bc << 2 | br);
+                        final var hashString = String.format("0x%02x", hash);
 
                         // Too many error (test shouldn't enforce which is cause is thrown.
                         if (wc == 0x3 && wr != 0x00 || bc == 0x3 && br != 0x0) {
                             try {
-                                castleStateFromHash(index);
+                                castleStateFor(hash);
                                 fail("chess.castle.state.test");
                             }
                             catch (RuntimeException e) {
@@ -549,7 +554,7 @@ class CastleStateTest {
                         // Both castled with right(s) retained.
                         if (wc == 0x3 && wr == 0x0 && bc == 0x3 && br == 0x0) {
                             try {
-                                castleStateFromHash(index);
+                                castleStateFor(hash);
                                 fail("chess.castle.state.test");
                             }
                             catch (RuntimeException e) {
@@ -565,7 +570,7 @@ class CastleStateTest {
                         // Both castled with rights retained.
                         if (wc != 0x0 && wr != 0x0 && bc != 0x0 && br != 0x0) {
                             try {
-                                castleStateFromHash(index);
+                                castleStateFor(hash);
                                 fail("chess.castle.state.test");
                             }
                             catch (RuntimeException e) {
@@ -581,7 +586,7 @@ class CastleStateTest {
                         // White castled with rights retained.
                         if (wc != 0x0 && wr != 0x0) {
                             try {
-                                castleStateFromHash(index);
+                                castleStateFor(hash);
                                 fail("chess.castle.state.test");
                             }
                             catch (RuntimeException e) {
@@ -597,7 +602,7 @@ class CastleStateTest {
                         // Black castled with rights retained.
                         if (bc != 0x0 && br != 0x0) {
                             try {
-                                castleStateFromHash(index);
+                                castleStateFor(hash);
                                 fail("chess.castle.state.test");
                             }
                             catch (RuntimeException e) {
@@ -613,7 +618,7 @@ class CastleStateTest {
                         // White castled both sides.
                         if (wc == 0x3 && wr == 0x0) {
                             try {
-                                castleStateFromHash(index);
+                                castleStateFor(hash);
                                 fail("chess.castle.state.test");
                             }
                             catch (RuntimeException e) {
@@ -629,7 +634,7 @@ class CastleStateTest {
                         // Black castled both sides.
                         if (bc == 0x3 && br == 0x0) {
                             try {
-                                castleStateFromHash(index);
+                                castleStateFor(hash);
                                 fail("chess.castle.state.test");
                             }
                             catch (RuntimeException e) {
@@ -642,7 +647,7 @@ class CastleStateTest {
                             continue;
                         }
 
-                        castleStateFromHash(index);
+                        castleStateFor(hash);
                     }
                 }
             }
@@ -652,7 +657,7 @@ class CastleStateTest {
     @Test
     void testCastleNullSideException() {
         try {
-            castleStateFromHash((byte) 0x00).castleKingSide(null);
+            castleStateFor((byte) 0x00).castleKingSide(null);
             fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
@@ -664,7 +669,7 @@ class CastleStateTest {
         }
 
         try {
-            castleStateFromHash((byte) 0x00).castleQueenSide(null);
+            castleStateFor((byte) 0x00).castleQueenSide(null);
             fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
@@ -679,7 +684,7 @@ class CastleStateTest {
     @Test
     void testCastleNoSideException() {
         try {
-            castleStateFromHash((byte) 0x00).castleKingSide(NO_SIDE);
+            castleStateFor((byte) 0x00).castleKingSide(NO_SIDE);
             fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
@@ -691,7 +696,7 @@ class CastleStateTest {
         }
 
         try {
-            castleStateFromHash((byte) 0x00).castleQueenSide(NO_SIDE);
+            castleStateFor((byte) 0x00).castleQueenSide(NO_SIDE);
             fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
@@ -705,7 +710,7 @@ class CastleStateTest {
 
     @Test
     void testHasRightNullSideException() {
-        final var state = castleStateFromHash((byte) 0x00);
+        final var state = castleStateFor((byte) 0x00);
 
         // hasAnyRight()
         try {
@@ -749,7 +754,7 @@ class CastleStateTest {
 
     @Test
     void testHasRightNoSideException() {
-        final var state = castleStateFromHash((byte) 0x00);
+        final var state = castleStateFor((byte) 0x00);
 
         // hasAnyRight()
         try {
@@ -793,7 +798,7 @@ class CastleStateTest {
 
     @Test
     void testRevokeNullSideException() {
-        final var state = castleStateFromHash((byte) 0x00);
+        final var state = castleStateFor((byte) 0x00);
 
         // revokeBoth()
         try {
@@ -837,7 +842,7 @@ class CastleStateTest {
 
     @Test
     void testRevokeNoSideException() {
-        final var state = castleStateFromHash((byte) 0x00);
+        final var state = castleStateFor((byte) 0x00);
 
         // revokeBoth()
         try {
@@ -882,7 +887,7 @@ class CastleStateTest {
     @Test
     void testRestoreNullSideException() {
         try {
-            castleStateFromHash((byte) 0x00).restoreKingSide(null);
+            castleStateFor((byte) 0x00).restoreKingSide(null);
             fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
@@ -894,7 +899,7 @@ class CastleStateTest {
         }
 
         try {
-            castleStateFromHash((byte) 0x00).restoreQueenSide(null);
+            castleStateFor((byte) 0x00).restoreQueenSide(null);
             fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
@@ -906,7 +911,7 @@ class CastleStateTest {
         }
 
         try {
-            castleStateFromHash((byte) 0x00).restoreBoth(null);
+            castleStateFor((byte) 0x00).restoreBoth(null);
             fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
@@ -921,7 +926,7 @@ class CastleStateTest {
     @Test
     void testRestoreNoSideException() {
         try {
-            castleStateFromHash((byte) 0x00).restoreKingSide(NO_SIDE);
+            castleStateFor((byte) 0x00).restoreKingSide(NO_SIDE);
             fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
@@ -933,7 +938,7 @@ class CastleStateTest {
         }
 
         try {
-            castleStateFromHash((byte) 0x00).restoreQueenSide(NO_SIDE);
+            castleStateFor((byte) 0x00).restoreQueenSide(NO_SIDE);
             fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {
@@ -945,7 +950,7 @@ class CastleStateTest {
         }
 
         try {
-            castleStateFromHash((byte) 0x00).restoreBoth(NO_SIDE);
+            castleStateFor((byte) 0x00).restoreBoth(NO_SIDE);
             fail("chess.castle.state.test");
         }
         catch (RuntimeException e) {

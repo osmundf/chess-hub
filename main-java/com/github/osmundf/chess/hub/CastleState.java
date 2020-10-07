@@ -18,7 +18,7 @@ public class CastleState {
      * @param hash castle state hash
      * @return new instance of castle state for hash
      */
-    public static CastleState castleStateFromHash(byte hash) {
+    public static CastleState castleStateFor(byte hash) {
         boolean wck = (hash & 0x80) != 0x0;
         boolean wcq = (hash & 0x40) != 0x0;
         boolean wkr = (hash & 0x10) != 0x0;
@@ -156,7 +156,7 @@ public class CastleState {
             ChessException cause = new ChessException("side: " + side);
             throw new ChessException("chess.castle.state.has.castled.king.side.failed", cause);
         }
-        if (side == WHITE) {
+        if (WHITE == side) {
             return (hash & 0x80) != 0;
         }
         else {
@@ -379,7 +379,7 @@ public class CastleState {
      * @return true if side has castled, false otherwise
      */
     private boolean quickHasCastled(Side side) {
-        if (side == WHITE) {
+        if (WHITE == side) {
             return (hash & 0xc0) != 0x0;
         }
         else {
