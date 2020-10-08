@@ -7,6 +7,7 @@ import static com.github.osmundf.chess.hub.MoveHelper.hashFor;
 import static com.github.osmundf.chess.hub.Side.BLACK;
 import static com.github.osmundf.chess.hub.Side.WHITE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
@@ -36,6 +37,14 @@ class MoveHashTest {
         final var hash = 0x0;
         final var moveHash = moveHashFor(hash);
         assertEquals(hash, moveHash.hashCode());
+    }
+
+    @Test
+    void testInvalidHash() {
+        for (var i = 0x1; i < 0x7f; i++) {
+            final var hash = i << 25;
+            assertFalse(moveHashFor(hash).valid());
+        }
     }
 
     @Test

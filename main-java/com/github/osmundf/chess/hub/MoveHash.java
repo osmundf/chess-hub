@@ -21,15 +21,9 @@ public class MoveHash {
      * Chess move hash factory method.
      *
      * @param hash move hash
-     * @return new move instance
+     * @return new move hash instance
      */
     public static MoveHash moveHashFor(int hash) {
-        // type[ttt] side[s] revocation[kk] promotion[ppp] capture[ccc] base[bbb] from[rrr,fff] to[rrr,fff]
-        if ((hash & 0xf8000000) != 0x0) {
-            ChessException cause = new ChessException(format("hash: 0x%08x", hash));
-            throw new ChessException("chess.move.input.hash.invalid", cause);
-        }
-
         return new MoveHash(hash);
     }
 
@@ -67,6 +61,31 @@ public class MoveHash {
         hash |= f.index() << 6;
         hash |= t.index();
         this.hash = hash;
+    }
+
+    /**
+     * <p>Returns if the hash is valid.
+     * </p>
+     * <p>This is a simple bit pattern check.
+     * </p>
+     *
+     * @return true if the hash is valid, false otherwise.
+     */
+    public boolean valid() {
+        // Check promotion caste.
+        if ((hash & 0x1c0000) == 0x1c0000) {
+            return false;
+        }
+        // Check capture caste.
+        if ((hash & 0x38000) == 0x38000) {
+            return false;
+        }
+        // Check base caste.
+        if ((hash & 0x7000) == 0x7000) {
+            return false;
+        }
+        // Check pad.
+        return (hash & 0xfe000000) == 0x0;
     }
 
     /**

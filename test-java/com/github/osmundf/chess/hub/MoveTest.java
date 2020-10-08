@@ -254,8 +254,8 @@ public class MoveTest {
 
     @Test
     void testInvalidHash() {
-        for (var i = 0x1; i < 0x1f; i++) {
-            final var hash = i << 27;
+        for (var i = 0x1; i < 0x7f; i++) {
+            final var hash = i << 25;
             try {
                 final var move = moveFor(hash);
                 fail("chess.move.test.failed: " + move.toString());

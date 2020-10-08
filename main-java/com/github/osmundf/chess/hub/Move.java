@@ -40,6 +40,12 @@ public class Move extends MoveHash {
      */
     public static Move moveFor(int hash) {
         MoveHash moveHash = MoveHash.moveHashFor(hash);
+
+        if (!moveHash.valid()) {
+            ChessException cause = new ChessException(format("hash: 0x%08x", hash));
+            throw new ChessException("chess.move.input.hash.invalid", cause);
+        }
+
         MoveType type = moveHash.type();
         Side side = moveHash.side();
         Caste promotion = moveHash.promotion();
