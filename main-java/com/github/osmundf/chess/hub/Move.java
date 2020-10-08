@@ -83,10 +83,10 @@ public class Move extends MoveHash {
     /**
      * <p>basicMove.</p>
      *
-     * @param side       a {@link com.github.osmundf.chess.hub.Side} object.
-     * @param base       a {@link com.github.osmundf.chess.hub.Caste} object.
-     * @param from       a {@link com.github.osmundf.chess.hub.Square} object.
-     * @param to         a {@link com.github.osmundf.chess.hub.Square} object.
+     * @param side a {@link com.github.osmundf.chess.hub.Side} object.
+     * @param base a {@link com.github.osmundf.chess.hub.Caste} object.
+     * @param from a {@link com.github.osmundf.chess.hub.Square} object.
+     * @param to   a {@link com.github.osmundf.chess.hub.Square} object.
      * @return a {@link com.github.osmundf.chess.hub.Move} object.
      */
     public static Move basicMove(Side side, Caste base, Square from, Square to) {
@@ -216,9 +216,9 @@ public class Move extends MoveHash {
     /**
      * <p>castle.</p>
      *
-     * @param type       move type
-     * @param king       a {@link com.github.osmundf.chess.hub.Piece} object.
-     * @param rook       a {@link com.github.osmundf.chess.hub.Piece} object.
+     * @param type move type
+     * @param king a {@link com.github.osmundf.chess.hub.Piece} object.
+     * @param rook a {@link com.github.osmundf.chess.hub.Piece} object.
      * @return a {@link com.github.osmundf.chess.hub.Move} object.
      */
     public static Move castleMove(MoveType type, Piece king, Piece rook) {
@@ -241,10 +241,10 @@ public class Move extends MoveHash {
     /**
      * <p>castle.</p>
      *
-     * @param type       move type
-     * @param side       board side
-     * @param from       king from square
-     * @param to         rook from square
+     * @param type move type
+     * @param side board side
+     * @param from king from square
+     * @param to   rook from square
      * @return a castling move
      */
     public static Move castleMove(MoveType type, Side side, Square from, Square to) {
