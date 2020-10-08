@@ -19,8 +19,6 @@ import static com.github.osmundf.chess.hub.MoveType.DOUBLE_PUSH;
 import static com.github.osmundf.chess.hub.MoveType.EN_PASSANT;
 import static com.github.osmundf.chess.hub.MoveType.PROMOTION;
 import static com.github.osmundf.chess.hub.Piece.pieceFor;
-import static com.github.osmundf.chess.hub.Revocation.REVOKE_BOTH;
-import static com.github.osmundf.chess.hub.Revocation.REVOKE_NONE;
 import static com.github.osmundf.chess.hub.Side.BLACK;
 import static com.github.osmundf.chess.hub.Side.WHITE;
 import static com.github.osmundf.chess.hub.Square.squareFor;
@@ -44,14 +42,13 @@ public class Move extends MoveHash {
         MoveHash moveHash = MoveHash.moveHashFor(hash);
         MoveType type = moveHash.type();
         Side side = moveHash.side();
-        Revocation revocation = moveHash.revocation();
         Caste promotion = moveHash.promotion();
         Caste capture = moveHash.capture();
         Caste base = moveHash.base();
         Square from = moveHash.from();
         Square to = moveHash.to();
 
-        Move move = new Move(type, side, revocation, promotion, capture, base, from, to);
+        Move move = new Move(type, side, promotion, capture, base, from, to);
 
         ChessException error = move.validate();
         if (error != null) {
@@ -74,73 +71,23 @@ public class Move extends MoveHash {
         Caste base = piece.caste();
         Square from = piece.square();
 
-        // Delegate to basic move with no revocation specified.
         return basicMove(side, base, from, to);
-    }
-
-    /**
-     * Creates a new move instance for base or double-push move.
-     *
-     * @param side piece side
-     * @param base piece caste
-     * @param from source square
-     * @param to   destination square
-     * @return new move instance for base or double-push move
-     */
-    public static Move basicMove(Side side, Caste base, Square from, Square to) {
-        // Castling revocation cannot be deduced for king or rook.
-        if (KING == base || ROOK == base) {
-            ChessException cause = new ChessException("base: " + base);
-            throw new ChessException("chess.move.revocation.missing", cause);
-        }
-
-        // Delegate to full basic move factory method.
-        return basicMove(side, REVOKE_NONE, base, from, to);
-    }
-
-    /**
-     * <p>basicMove.</p>
-     *
-     * @param piece      a {@link com.github.osmundf.chess.hub.Piece} object.
-     * @param revocation a {@link com.github.osmundf.chess.hub.Revocation} object.
-     * @param to         a {@link com.github.osmundf.chess.hub.Square} object.
-     * @return a {@link com.github.osmundf.chess.hub.Move} object.
-     */
-    public static Move basicMove(Piece piece, Revocation revocation, Square to) {
-        Objects.requireNonNull(piece, "chess.move.piece.null");
-
-        Side side = piece.side();
-        Caste base = piece.caste();
-        Square from = piece.square();
-
-        // Delegate to full basic move factory method.
-        return basicMove(side, revocation, base, from, to);
     }
 
     /**
      * <p>basicMove.</p>
      *
      * @param side       a {@link com.github.osmundf.chess.hub.Side} object.
-     * @param revocation a {@link com.github.osmundf.chess.hub.Revocation} object.
      * @param base       a {@link com.github.osmundf.chess.hub.Caste} object.
      * @param from       a {@link com.github.osmundf.chess.hub.Square} object.
      * @param to         a {@link com.github.osmundf.chess.hub.Square} object.
      * @return a {@link com.github.osmundf.chess.hub.Move} object.
      */
-    public static Move basicMove(Side side, Revocation revocation, Caste base, Square from, Square to) {
+    public static Move basicMove(Side side, Caste base, Square from, Square to) {
         Objects.requireNonNull(side, "chess.move.side.null");
-        Objects.requireNonNull(revocation, "chess.move.revocation.null");
         Objects.requireNonNull(base, "chess.move.base.null");
         Objects.requireNonNull(from, "chess.move.from.square.null");
         Objects.requireNonNull(to, "chess.move.to.square.null");
-
-        if (KING != base && ROOK != base) {
-            if (REVOKE_NONE != revocation) {
-                String template = "revocation: %s base: %s";
-                ChessException cause = new ChessException(format(template, revocation, base));
-                throw new ChessException("chess.move.revocation.invalid", cause);
-            }
-        }
 
         // Check for pawn double-push.
         if (PAWN == base) {
@@ -150,18 +97,18 @@ public class Move extends MoveHash {
             // Check for valid double-push.
             if (WHITE == side) {
                 if (fromRank == 2 && toRank == 4) {
-                    return new Move(DOUBLE_PUSH, side, REVOKE_NONE, PAWN, NONE, base, from, to);
+                    return new Move(DOUBLE_PUSH, side, PAWN, NONE, base, from, to);
                 }
             }
             // Check for valid double-push.
             if (BLACK == side) {
                 if (fromRank == 7 && toRank == 5) {
-                    return new Move(DOUBLE_PUSH, side, REVOKE_NONE, PAWN, NONE, base, from, to);
+                    return new Move(DOUBLE_PUSH, side, PAWN, NONE, base, from, to);
                 }
             }
         }
 
-        return new Move(BASE, side, revocation, NONE, NONE, base, from, to);
+        return new Move(BASE, side, NONE, NONE, base, from, to);
     }
 
     /**
@@ -180,67 +127,26 @@ public class Move extends MoveHash {
             throw new ChessException("chess.move.captured.friendly.piece", cause);
         }
 
-        if (KING == source.caste() || ROOK == source.caste()) {
-            ChessException cause = new ChessException("base: " + source.caste());
-            throw new ChessException("chess.move.revocation.missing", cause);
-        }
-
         Side side = source.side();
         Caste capture = captured.caste();
         Caste base = source.caste();
         Square from = source.square();
         Square to = captured.square();
-        return captureMove(side, REVOKE_NONE, capture, base, from, to);
+        return captureMove(side, capture, base, from, to);
     }
 
     /**
      * <p>captureMove.</p>
      *
-     * @param source     a {@link com.github.osmundf.chess.hub.Piece} object.
-     * @param revocation a {@link com.github.osmundf.chess.hub.Revocation} object.
-     * @param captured   a {@link com.github.osmundf.chess.hub.Piece} object.
+     * @param side    a {@link com.github.osmundf.chess.hub.Side} object.
+     * @param capture a {@link com.github.osmundf.chess.hub.Caste} object.
+     * @param base    a {@link com.github.osmundf.chess.hub.Caste} object.
+     * @param from    a {@link com.github.osmundf.chess.hub.Square} object.
+     * @param to      a {@link com.github.osmundf.chess.hub.Square} object.
      * @return a {@link com.github.osmundf.chess.hub.Move} object.
      */
-    public static Move captureMove(Piece source, Revocation revocation, Piece captured) {
-        Objects.requireNonNull(source, "chess.move.source.null");
-        Objects.requireNonNull(captured, "chess.move.captured.null");
-
-        if (source.side() == captured.side()) {
-            ChessException cause = new ChessException("captured: " + captured);
-            throw new ChessException("chess.move.captured.friendly.piece", cause);
-        }
-
-        Side side = source.side();
-        Caste capture = captured.caste();
-        Caste base = source.caste();
-        Square from = source.square();
-        Square to = captured.square();
-        return captureMove(side, revocation, capture, base, from, to);
-    }
-
-    /**
-     * <p>captureMove.</p>
-     *
-     * @param side       a {@link com.github.osmundf.chess.hub.Side} object.
-     * @param revocation a {@link com.github.osmundf.chess.hub.Revocation} object.
-     * @param capture    a {@link com.github.osmundf.chess.hub.Caste} object.
-     * @param base       a {@link com.github.osmundf.chess.hub.Caste} object.
-     * @param from       a {@link com.github.osmundf.chess.hub.Square} object.
-     * @param to         a {@link com.github.osmundf.chess.hub.Square} object.
-     * @return a {@link com.github.osmundf.chess.hub.Move} object.
-     */
-    public static Move captureMove(
-        Side side, Revocation revocation, Caste capture, Caste base, Square from, Square to)
-    {
-        if (KING != base && ROOK != base) {
-            if (REVOKE_NONE != revocation) {
-                String template = "revocation: %s base: %s";
-                ChessException cause = new ChessException(format(template, revocation, base));
-                throw new ChessException("chess.move.revocation.invalid", cause);
-            }
-        }
-
-        return new Move(CAPTURE, side, revocation, NONE, capture, base, from, to);
+    public static Move captureMove(Side side, Caste capture, Caste base, Square from, Square to) {
+        return new Move(CAPTURE, side, NONE, capture, base, from, to);
     }
 
     /**
@@ -250,6 +156,8 @@ public class Move extends MoveHash {
      * @return a {@link com.github.osmundf.chess.hub.Move} object.
      */
     public static Move doublePushMove(Piece piece) {
+        Objects.requireNonNull(piece, "move.piece.null");
+
         return doublePushMove(piece.side(), piece.caste(), piece.square());
     }
 
@@ -266,7 +174,7 @@ public class Move extends MoveHash {
         assert from.rank() == 2 || from.rank() == 7;
         assert PAWN == base;
         Square to = side.isWhite() ? from.up(2) : from.down(2);
-        return new Move(DOUBLE_PUSH, side, REVOKE_NONE, NONE, NONE, base, from, to);
+        return new Move(DOUBLE_PUSH, side, NONE, NONE, base, from, to);
     }
 
     /**
@@ -296,7 +204,7 @@ public class Move extends MoveHash {
         assert base == PAWN;
         assert from != null;
         assert to != null;
-        return new Move(EN_PASSANT, side, REVOKE_NONE, NONE, PAWN, PAWN, from, to);
+        return new Move(EN_PASSANT, side, NONE, PAWN, PAWN, from, to);
     }
 
     /**
@@ -305,12 +213,10 @@ public class Move extends MoveHash {
      * @param type       move type
      * @param king       a {@link com.github.osmundf.chess.hub.Piece} object.
      * @param rook       a {@link com.github.osmundf.chess.hub.Piece} object.
-     * @param revocation a {@link com.github.osmundf.chess.hub.Revocation} object.
      * @return a {@link com.github.osmundf.chess.hub.Move} object.
      */
-    public static Move castleMove(MoveType type, Revocation revocation, Piece king, Piece rook) {
+    public static Move castleMove(MoveType type, Piece king, Piece rook) {
         Objects.requireNonNull(type, "move.type.null");
-        Objects.requireNonNull(revocation, "move.revocation.null");
         Objects.requireNonNull(king, "move.king.piece.null");
         Objects.requireNonNull(rook, "move.rook.piece.null");
 
@@ -321,9 +227,9 @@ public class Move extends MoveHash {
         }
 
         Side side = king.side();
-        Square from = king.square();
-        Square to = rook.square();
-        return castleMove(type, side, revocation, from, to);
+        Square kingSquare = king.square();
+        Square rookSquare = rook.square();
+        return castleMove(type, side, kingSquare, rookSquare);
     }
 
     /**
@@ -331,15 +237,13 @@ public class Move extends MoveHash {
      *
      * @param type       move type
      * @param side       board side
-     * @param revocation castling right revocation
      * @param from       king from square
      * @param to         rook from square
      * @return a castling move
      */
-    public static Move castleMove(MoveType type, Side side, Revocation revocation, Square from, Square to) {
+    public static Move castleMove(MoveType type, Side side, Square from, Square to) {
         Objects.requireNonNull(type, "move.type.null");
         Objects.requireNonNull(side, "move.side.null");
-        Objects.requireNonNull(revocation, "move.revocation.null");
         Objects.requireNonNull(from, "move.from.square.null");
         Objects.requireNonNull(to, "move.to.square.null");
 
@@ -349,14 +253,12 @@ public class Move extends MoveHash {
             throw new ChessException("chess.move.castle.move.invalid", cause);
         }
 
-        return new Move(type, side, revocation, NONE, NONE, KING, from, to);
+        return new Move(type, side, NONE, NONE, KING, from, to);
     }
 
     private final MoveType type;
 
     private final Side side;
-
-    private final Revocation revocation;
 
     private final Caste promotion;
 
@@ -377,22 +279,20 @@ public class Move extends MoveHash {
      *
      * @param m move type
      * @param s board side
-     * @param r castling right revocation
      * @param p piece promotion
      * @param c captured piece caste
      * @param b piece caste
      * @param f from square
      * @param t to square
      */
-    protected Move(MoveType m, Side s, Revocation r, Caste p, Caste c, Caste b, Square f, Square t) {
-        super(m, s, r, p, c, b, f, t);
+    protected Move(MoveType m, Side s, Caste p, Caste c, Caste b, Square f, Square t) {
+        super(m, s, p, c, b, f, t);
         this.type = m;
         this.side = s;
         this.promotion = p;
         this.capture = c;
         this.base = b;
         this.from = f;
-        this.revocation = r;
 
         if (m.isCastling()) {
             this.to = getKingToSquare();
@@ -509,15 +409,6 @@ public class Move extends MoveHash {
     }
 
     /**
-     * <p>revocation.</p>
-     *
-     * @return a {@link com.github.osmundf.chess.hub.Revocation} object.
-     */
-    public Revocation revocation() {
-        return revocation;
-    }
-
-    /**
      * <p>rookFrom.</p>
      *
      * @return a {@link com.github.osmundf.chess.hub.Square} object.
@@ -554,24 +445,6 @@ public class Move extends MoveHash {
     }
 
     /**
-     * <p>revokedKingSide.</p>
-     *
-     * @return a boolean.
-     */
-    public boolean revokedKingSide() {
-        return revocation.isKingSide();
-    }
-
-    /**
-     * <p>revokedQueenSide.</p>
-     *
-     * @return a boolean.
-     */
-    public boolean revokedQueenSide() {
-        return revocation.isQueenSide();
-    }
-
-    /**
      * <p>isNull.</p>
      *
      * @return a boolean.
@@ -588,13 +461,6 @@ public class Move extends MoveHash {
     final public ChessException validate() {
         // Check valid pawn moves.
         if (PAWN == base) {
-            // Invalid pawn move due to revocation.
-            if (REVOKE_NONE != revocation) {
-                String template = "type: %s revocation: %s";
-                ChessException cause = new ChessException(format(template, type, revocation));
-                return new ChessException("chess.move.invalid.pawn.move", cause);
-            }
-
             // Valid pawn base/capture move.
             if (BASE == type || CAPTURE == type) {
                 if (NONE == promotion) {
@@ -688,13 +554,6 @@ public class Move extends MoveHash {
 
         // Check valid knight moves.
         if (KNIGHT == base) {
-            // Invalid knight move due to revocation.
-            if (REVOKE_NONE != revocation) {
-                String template = "type: %s revocation: %s";
-                ChessException cause = new ChessException(format(template, type, revocation));
-                return new ChessException("chess.move.invalid.knight.move", cause);
-            }
-
             // Valid knight base/capture move.
             if (BASE == type || CAPTURE == type) {
                 if (NONE == promotion) {
@@ -716,13 +575,6 @@ public class Move extends MoveHash {
 
         // Check valid bishop moves.
         if (BISHOP == base) {
-            // Invalid bishop move due to revocation.
-            if (REVOKE_NONE != revocation) {
-                String template = "type: %s revocation: %s";
-                ChessException cause = new ChessException(format(template, type, revocation));
-                return new ChessException("chess.move.invalid.bishop.move", cause);
-            }
-
             // Valid bishop base/capture move.
             if (BASE == type || CAPTURE == type) {
                 if (NONE == promotion) {
@@ -744,13 +596,6 @@ public class Move extends MoveHash {
 
         // Check valid queen moves.
         if (QUEEN == base) {
-            // Invalid queen move due to revocation.
-            if (REVOKE_NONE != revocation) {
-                String template = "type: %s revocation: %s";
-                ChessException cause = new ChessException(format(template, type, revocation));
-                return new ChessException("chess.move.invalid.queen.move", cause);
-            }
-
             // Valid queen base/capture move.
             if (BASE == type || CAPTURE == type) {
                 if (NONE == promotion) {
@@ -772,13 +617,6 @@ public class Move extends MoveHash {
 
         // Check valid rook moves.
         if (ROOK == base) {
-            // Invalid rook move due to revocation.
-            if (REVOKE_BOTH == revocation) {
-                String template = "type: %s revocation: %s";
-                ChessException cause = new ChessException(format(template, type, revocation));
-                return new ChessException("chess.move.invalid.rook.move", cause);
-            }
-
             // Valid rook base/capture move.
             if (BASE == type || CAPTURE == type) {
                 if (NONE == promotion) {
@@ -813,13 +651,6 @@ public class Move extends MoveHash {
                 }
             }
 
-            // Invalid castling move due to revocation.
-            if (CASTLE_LONG == type && !revocation.isQueenSide() || CASTLE_SHORT == type && !revocation.isKingSide()) {
-                String template = "type: %s revocation: %s";
-                ChessException cause = new ChessException(format(template, type, revocation));
-                return new ChessException("chess.move.invalid.castle.move", cause);
-            }
-
             // Check valid castling.
             if (CASTLE_LONG == type || CASTLE_SHORT == type) {
                 // Valid castle move.
@@ -850,11 +681,9 @@ public class Move extends MoveHash {
         // Check valid null move.
         if (NONE == base) {
             if (BASE == type) {
-                if (REVOKE_NONE == revocation) {
-                    if (NONE == promotion) {
-                        if (NONE == capture) {
-                            return null;
-                        }
+                if (NONE == promotion) {
+                    if (NONE == capture) {
+                        return null;
                     }
                 }
             }

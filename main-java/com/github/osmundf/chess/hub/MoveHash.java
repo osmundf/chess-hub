@@ -2,7 +2,6 @@ package com.github.osmundf.chess.hub;
 
 import static com.github.osmundf.chess.hub.Caste.casteFromIndex;
 import static com.github.osmundf.chess.hub.MoveType.moveTypeFromIndex;
-import static com.github.osmundf.chess.hub.Revocation.revocationFromIndex;
 import static com.github.osmundf.chess.hub.Side.BLACK;
 import static com.github.osmundf.chess.hub.Side.WHITE;
 import static com.github.osmundf.chess.hub.Square.squareFromIndex;
@@ -48,22 +47,20 @@ public class MoveHash {
     /**
      * <p>Constructor for MoveHash (protected).
      * </p>
-     * <p>type[ttt] side[s] revocation[kq] promotion[ppp] capture[ccc] base[bbb] from[rrr,fff] to[rrr,fff]
+     * <p>type[ttt] side[s] promotion[ppp] capture[ccc] base[bbb] from[rrr,fff] to[rrr,fff]
      * </p>
      *
      * @param m move type
      * @param s move side
-     * @param r castle right revocation
      * @param p promotion
      * @param c capture
      * @param b piece caste
      * @param f move source square
      * @param t move target square
      */
-    protected MoveHash(MoveType m, Side s, Revocation r, Caste p, Caste c, Caste b, Square f, Square t) {
-        int hash = m.index() << 24;
-        hash |= s.isWhite() ? 1 << 23 : 0;
-        hash |= r.index() << 21;
+    protected MoveHash(MoveType m, Side s, Caste p, Caste c, Caste b, Square f, Square t) {
+        int hash = m.index() << 22;
+        hash |= s.isWhite() ? 1 << 21 : 0;
         hash |= p.index() << 18;
         hash |= c.index() << 15;
         hash |= b.index() << 12;
@@ -78,7 +75,7 @@ public class MoveHash {
      * @return move type
      */
     protected MoveType type() {
-        return moveTypeFromIndex((hash >> 24) & 0x7);
+        return moveTypeFromIndex((hash >> 22) & 0x7);
     }
 
     /**
@@ -87,16 +84,7 @@ public class MoveHash {
      * @return move side
      */
     protected Side side() {
-        return (hash & 0x800000) != 0x0 ? WHITE : BLACK;
-    }
-
-    /**
-     * Returns revocation detail.
-     *
-     * @return revocation detail
-     */
-    protected Revocation revocation() {
-        return revocationFromIndex((hash >> 21) & 0x3);
+        return (hash & 0x200000) != 0x0 ? WHITE : BLACK;
     }
 
     /**
