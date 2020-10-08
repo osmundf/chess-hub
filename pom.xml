@@ -325,6 +325,26 @@
                         </configuration>
                     </execution>
                     <execution>
+                        <id>main-javadoc-check</id>
+                        <phase>none</phase>
+                        <goals>
+                            <goal>javadoc</goal>
+                        </goals>
+                        <configuration>
+                            <!-- Workaround for: https://issues.apache.org/jira/browse/MJAVADOC-623 -->
+                            <release>${maven.compiler.main-jdk}</release>
+                            <!-- -->
+                            <doclint>all</doclint>
+                            <show>private</show>
+                            <failOnWarnings>true</failOnWarnings>
+                            <!-- Workaround for https://issues.apache.org/jira/browse/MJAVADOC-614 -->
+                            <sourceFileExcludes>
+                                <exclude>module-info.java</exclude>
+                            </sourceFileExcludes>
+                            <!-- -->
+                        </configuration>
+                    </execution>
+                    <execution>
                         <id>test-javadoc</id>
                         <phase>none</phase>
                         <goals>
