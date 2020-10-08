@@ -17,6 +17,7 @@ import static com.github.osmundf.chess.hub.Move.castleMove;
 import static com.github.osmundf.chess.hub.Move.doublePushMove;
 import static com.github.osmundf.chess.hub.Move.enPassantMove;
 import static com.github.osmundf.chess.hub.Move.moveFor;
+import static com.github.osmundf.chess.hub.MoveHelper.hashFor;
 import static com.github.osmundf.chess.hub.MoveType.BASE;
 import static com.github.osmundf.chess.hub.MoveType.CAPTURE;
 import static com.github.osmundf.chess.hub.MoveType.CAPTURE_PROMOTION;
@@ -1076,17 +1077,5 @@ public class MoveTest {
     void testToString() {
         final var move = Move.moveFor(0x0);
         assertEquals("Move(0x00000000)", move.toString());
-    }
-
-    private int hashFor(MoveType m, Side s, Caste p, Caste c, Caste b, Square f, Square t) {
-        return new MoveIndexer(m, s, p, c, b, f, t).hash;
-    }
-
-    private static class MoveIndexer extends MoveHash {
-
-        /** Private constructor. */
-        private MoveIndexer(MoveType m, Side s, Caste p, Caste c, Caste b, Square f, Square t) {
-            super(m, s, p, c, b, f, t);
-        }
     }
 }

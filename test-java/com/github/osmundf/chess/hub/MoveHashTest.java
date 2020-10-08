@@ -3,6 +3,7 @@ package com.github.osmundf.chess.hub;
 import org.junit.jupiter.api.Test;
 
 import static com.github.osmundf.chess.hub.MoveHash.moveHashFor;
+import static com.github.osmundf.chess.hub.MoveHelper.hashFor;
 import static com.github.osmundf.chess.hub.Side.BLACK;
 import static com.github.osmundf.chess.hub.Side.WHITE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -67,17 +68,5 @@ class MoveHashTest {
         assertSame(b, moveHash.base());
         assertSame(f, moveHash.from());
         assertSame(t, moveHash.to());
-    }
-
-    private int hashFor(MoveType m, Side s, Caste p, Caste c, Caste b, Square f, Square t) {
-        return new MoveIndexer(m, s, p, c, b, f, t).hash;
-    }
-
-    private static class MoveIndexer extends MoveHash {
-
-        /** Private constructor. */
-        private MoveIndexer(MoveType m, Side s, Caste p, Caste c, Caste b, Square f, Square t) {
-            super(m, s, p, c, b, f, t);
-        }
     }
 }
