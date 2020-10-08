@@ -8,6 +8,7 @@ import static com.github.osmundf.chess.hub.Side.NO_SIDE;
 import static com.github.osmundf.chess.hub.Side.WHITE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -488,15 +489,12 @@ class CastleStateTest {
                         }
 
                         final var hash = (byte) (wc << 6 | wr << 4 | bc << 2 | br);
-                        final var state = castleStateFor(hash);
-                        final var copy = castleStateFor(hash);
-                        assertNotSame(state, copy);
-                        assertEquals(state, copy);
-
-                        //noinspection ConstantConditions
-                        if (state.equals(null)) {
-                            fail("chess.castle.state.test");
-                        }
+                        final var state1 = castleStateFor(hash);
+                        final var state2 = castleStateFor(hash);
+                        assertNotSame(state1, state2);
+                        assertEquals(state1, state2);
+                        assertNotEquals(state1, null);
+                        assertNotEquals(state2, null);
                     }
                 }
             }
