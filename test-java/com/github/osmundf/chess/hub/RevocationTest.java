@@ -64,5 +64,4 @@ class RevocationTest {
         assertTrue(REVOKE_QUEEN_SIDE.isQueenSide());
         assertFalse(REVOKE_NONE.isQueenSide());
     }
-
 }
