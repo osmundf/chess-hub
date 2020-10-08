@@ -9,6 +9,7 @@ import static com.github.osmundf.chess.hub.Side.NO_SIDE;
 import static com.github.osmundf.chess.hub.Side.WHITE;
 import static com.github.osmundf.chess.hub.Square.squareFor;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -186,6 +187,7 @@ class PieceTest {
             for (final var c1 : Caste.values()) {
                 for (final var t1 : Square.values()) {
                     final var first = new PiecePiggy(s1, c1, t1).asPiece();
+                    assertNotEquals(first, null);
 
                     for (final var s2 : Side.values()) {
                         for (final var c2 : Caste.values()) {
@@ -196,11 +198,6 @@ class PieceTest {
                                     assertSame(s1, s2);
                                     assertSame(c1, c2);
                                     assertSame(t1, t2);
-                                }
-
-                                //noinspection ConstantConditions
-                                if (first.equals(null)) {
-                                    fail("chess.piece.equal.on.null");
                                 }
                             }
                         }
