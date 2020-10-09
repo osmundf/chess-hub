@@ -41,10 +41,20 @@ class MoveHashTest {
 
     @Test
     void testInvalidHash() {
+        // Check invalid pad.
         for (var i = 0x1; i < 0x7f; i++) {
             final var hash = i << 25;
             assertFalse(moveHashFor(hash).valid());
         }
+
+        // Check invalid promotion.
+        assertFalse(moveHashFor(0x1c0000).valid());
+
+        // Check invalid capture.
+        assertFalse(moveHashFor(0x38000).valid());
+
+        // Check invalid base.
+        assertFalse(moveHashFor(0x7000).valid());
     }
 
     @Test
