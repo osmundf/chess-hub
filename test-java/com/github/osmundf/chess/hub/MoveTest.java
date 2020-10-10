@@ -949,15 +949,15 @@ public class MoveTest {
         for (final var side : new Side[] {WHITE, BLACK}) {
             // King capture without capture piece.
             try {
-                moveFor(hashFor(BASE, side, ROOK, NONE, ROOK, Square.C8, Square.C4));
-                fail("chess.move.test.rook.revocation.invalid");
+                moveFor(hashFor(CAPTURE, side, NONE, NONE, KING, Square.D4, Square.E5));
+                fail("chess.move.test.invalid.king.move");
             }
             catch (RuntimeException e) {
                 assertEquals(ChessException.class.getName(), e.getClass().getName());
-                assertEquals("chess.move.invalid.rook.move", e.getMessage());
+                assertEquals("chess.move.invalid.king.move", e.getMessage());
                 assertNotNull(e.getCause());
                 final var template = "type: %s promotion: %s capture: %s";
-                final var causeMessage = format(template, BASE, ROOK, NONE);
+                final var causeMessage = format(template, CAPTURE, NONE, NONE);
                 assertEquals(causeMessage, e.getCause().getMessage());
             }
 
@@ -1005,19 +1005,6 @@ public class MoveTest {
                         assertEquals(causeMessage, e.getCause().getMessage());
                     }
                 }
-            }
-
-            try {
-                moveFor(hashFor(CAPTURE, side, NONE, NONE, KING, Square.D4, Square.E5));
-                fail("chess.move.test.invalid.king.move");
-            }
-            catch (RuntimeException e) {
-                assertEquals(ChessException.class.getName(), e.getClass().getName());
-                assertEquals("chess.move.invalid.king.move", e.getMessage());
-                assertNotNull(e.getCause());
-                final var template = "type: %s promotion: %s capture: %s";
-                final var causeMessage = format(template, CAPTURE, NONE, NONE);
-                assertEquals(causeMessage, e.getCause().getMessage());
             }
         }
     }
