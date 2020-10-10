@@ -1,6 +1,6 @@
 package com.github.osmundf.chess.hub;
 
-class MoveHelper extends MoveHash {
+class MoveHelper extends MoveIdentity {
 
     /**
      * Return hash for move.

@@ -15,31 +15,31 @@ import static java.lang.String.format;
  * @version 1.0.0
  * @since 1.0.0
  */
-public class MoveHash {
+public class MoveIdentity {
 
     /**
-     * Chess move hash factory method.
+     * Chess move identity factory method.
      *
      * @param hash move hash
-     * @return new move hash instance
+     * @return new move identity instance
      */
-    public static MoveHash moveHashFor(int hash) {
-        return new MoveHash(hash);
+    public static MoveIdentity moveIdentityFor(int hash) {
+        return new MoveIdentity(hash);
     }
 
     protected final int hash;
 
     /**
-     * Constructor for MoveHash (protected).
+     * Constructor for {@link com.github.osmundf.chess.hub.MoveIdentity} (protected).
      *
      * @param hash move hash
      */
-    protected MoveHash(int hash) {
+    protected MoveIdentity(int hash) {
         this.hash = hash;
     }
 
     /**
-     * <p>Constructor for MoveHash (protected).
+     * Constructor for {@link com.github.osmundf.chess.hub.MoveIdentity} (protected).
      * </p>
      * <p>type[ttt] side[s] promotion[ppp] capture[ccc] base[bbb] from[rrr,fff] to[rrr,fff]
      * </p>
@@ -52,7 +52,7 @@ public class MoveHash {
      * @param f move source square
      * @param t move target square
      */
-    protected MoveHash(MoveType m, Side s, Caste p, Caste c, Caste b, Square f, Square t) {
+    protected MoveIdentity(MoveType m, Side s, Caste p, Caste c, Caste b, Square f, Square t) {
         int hash = m.index() << 22;
         hash |= s.isWhite() ? 1 << 21 : 0;
         hash |= p.index() << 18;
@@ -160,15 +160,15 @@ public class MoveHash {
     /** {@inheritDoc} */
     @Override
     public boolean equals(Object object) {
-        if (!(object instanceof MoveHash)) {
+        if (!(object instanceof MoveIdentity)) {
             return false;
         }
-        MoveHash other = (MoveHash) object;
+        MoveIdentity other = (MoveIdentity) object;
         return this == object || this.hash == other.hash;
     }
 
     /**
-     * Returns the string representation for the {@link com.github.osmundf.chess.hub.MoveHash} by its hash code.
+     * Returns the string representation for the {@link MoveIdentity} by its hash code.
      *
      * @return representational string
      */

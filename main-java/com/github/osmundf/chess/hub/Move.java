@@ -31,7 +31,7 @@ import static java.lang.String.format;
  * @author Osmund
  * @version 1.0.0
  */
-public class Move extends MoveHash {
+public class Move {
 
     /**
      * Chess move factory method.
@@ -40,20 +40,20 @@ public class Move extends MoveHash {
      * @return new instance of move
      */
     public static Move moveFor(int hash) {
-        MoveHash moveHash = MoveHash.moveHashFor(hash);
+        MoveIdentity id = MoveIdentity.moveIdentityFor(hash);
 
-        if (!moveHash.valid()) {
+        if (!id.valid()) {
             ChessException cause = new ChessException(format("hash: 0x%08x", hash));
             throw new ChessException("chess.move.input.hash.invalid", cause);
         }
 
-        MoveType type = moveHash.type();
-        Side side = moveHash.side();
-        Caste promotion = moveHash.promotion();
-        Caste capture = moveHash.capture();
-        Caste base = moveHash.base();
-        Square from = moveHash.from();
-        Square to = moveHash.to();
+        MoveType type = id.type();
+        Side side = id.side();
+        Caste promotion = id.promotion();
+        Caste capture = id.capture();
+        Caste base = id.base();
+        Square from = id.from();
+        Square to = id.to();
 
         Move move = new Move(type, side, promotion, capture, base, from, to);
 
@@ -286,6 +286,8 @@ public class Move extends MoveHash {
         return new Move(type, side, NONE, NONE, KING, from, to);
     }
 
+    private final int hash;
+
     private final MoveType type;
 
     private final Side side;
@@ -316,7 +318,7 @@ public class Move extends MoveHash {
      * @param t to square
      */
     protected Move(MoveType m, Side s, Caste p, Caste c, Caste b, Square f, Square t) {
-        super(m, s, p, c, b, f, t);
+        this.hash = new MoveIdentity(m, s, p, c, b, f, t).hash;
         this.type = m;
         this.side = s;
         this.promotion = p;
@@ -339,10 +341,10 @@ public class Move extends MoveHash {
     /**
      * Return underlying move hash class.
      *
-     * @return underlying {@link com.github.osmundf.chess.hub.MoveHash}
+     * @return underlying {@link MoveIdentity}
      */
-    public MoveHash hash() {
-        return new MoveHash(hash);
+    public MoveIdentity id() {
+        return new MoveIdentity(hash);
     }
 
     /**
@@ -930,7 +932,7 @@ public class Move extends MoveHash {
     /** {@inheritDoc} */
     @Override
     public int hashCode() {
-        return super.hash;
+        return hash;
     }
 
     /** {@inheritDoc} */

@@ -125,7 +125,7 @@ public class MoveTest {
 
                 final var actual = doublePushMove(piece);
                 final var hash = actual.hashCode();
-                final var moveHash = actual.hash();
+                final var moveHash = actual.id();
                 final var move = moveFor(hash);
 
                 assertSame(side, move.side(), "chess.move.test.side");
