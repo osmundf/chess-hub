@@ -1,7 +1,5 @@
 package com.github.osmundf.chess.hub;
 
-import java.util.Objects;
-
 import org.junit.jupiter.api.Test;
 
 import static com.github.osmundf.chess.hub.Caste.BISHOP;
@@ -28,6 +26,7 @@ import static com.github.osmundf.chess.hub.MoveType.EN_PASSANT;
 import static com.github.osmundf.chess.hub.MoveType.PROMOTION;
 import static com.github.osmundf.chess.hub.Piece.pieceFor;
 import static com.github.osmundf.chess.hub.Side.BLACK;
+import static com.github.osmundf.chess.hub.Side.NO_SIDE;
 import static com.github.osmundf.chess.hub.Side.WHITE;
 import static com.github.osmundf.chess.hub.Square.squareFor;
 import static java.lang.String.format;
@@ -50,7 +49,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 public class MoveTest {
 
     @Test
-    void testFromIndexBasic() {
+    void testBasicFromIndex() {
         final var side = WHITE;
         final var from = Square.A1;
         final var to = Square.B2;
@@ -68,7 +67,7 @@ public class MoveTest {
     }
 
     @Test
-    void testFromIndexCapture() {
+    void testCaptureFromIndex() {
         final var side = BLACK;
         final var from = Square.D2;
         final var to = Square.E3;
@@ -117,113 +116,161 @@ public class MoveTest {
     }
 
     @Test
-    void testFromIndexDoublePush() {
-        final var side = WHITE;
-        final var from = squareFor('a', 2);
-        final var to = squareFor('a', 4);
-        final var piece = pieceFor(side, PAWN, from);
-        final var actual = doublePushMove(piece);
+    void testDoublePushFromIndex() {
+        for (final var side : new Side[] {WHITE, BLACK}) {
+            for (int i = 0; i < 8; i++) {
+                final var from = squareFor((char) ('a' + i), WHITE == side ? 2 : 7);
+                final var to = squareFor((char) ('a' + i), WHITE == side ? 4 : 5);
+                final var piece = pieceFor(side, PAWN, from);
 
-        final var hash = actual.hashCode();
-        final var moveHash = actual.hash();
-        final var move = moveFor(hash);
+                final var actual = doublePushMove(piece);
+                final var hash = actual.hashCode();
+                final var moveHash = actual.hash();
+                final var move = moveFor(hash);
 
-        assertSame(side, move.side());
-        assertSame(NONE, actual.promotion(), "test.move.promotion");
-        assertSame(NONE, actual.capture(), "test.move.capture");
-        assertSame(from, move.from(), "test.move.from");
-        assertSame(to, move.to(), "test.move.to");
-        assertSame(piece.caste(), move.base(), "test.move.base");
-        assertEquals(actual, move, "test.move.super.hash");
+                assertSame(side, move.side(), "chess.move.test.side");
+                assertSame(NONE, actual.promotion(), "chess.move.test.promotion");
+                assertSame(NONE, actual.capture(), "chess.move.test.capture.caste");
+                assertSame(from, move.from(), "chess.move.test.from.square");
+                assertSame(to, move.to(), "chess.move.test.to.square");
+                assertSame(piece.caste(), move.base(), "chess.move.test.base.caste");
+                assertEquals(actual, move, "chess.move.test.super.hash");
 
-        assertSame(side, moveHash.side(), "test.move.hash.side");
-        assertSame(NONE, moveHash.promotion(), "test.move.hash.promotion");
-        assertSame(NONE, moveHash.capture(), "test.move.hash.capture");
-        assertSame(from, moveHash.from(), "test.move.hash.from");
-        assertSame(to, moveHash.to(), "test.move.hash.to");
+                assertSame(side, moveHash.side(), "chess.move.test.hash.side");
+                assertSame(NONE, moveHash.promotion(), "chess.move.test.hash.promotion");
+                assertSame(NONE, moveHash.capture(), "chess.move.test.hash.capture");
+                assertSame(from, moveHash.from(), "chess.move.test.hash.from");
+                assertSame(to, moveHash.to(), "chess.move.test.hash.to");
+            }
+        }
     }
 
     @Test
-    @SuppressWarnings("UnnecessaryLocalVariable")
     void testNewMoveEnPassant() {
-        final var side = WHITE;
-        final var base = PAWN;
-        final var from = Square.D5;
-        final var piece = pieceFor(side, base, from);
-        final var to = Square.E6;
-        final var move = enPassantMove(piece, to);
-        final var exception = move.validate();
-        if (exception != null) {
-            throw exception;
+        for (final var side : new Side[] {WHITE, BLACK}) {
+            for (int i = 0; i < 8; i++) {
+                final var from = squareFor((char) ('a' + i), WHITE == side ? 5 : 4);
+                final var piece = pieceFor(side, PAWN, from);
+
+                for (var delta = -1; delta <= 1; delta += 2) {
+                    if ((i != 0 || delta != -1) && (i != 7 || delta != 1)) {
+                        final var to = squareFor((char) ('a' + i + delta), WHITE == side ? 6 : 3);
+                        final var move = enPassantMove(piece, to);
+                        final var exception = move.validate();
+                        if (exception != null) {
+                            throw exception;
+                        }
+                    }
+                }
+            }
         }
     }
 
     @Test
     void testKnightMove() {
-        {
-            final var hash = hashFor(BASE, WHITE, NONE, NONE, KNIGHT, Square.B1, Square.C3);
-            final var move = moveFor(hash);
-            assertNotNull(move);
-        }
-        {
-            final var hash = hashFor(BASE, WHITE, NONE, NONE, KNIGHT, Square.B1, Square.D2);
-            final var move = moveFor(hash);
-            assertNotNull(move);
+        for (final var side : new Side[] {WHITE, BLACK}) {
+            for (final var to : new Square[] {Square.C3, Square.D2}) {
+                final var hash = hashFor(BASE, side, NONE, NONE, KNIGHT, Square.B1, to);
+                final var move = moveFor(hash);
+                assertNotNull(move);
+            }
         }
     }
 
     @Test
     void testBishopMove() {
-        final var hash = hashFor(BASE, WHITE, NONE, NONE, BISHOP, Square.C1, Square.A3);
-        final var move = moveFor(hash);
-        assertNotNull(move);
+        for (final var side : new Side[] {WHITE, BLACK}) {
+            final var hash = hashFor(BASE, side, NONE, NONE, BISHOP, Square.C1, Square.A3);
+            final var move = moveFor(hash);
+            assertNotNull(move);
+        }
     }
 
     @Test
     void testQueenMove() {
-        final var hash = hashFor(BASE, WHITE, NONE, NONE, QUEEN, Square.D1, Square.B3);
-        final var move = moveFor(hash);
-        assertNotNull(move);
+        for (final var side : new Side[] {WHITE, BLACK}) {
+            final var hash = hashFor(BASE, side, NONE, NONE, QUEEN, Square.D1, Square.B3);
+            final var move = moveFor(hash);
+            assertNotNull(move);
+        }
     }
 
     @Test
-    void testFromIndexCastlingKingSide() {
-        final var hash = hashFor(CASTLE_SHORT, WHITE, NONE, NONE, KING, Square.E1, Square.H1);
-        final var move = moveFor(hash);
-        assertSame(Square.E1, move.kingFrom());
-        assertSame(Square.G1, move.kingTo());
-        assertSame(Square.H1, move.rookFrom());
-        assertSame(Square.F1, move.rookTo());
+    void testCastleKingSideFromIndex() {
+        for (final var side : new Side[] {WHITE, BLACK}) {
+            final var kingFrom = WHITE == side ? Square.E1 : Square.E8;
+            final var kingTo = WHITE == side ? Square.G1 : Square.G8;
+            final var rookFrom = WHITE == side ? Square.H1 : Square.H8;
+            final var rookTo = WHITE == side ? Square.F1 : Square.F8;
+
+            final var hash = hashFor(CASTLE_SHORT, side, NONE, NONE, KING, kingFrom, rookFrom);
+            final var move = moveFor(hash);
+            assertNull(move.validate());
+            assertSame(kingFrom, move.kingFrom());
+            assertSame(kingTo, move.kingTo());
+            assertSame(rookFrom, move.rookFrom());
+            assertSame(rookTo, move.rookTo());
+        }
     }
 
     @Test
-    void testFromIndexCastlingQueenSide() {
-        final var hash = hashFor(CASTLE_LONG, WHITE, NONE, NONE, KING, Square.E1, Square.A1);
-        final var move = moveFor(hash);
-        assertSame(Square.E1, move.kingFrom());
-        assertSame(Square.C1, move.kingTo());
-        assertSame(Square.A1, move.rookFrom());
-        assertSame(Square.D1, move.rookTo());
+    void testCastleQueenSideFromIndex() {
+        for (final var side : new Side[] {WHITE, BLACK}) {
+            final var kingFrom = WHITE == side ? Square.E1 : Square.E8;
+            final var kingTo = WHITE == side ? Square.C1 : Square.C8;
+            final var rookFrom = WHITE == side ? Square.A1 : Square.A8;
+            final var rookTo = WHITE == side ? Square.D1 : Square.D8;
+
+            final var hash = hashFor(CASTLE_LONG, side, NONE, NONE, KING, kingFrom, rookFrom);
+            final var move = moveFor(hash);
+            assertNull(move.validate());
+            assertSame(kingFrom, move.kingFrom());
+            assertSame(kingTo, move.kingTo());
+            assertSame(rookFrom, move.rookFrom());
+            assertSame(rookTo, move.rookTo());
+        }
     }
 
     @Test
-    void testCastleMoveLong() {
-        final var king = pieceFor(BLACK, KING, Square.E8);
-        final var rook = pieceFor(BLACK, ROOK, Square.A8);
-        final var move = castleMove(CASTLE_LONG, king, rook);
-        assertNull(move.validate());
+    void testCastleKingSide() {
+        for (final var side : new Side[] {WHITE, BLACK}) {
+            final var kingFrom = WHITE == side ? Square.E1 : Square.E8;
+            final var kingTo = WHITE == side ? Square.G1 : Square.G8;
+            final var rookFrom = WHITE == side ? Square.H1 : Square.H8;
+            final var rookTo = WHITE == side ? Square.F1 : Square.F8;
+
+            final var king = pieceFor(side, KING, kingFrom);
+            final var rook = pieceFor(side, ROOK, rookFrom);
+            final var move = castleMove(CASTLE_SHORT, king, rook);
+            assertNull(move.validate());
+            assertSame(kingFrom, move.kingFrom());
+            assertSame(kingTo, move.kingTo());
+            assertSame(rookFrom, move.rookFrom());
+            assertSame(rookTo, move.rookTo());
+        }
     }
 
     @Test
-    void testCastleMoveShort() {
-        final var king = pieceFor(BLACK, KING, Square.E8);
-        final var rook = pieceFor(BLACK, ROOK, Square.H8);
-        final var move = castleMove(CASTLE_SHORT, king, rook);
-        assertNull(move.validate());
+    void testCastleQueenSide() {
+        for (final var side : new Side[] {WHITE, BLACK}) {
+            final var kingFrom = WHITE == side ? Square.E1 : Square.E8;
+            final var kingTo = WHITE == side ? Square.C1 : Square.C8;
+            final var rookFrom = WHITE == side ? Square.A1 : Square.A8;
+            final var rookTo = WHITE == side ? Square.D1 : Square.D8;
+
+            final var king = pieceFor(side, KING, kingFrom);
+            final var rook = pieceFor(side, ROOK, rookFrom);
+            final var move = castleMove(CASTLE_LONG, king, rook);
+            assertNull(move.validate());
+            assertSame(kingFrom, move.kingFrom());
+            assertSame(kingTo, move.kingTo());
+            assertSame(rookFrom, move.rookFrom());
+            assertSame(rookTo, move.rookTo());
+        }
     }
 
     @Test
-    void testFromIndexPawnPromotion() {
+    void testPawnPromotionFromIndex() {
         final var hash = hashFor(PROMOTION, WHITE, QUEEN, NONE, PAWN, Square.E7, Square.E8);
         final var move = moveFor(hash);
         final var queen = move.promotionPiece();
@@ -231,7 +278,7 @@ public class MoveTest {
     }
 
     @Test
-    void testFromIndexPawnPromotionCapture() {
+    void testPawnPromotionCaptureFromIndex() {
         final var hash = hashFor(CAPTURE_PROMOTION, WHITE, QUEEN, ROOK, PAWN, Square.E7, Square.D8);
         final var move = moveFor(hash);
         final var queen = move.promotionPiece();
@@ -325,7 +372,7 @@ public class MoveTest {
     }
 
     @Test
-    void testInvalidDoublePush() {
+    void testInvalidDoublePushFromIndex() {
         final var type = DOUBLE_PUSH;
         final var targets = new Caste[] {PAWN, ROOK, KNIGHT, BISHOP, KING, QUEEN};
 
@@ -356,6 +403,91 @@ public class MoveTest {
     }
 
     @Test
+    void testInvalidDoublePushPiece() {
+        for (final var side : new Side[] {WHITE, BLACK}) {
+            for (int i = 0; i < 8; i++) {
+                final var from = squareFor((char) ('a' + i), WHITE == side ? 2 : 7);
+                for (var base : Caste.values()) {
+                    if (PAWN != base && NONE != base) {
+                        try {
+                            var piece = pieceFor(side, base, from);
+                            var move = doublePushMove(piece);
+                            fail("chess.move.test.invalid.double.push.move: " + move);
+                        }
+                        catch (RuntimeException e) {
+                            assertEquals(ChessException.class, e.getClass());
+                            assertEquals("chess.move.invalid.double.push.move", e.getMessage());
+                            assertNotNull(e.getCause());
+                            final var template = "base: %s";
+                            final var causeMessage = format(template, base);
+                            assertEquals(causeMessage, e.getCause().getMessage());
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @Test
+    void testInvalidDoublePushSquare() {
+        // Invalid double-push move: invalid side.
+        for (final var side : new Side[] {null, NO_SIDE}) {
+            try {
+                var move = doublePushMove(side, null);
+                fail("chess.move.test.invalid.double.push.move: " + move);
+            }
+            catch (RuntimeException e) {
+                assertEquals(ChessException.class, e.getClass());
+                assertEquals("chess.move.invalid.double.push.move", e.getMessage());
+                assertNotNull(e.getCause());
+                final var template = "side: %s";
+                final var causeMessage = format(template, side);
+                assertEquals(causeMessage, e.getCause().getMessage());
+            }
+        }
+
+        // Invalid double-push move: null from square.
+        for (final var side : new Side[] {WHITE, BLACK}) {
+            try {
+                var move = doublePushMove(side, null);
+                fail("chess.move.test.invalid.double.push.move: " + move);
+            }
+            catch (RuntimeException e) {
+                assertEquals(ChessException.class, e.getClass());
+                assertEquals("chess.move.invalid.double.push.move", e.getMessage());
+                assertNotNull(e.getCause());
+                final var template = "from: %s";
+                final var causeMessage = format(template, "null");
+                assertEquals(causeMessage, e.getCause().getMessage());
+            }
+        }
+
+        // Invalid double-push move: invalid from square rank.
+        for (final var side : new Side[] {WHITE, BLACK}) {
+            for (char file = 'a'; file <= 'h'; file++) {
+                for (int rank = 1; rank <= 8; rank++) {
+                    final var from = squareFor(file, rank);
+
+                    if (WHITE == side && rank != 2 || BLACK == side && rank != 7) {
+                        try {
+                            var move = doublePushMove(side, from);
+                            fail("chess.move.test.invalid.double.push.move: " + move);
+                        }
+                        catch (RuntimeException e) {
+                            assertEquals(ChessException.class, e.getClass());
+                            assertEquals("chess.move.invalid.double.push.move", e.getMessage());
+                            assertNotNull(e.getCause());
+                            final var template = "side: %s from: %s";
+                            final var causeMessage = format(template, side, from);
+                            assertEquals(causeMessage, e.getCause().getMessage());
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @Test
     void testInvalidEnPassant() {
         // Moving forward.
         for (final var side : new Side[] {WHITE, BLACK}) {
@@ -368,10 +500,6 @@ public class MoveTest {
                 fail("chess.move.test.invalid.en.passant.move: " + move);
             }
             catch (RuntimeException e) {
-                if (Objects.equals(NullPointerException.class, e.getClass())) {
-                    e.printStackTrace();
-                }
-
                 assertEquals(ChessException.class, e.getClass());
                 assertEquals("chess.move.invalid.pawn.move", e.getMessage());
                 assertNotNull(e.getCause());
@@ -395,10 +523,6 @@ public class MoveTest {
                 fail("chess.move.test.invalid.en.passant.move: " + move);
             }
             catch (RuntimeException e) {
-                if (Objects.equals(NullPointerException.class, e.getClass())) {
-                    e.printStackTrace();
-                }
-
                 assertEquals(ChessException.class, e.getClass());
                 assertEquals("chess.move.invalid.en.passant.move", e.getMessage());
                 assertNotNull(e.getCause());
@@ -418,10 +542,6 @@ public class MoveTest {
                 fail("chess.move.test.invalid.pawn.promotion.squares: " + move);
             }
             catch (RuntimeException e) {
-                if (Objects.equals(NullPointerException.class, e.getClass())) {
-                    e.printStackTrace();
-                }
-
                 assertEquals(ChessException.class, e.getClass());
                 assertEquals("chess.move.invalid.promotion.move", e.getMessage());
                 assertNotNull(e.getCause());
@@ -443,10 +563,6 @@ public class MoveTest {
                 fail("chess.move.test.invalid.pawn.capture.promotion.squares: " + move);
             }
             catch (RuntimeException e) {
-                if (Objects.equals(NullPointerException.class, e.getClass())) {
-                    e.printStackTrace();
-                }
-
                 assertEquals(ChessException.class, e.getClass());
                 assertEquals("chess.move.invalid.pawn.move", e.getMessage());
                 assertNotNull(e.getCause());
@@ -468,10 +584,6 @@ public class MoveTest {
                 fail("chess.move.test.invalid.pawn.capture.promotion.squares: " + move);
             }
             catch (RuntimeException e) {
-                if (Objects.equals(NullPointerException.class, e.getClass())) {
-                    e.printStackTrace();
-                }
-
                 assertEquals(ChessException.class, e.getClass());
                 assertEquals("chess.move.invalid.capture.promotion.move", e.getMessage());
                 assertNotNull(e.getCause());
@@ -495,10 +607,6 @@ public class MoveTest {
                 fail("chess.move.test.invalid.en.passant.move: " + move);
             }
             catch (RuntimeException e) {
-                if (Objects.equals(NullPointerException.class, e.getClass())) {
-                    e.printStackTrace();
-                }
-
                 assertEquals(ChessException.class, e.getClass());
                 assertEquals("chess.move.invalid.capture.promotion.move", e.getMessage());
                 assertNotNull(e.getCause());

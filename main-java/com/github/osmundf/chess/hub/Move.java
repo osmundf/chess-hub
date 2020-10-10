@@ -20,6 +20,7 @@ import static com.github.osmundf.chess.hub.MoveType.EN_PASSANT;
 import static com.github.osmundf.chess.hub.MoveType.PROMOTION;
 import static com.github.osmundf.chess.hub.Piece.pieceFor;
 import static com.github.osmundf.chess.hub.Side.BLACK;
+import static com.github.osmundf.chess.hub.Side.NO_SIDE;
 import static com.github.osmundf.chess.hub.Side.WHITE;
 import static com.github.osmundf.chess.hub.Square.squareFor;
 import static java.lang.String.format;
@@ -91,7 +92,7 @@ public class Move extends MoveHash {
      */
     public static Move basicMove(Side side, Caste base, Square from, Square to) {
         Objects.requireNonNull(side, "chess.move.side.null");
-        Objects.requireNonNull(base, "chess.move.base.null");
+        Objects.requireNonNull(base, "chess.move.base.caste.null");
         Objects.requireNonNull(from, "chess.move.from.square.null");
         Objects.requireNonNull(to, "chess.move.to.square.null");
 
@@ -164,23 +165,46 @@ public class Move extends MoveHash {
     public static Move doublePushMove(Piece piece) {
         Objects.requireNonNull(piece, "move.piece.null");
 
-        return doublePushMove(piece.side(), piece.caste(), piece.square());
+        if (PAWN != piece.caste()) {
+            ChessException cause = new ChessException("base: " + piece.caste());
+            throw new ChessException("chess.move.invalid.double.push.move", cause);
+        }
+
+        return doublePushMove(piece.side(), piece.square());
     }
 
     /**
      * <p>doublePush.</p>
      *
      * @param side a {@link com.github.osmundf.chess.hub.Side} object.
-     * @param base a {@link com.github.osmundf.chess.hub.Caste} object.
      * @param from a {@link com.github.osmundf.chess.hub.Square} object.
      * @return a {@link com.github.osmundf.chess.hub.Move} object.
      */
-    public static Move doublePushMove(Side side, Caste base, Square from) {
-        assert side != null && Side.NO_SIDE != side;
-        assert from.rank() == 2 || from.rank() == 7;
-        assert PAWN == base;
+    public static Move doublePushMove(Side side, Square from) {
+        if (side == null || side == NO_SIDE) {
+            ChessException cause = new ChessException("side: " + side);
+            throw new ChessException("chess.move.invalid.double.push.move", cause);
+        }
+        if (from == null) {
+            ChessException cause = new ChessException("from: null");
+            throw new ChessException("chess.move.invalid.double.push.move", cause);
+        }
+
+        if (side.isWhite()) {
+            if (from.rank() != 2) {
+                ChessException cause = new ChessException("side: " + side + " from: " + from);
+                throw new ChessException("chess.move.invalid.double.push.move", cause);
+            }
+        }
+        else if (side.isBlack()) {
+            if (from.rank() != 7) {
+                ChessException cause = new ChessException("side: " + side + " from: " + from);
+                throw new ChessException("chess.move.invalid.double.push.move", cause);
+            }
+        }
+
         Square to = side.isWhite() ? from.up(2) : from.down(2);
-        return new Move(DOUBLE_PUSH, side, NONE, NONE, base, from, to);
+        return new Move(DOUBLE_PUSH, side, NONE, NONE, PAWN, from, to);
     }
 
     /**
