@@ -11,6 +11,8 @@
         <url>https://www.github.com/osmundf</url>
     </organization>
     <name>osmundf.chess.hub</name>
+    <description>Chess library for building chess oracle functions.</description>
+    <url>https://www.github.com/osmundf/chess-hub</url>
 
     <properties>
         <!-- Settings: maven-resource-plugin -->
