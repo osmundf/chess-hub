@@ -5,7 +5,7 @@
 
     <groupId>com.github.osmundf</groupId>
     <artifactId>chess-hub</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <organization>
         <name>Osmund</name>
         <url>https://www.github.com/osmundf</url>
